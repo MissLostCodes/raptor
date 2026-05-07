@@ -99,11 +99,19 @@ class ClusterTreeBuilder(TreeBuilder):
                 )
                 break
 
+            # clusters = self.clustering_algorithm.perform_clustering(
+            #     node_list_current_layer,
+            #     self.cluster_embedding_model,
+            #     reduction_dimension=self.reduction_dimension,
+            #     **self.clustering_params,
+            # )
             clusters = self.clustering_algorithm.perform_clustering(
                 node_list_current_layer,
                 self.cluster_embedding_model,
                 reduction_dimension=self.reduction_dimension,
-                **self.clustering_params,
+                use_structure=True,
+                use_reasoning=True,
+                use_pageindex_signal=True
             )
 
             lock = Lock()

@@ -1,0 +1,242 @@
+diff --git a/raptor/cluster_tree_builder.py b/raptor/cluster_tree_builder.py
+index c41e22a..5ee9505 100644
+--- a/raptor/cluster_tree_builder.py
++++ b/raptor/cluster_tree_builder.py
+@@ -99,11 +99,19 @@ class ClusterTreeBuilder(TreeBuilder):
+                 )
+                 break
+ 
++            # clusters = self.clustering_algorithm.perform_clustering(
++            #     node_list_current_layer,
++            #     self.cluster_embedding_model,
++            #     reduction_dimension=self.reduction_dimension,
++            #     **self.clustering_params,
++            # )
+             clusters = self.clustering_algorithm.perform_clustering(
+                 node_list_current_layer,
+                 self.cluster_embedding_model,
+                 reduction_dimension=self.reduction_dimension,
+-                **self.clustering_params,
++                use_structure=True,
++                use_reasoning=True,
++                use_pageindex_signal=True
+             )
+ 
+             lock = Lock()
+diff --git a/raptor/cluster_utils.py b/raptor/cluster_utils.py
+index 9b87384..459bbe6 100644
+--- a/raptor/cluster_utils.py
++++ b/raptor/cluster_utils.py
+@@ -5,6 +5,7 @@ from typing import List, Optional
+ 
+ import numpy as np
+ import tiktoken
++import re
+ import umap
+ from sklearn.mixture import GaussianMixture
+ 
+@@ -122,6 +123,155 @@ def perform_clustering(
+         logging.info(f"Total Clusters: {total_clusters}")
+     return all_local_clusters
+ 
++import re
++
++def extract_section_signal(text):
++    """
++    Robust multi-domain section + semantic signal.
++    Works across:
++    - research papers (QASPER)
++    - narratives (NarrativeQA)
++    - long comprehension docs (QuALITY)
++
++    Combines:
++    - keyword categories
++    - structural regex patterns
++    - normalized scoring
++    """
++
++    text = text.lower()
++
++    # ---------------- CATEGORY DEFINITIONS ----------------
++    categories = {
++        "academic_structure": [
++            "introduction", "background", "related work", "method",
++            "approach", "model", "experiment", "results",
++            "discussion", "conclusion", "evaluation"
++        ],
++        "narrative_structure": [
++            "chapter", "story", "scene", "character",
++            "dialogue", "event", "plot", "conflict",
++            "resolution", "ending"
++        ],
++        "qa_reasoning": [
++            "because", "therefore", "however", "thus",
++            "in conclusion", "as a result", "for example"
++        ],
++        "technical_content": [
++            "algorithm", "system", "framework",
++            "implementation", "performance", "dataset",
++            "training", "testing", "accuracy"
++        ],
++        "analytical_content": [
++            "analysis", "comparison", "evaluation",
++            "metrics", "evidence", "findings",
++            "hypothesis", "observation"
++        ]
++    }
++
++    # ---------------- KEYWORD SCORING ----------------
++    category_scores = []
++
++    for keywords in categories.values():
++        count = sum(text.count(k) for k in keywords)
++        normalized = count / (len(keywords) + 1)
++        category_scores.append(normalized)
++
++    # ---------------- REGEX STRUCTURE SIGNAL ----------------
++    pattern_features = [
++        r"\d+\.",              # numbered sections (1. 2. 3.)
++        r"chapter\s+\d+",      # chapter 1, chapter 2
++        r"section\s+\d+",      # section 1
++        r"\([a-z]\)",          # (a), (b)
++        r"\bfigure\s+\d+",     # figure 1
++        r"\btable\s+\d+"       # table 1
++    ]
++
++    pattern_score = sum(
++        len(re.findall(p, text)) for p in pattern_features
++    ) / 10.0
++
++    # ---------------- FINAL AGGREGATION ----------------
++    max_signal = max(category_scores) if category_scores else 0
++    avg_signal = sum(category_scores) / len(category_scores) if category_scores else 0
++
++    # combine keyword + structure signal
++    final_score = 0.6 * max_signal + 0.25 * avg_signal + 0.15 * pattern_score
++
++    return final_score
++
++def extract_entity_density(text):
++    """
++    Proxy for reasoning relevance (PageIndex-like signal).
++    """
++    words = text.split()
++    if len(words) == 0:
++        return 0
++
++    capital_words = sum(1 for w in words if w.istitle())
++    return capital_words / len(words)
++
++
++def build_hybrid_embedding(
++    node,
++    embedding_model_name,
++    total_nodes,
++    use_structure=True,
++    use_reasoning=True,
++    use_pageindex_signal=True,
++    weights=None
++):
++    """
++    FINAL HYBRID EMBEDDING
++    Combines:
++    - semantic embedding (RAPTOR)
++    - structure signal (position, length)
++    - PageIndex-style section signal
++    - reasoning proxy
++    """
++
++    if weights is None:
++        weights = {
++            "structure": 0.15,
++            "reasoning": 0.1,
++            "pageindex": 0.15
++        }
++
++    # ---------------- BASE EMBEDDING ----------------
++    text_emb = np.array(node.embeddings[embedding_model_name])
++
++    features = []
++
++    # ---------------- STRUCTURE SIGNAL ----------------
++    if use_structure:
++        position = node.index / total_nodes
++        length = len(node.text) / 1000
++        features.extend([position, length])
++
++    # ---------------- PAGEINDEX STRUCTURE SIGNAL ----------------
++    if use_pageindex_signal:
++        section_score = extract_section_signal(node.text)
++        features.append(section_score)
++
++    # ---------------- REASONING SIGNAL ----------------
++    if use_reasoning:
++        entity_density = extract_entity_density(node.text)
++        features.append(entity_density)
++
++    # ---------------- FINAL COMBINATION ----------------
++    if len(features) > 0:
++        features = np.array(features)
++
++        # scale features so they don’t dominate embeddings
++        #features = features * 0.1
++        scale = np.linalg.norm(text_emb) / (len(text_emb) + 1)
++        features = features * scale
++
++        hybrid = np.concatenate([text_emb, features])
++    else:
++        hybrid = text_emb
++
++    return hybrid
+ 
+ class ClusteringAlgorithm(ABC):
+     @abstractmethod
+@@ -138,10 +288,29 @@ class RAPTOR_Clustering(ClusteringAlgorithm):
+         reduction_dimension: int = 10,
+         threshold: float = 0.1,
+         verbose: bool = False,
++            **kwargs
+     ) -> List[List[Node]]:
+         # Get the embeddings from the nodes
+-        embeddings = np.array([node.embeddings[embedding_model_name] for node in nodes])
+-
++        #embeddings = np.array([node.embeddings[embedding_model_name] for node in nodes])
++        # ---------------- CONFIG ----------------
++        use_structure = kwargs.get("use_structure", True)
++        use_reasoning = kwargs.get("use_reasoning", False)
++        use_pageindex_signal = kwargs.get("use_pageindex_signal", True)
++
++        total_nodes = len(nodes)
++
++        # ---------------- BUILD HYBRID EMBEDDINGS ----------------
++        embeddings = np.array([
++            build_hybrid_embedding(
++                node,
++                embedding_model_name,
++                total_nodes,
++                use_structure=use_structure,
++                use_reasoning=use_reasoning,
++                use_pageindex_signal=use_pageindex_signal
++            )
++            for node in nodes
++        ])
+         # Perform the clustering
+         clusters = perform_clustering(
+             embeddings, dim=reduction_dimension, threshold=threshold
+@@ -176,7 +345,15 @@ class RAPTOR_Clustering(ClusteringAlgorithm):
+                     )
+                 node_clusters.extend(
+                     RAPTOR_Clustering.perform_clustering(
+-                        cluster_nodes, embedding_model_name, max_length_in_cluster
++                        cluster_nodes,
++                        embedding_model_name,
++                        max_length_in_cluster,
++                        reduction_dimension=reduction_dimension,
++                        threshold=threshold,
++                        verbose=verbose,
++                        use_structure=use_structure,
++                        use_reasoning=use_reasoning,
++                        use_pageindex_signal=use_pageindex_signal
+                     )
+                 )
+             else:
