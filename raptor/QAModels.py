@@ -19,7 +19,7 @@ class BaseQAModel(ABC):
 
 
 class GPT3QAModel(BaseQAModel):
-    def __init__(self, model="text-davinci-003"):
+    def __init__(self, model="openai/gpt-oss-120b:free"):
         """
         Initializes the GPT-3 model with the specified model version.
 
@@ -27,7 +27,9 @@ class GPT3QAModel(BaseQAModel):
             model (str, optional): The GPT-3 model version to use for generating summaries. Defaults to "text-davinci-003".
         """
         self.model = model
-        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"],
+                             base_url="https://openrouter.ai/api/v1"
+                             )
 
     @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
     def answer_question(self, context, question, max_tokens=150, stop_sequence=None):
@@ -44,7 +46,7 @@ class GPT3QAModel(BaseQAModel):
         """
         try:
             response = self.client.completions.create(
-                prompt=f"using the folloing information {context}. Answer the following question in less than 5-7 words, if possible: {question}",
+                prompt=f"using the following information {context}. Answer the following question in less than 5-7 words, if possible: {question}",
                 temperature=0,
                 max_tokens=max_tokens,
                 top_p=1,
@@ -61,7 +63,7 @@ class GPT3QAModel(BaseQAModel):
 
 
 class GPT3TurboQAModel(BaseQAModel):
-    def __init__(self, model="gpt-3.5-turbo"):
+    def __init__(self, model="openai/gpt-oss-120b:free"):
         """
         Initializes the GPT-3 model with the specified model version.
 
@@ -69,7 +71,7 @@ class GPT3TurboQAModel(BaseQAModel):
             model (str, optional): The GPT-3 model version to use for generating summaries. Defaults to "text-davinci-003".
         """
         self.model = model
-        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://openrouter.ai/api/v1")
 
     @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
     def _attempt_answer_question(
@@ -113,7 +115,7 @@ class GPT3TurboQAModel(BaseQAModel):
 
 
 class GPT4QAModel(BaseQAModel):
-    def __init__(self, model="gpt-4"):
+    def __init__(self, model="openai/gpt-oss-120b:free"):
         """
         Initializes the GPT-3 model with the specified model version.
 
@@ -121,7 +123,7 @@ class GPT4QAModel(BaseQAModel):
             model (str, optional): The GPT-3 model version to use for generating summaries. Defaults to "text-davinci-003".
         """
         self.model = model
-        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url="https://openrouter.ai/api/v1")
 
     @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
     def _attempt_answer_question(
