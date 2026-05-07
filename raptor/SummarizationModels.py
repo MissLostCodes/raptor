@@ -15,7 +15,7 @@ class BaseSummarizationModel(ABC):
 
 
 class GPT3TurboSummarizationModel(BaseSummarizationModel):
-    def __init__(self, model="gpt-3.5-turbo"):
+    def __init__(self, model="openai/gpt-oss-120b:free"):
 
         self.model = model
 
@@ -23,7 +23,7 @@ class GPT3TurboSummarizationModel(BaseSummarizationModel):
     def summarize(self, context, max_tokens=500, stop_sequence=None):
 
         try:
-            client = OpenAI()
+            client = OpenAI(base_url="https://openrouter.ai/api/v1")
 
             response = client.chat.completions.create(
                 model=self.model,
@@ -45,7 +45,7 @@ class GPT3TurboSummarizationModel(BaseSummarizationModel):
 
 
 class GPT3SummarizationModel(BaseSummarizationModel):
-    def __init__(self, model="text-davinci-003"):
+    def __init__(self, model="openai/gpt-oss-120b:free"):
 
         self.model = model
 
@@ -53,7 +53,7 @@ class GPT3SummarizationModel(BaseSummarizationModel):
     def summarize(self, context, max_tokens=500, stop_sequence=None):
 
         try:
-            client = OpenAI()
+            client = OpenAI(base_url="https://openrouter.ai/api/v1")
 
             response = client.chat.completions.create(
                 model=self.model,
