@@ -30,7 +30,7 @@ class RetrievalAugmentationConfig:
         tr_threshold=0.5,
         tr_top_k=5,
         tr_selection_mode="top_k",
-        tr_context_embedding_model="OpenAI",
+        tr_context_embedding_model="SBERT",
         tr_embedding_model=None,
         tr_num_layers=None,
         tr_start_layer=None,
@@ -44,7 +44,7 @@ class RetrievalAugmentationConfig:
         tb_summarization_length=100,
         tb_summarization_model=None,
         tb_embedding_models=None,
-        tb_cluster_embedding_model="OpenAI",
+        tb_cluster_embedding_model="SBERT",
     ):
         # Validate tree_builder_type
         if tree_builder_type not in supported_tree_builders:

@@ -19,7 +19,7 @@ class BaseQAModel(ABC):
 
 
 class GPT3QAModel(BaseQAModel):
-    def __init__(self, model="text-davinci-003"):
+    def __init__(self, model="nvidia/nemotron-3-super-120b-a12b:free"):
         """
         Initializes the GPT-3 model with the specified model version.
 
@@ -63,7 +63,7 @@ class GPT3QAModel(BaseQAModel):
 
 
 class GPT3TurboQAModel(BaseQAModel):
-    def __init__(self, model="gpt-3.5-turbo"):
+    def __init__(self, model="openai/gpt-oss-120b:free"):
         """
         Initializes the GPT-3 model with the specified model version.
 
@@ -117,7 +117,7 @@ class GPT3TurboQAModel(BaseQAModel):
 
 
 class GPT4QAModel(BaseQAModel):
-    def __init__(self, model="gpt-4"):
+    def __init__(self, model="openai/gpt-oss-120b:free"):
         """
         Initializes the GPT-3 model with the specified model version.
 

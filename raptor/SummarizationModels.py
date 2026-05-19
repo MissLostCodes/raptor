@@ -15,7 +15,7 @@ class BaseSummarizationModel(ABC):
 
 
 class GPT3TurboSummarizationModel(BaseSummarizationModel):
-    def __init__(self, model="gpt-3.5-turbo"):
+    def __init__(self, model="openai/gpt-oss-120b:free"):
 
         self.model = model
 
@@ -46,7 +46,7 @@ class GPT3TurboSummarizationModel(BaseSummarizationModel):
 
 
 class GPT3SummarizationModel(BaseSummarizationModel):
-    def __init__(self, model="text-davinci-003"):
+    def __init__(self, model="nvidia/nemotron-3-super-120b-a12b:free"):
 
         self.model = model
 
