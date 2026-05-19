@@ -64,3 +64,32 @@ def build_structure_chunks(pdf_path):
     chunks = export_chunks(hierarchy)
     print(f"Chunks : {chunks}")
     return chunks
+
+def build_structure_chunks_from_text(text):
+
+    pages = [{
+        "page_num": 1,
+        "text": text
+    }]
+
+    structure = extract_document_structure(
+        pages
+    )
+
+    hierarchy = build_hierarchy(structure)
+
+    assign_end_pages(
+        hierarchy,
+        len(pages)
+    )
+
+    recursively_split_large_nodes(
+        hierarchy
+    )
+
+    chunks = export_chunks(
+        hierarchy,
+        pages
+    )
+
+    return chunks

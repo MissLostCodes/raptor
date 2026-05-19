@@ -1,0 +1,31 @@
+Narrative and Quality
+============================================================
+EVALUATION RESULTS
+============================================================
+
+BLEU Score:
+BLEU = 0.8354
+
+ROUGE Scores:
+ROUGE-1 F1 = 0.1956
+ROUGE-2 F1 = 0.0381
+ROUGE-L F1 = 0.1325
+
+BERTScore:
+Precision = 0.8121
+Recall    = 0.8560
+F1        = 0.8335
+
+Semantic Relevancy:
+Cosine Similarity = 0.5933
+
+Answer Correctness:
+Correctness Score = 0.7134
+
+Interpretation:
+Good semantic correctness
+
+
+
+
+============================================================ EVALUATION RESULTS ============================================================ BLEU Score: BLEU = 2.0213 ROUGE Scores: ROUGE-1 F1 = 0.2168 ROUGE-2 F1 = 0.0423 ROUGE-L F1 = 0.1049 BERTScore: Precision = 0.8216 Recall = 0.8542 F1 = 0.8376 Semantic Relevancy: Cosine Similarity = 0.6125 Answer Correctness: Correctness Score = 0.7250 Interpretation: Good semantic correctness ============================================================

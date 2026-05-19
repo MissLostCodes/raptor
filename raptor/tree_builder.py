@@ -17,7 +17,9 @@ from .tree_structures import Node, Tree
 from .utils import (distances_from_embeddings, get_children, get_embeddings,
                     get_node_list, get_text,
                     indices_of_nearest_neighbors_from_distances, split_text)
-
+from StructureChunker.build_chunks import (
+    build_structure_chunks_from_text
+)
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
 
 
@@ -268,8 +270,16 @@ class TreeBuilder:
         Returns:
             Tree: The golden tree structure.
         """
-        chunks = split_text(text, self.tokenizer, self.max_tokens)
+        #chunks =split_text(text, self.tokenizer, self.max_tokens)
+        structured_chunks = (
+            build_structure_chunks_from_text(text)
+        )
 
+        chunks = [
+            chunk.text
+            for chunk in structured_chunks
+            if chunk.text.strip()
+        ]
         logging.info("Creating Leaf Nodes")
 
         if use_multithreading:
