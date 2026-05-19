@@ -1,0 +1,105 @@
+{
+"question": [
+"What is the current SOTA for sentiment analysis on Twitter at the time of writing?",
+"What difficulties does sentiment analysis on Twitter have, compared to sentiment analysis in other domains?",
+"What are the metrics to evaluate sentiment analysis on Twitter?"
+],
+"question_id": [
+"fa3663567c48c27703e09c42930e51bacfa54905",
+"7997b9971f864a504014110a708f215c84815941",
+"0d1408744651c3847469c4a005e4a9dccbd89cf1"
+],
+"nlp_background": [
+"five",
+"five",
+"five"
+],
+"topic_background": [
+"unfamiliar",
+"unfamiliar",
+"unfamiliar"
+],
+"paper_read": [
+"no",
+"no",
+"no"
+],
+"search_query": [
+"irony",
+"irony",
+"irony"
+],
+"question_writer": [
+"e8b24c3133e0bec0a6465e1f13acd3a5ed816b37",
+"e8b24c3133e0bec0a6465e1f13acd3a5ed816b37",
+"e8b24c3133e0bec0a6465e1f13acd3a5ed816b37"
+],
+"answers": [
+{
+"answer": [
+{
+"unanswerable": false,
+"extractive_spans": [
+"deep convolutional networks BIBREF53 , BIBREF54"
+],
+"yes_no": null,
+"free_form_answer": "",
+"evidence": [
+"Supervised learning. Traditionally, the above features were fed into classifiers such as Maximum Entropy (MaxEnt) and Support Vector Machines (SVM) with various kernels. However, observation over the SemEval Twitter sentiment task in recent years shows growing interest in, and by now clear dominance of methods based on deep learning. In particular, the best-performing systems at SemEval-2015 and SemEval-2016 used deep convolutional networks BIBREF53 , BIBREF54 . Conversely, kernel machines seem to be less frequently used than in the past, and the use of learning methods other than the ones mentioned above is at this point scarce. All these models are examples of supervised learning as they need labeled training data."
+],
+"highlighted_evidence": [
+" In particular, the best-performing systems at SemEval-2015 and SemEval-2016 used deep convolutional networks BIBREF53 , BIBREF54 "
+]
+}
+],
+"annotation_id": [
+"eaa2871ebfa0e132a84ca316dee33a4e45c9aba9"
+],
+"worker_id": [
+"34c35a1877e453ecaebcf625df3ef788e1953cc4"
+]
+},
+{
+"answer": [
+{
+"unanswerable": false,
+"extractive_spans": [],
+"yes_no": null,
+"free_form_answer": "Tweets noisy nature, use of creative spelling and punctuation, misspellings, slang, new words, URLs, and genre-specific terminology and abbreviations, short (length limited) text",
+"evidence": [
+"Pre-processing. Tweets are subject to standard preprocessing steps for text such as tokenization, stemming, lemmatization, stop-word removal, and part-of-speech tagging. Moreover, due to their noisy nature, they are also processed using some Twitter-specific techniques such as substitution/removal of URLs, of user mentions, of hashtags, and of emoticons, spelling correction, elongation normalization, abbreviation lookup, punctuation removal, detection of amplifiers and diminishers, negation scope detection, etc. For this, one typically uses Twitter-specific NLP tools such as part-of-speech and named entity taggers, syntactic parsers, etc. BIBREF47 , BIBREF48 , BIBREF49 .",
+"Despite all these opportunities, the rise of social media has also presented new challenges for natural language processing (NLP) applications, which had largely relied on NLP tools tuned for formal text genres such as newswire, and thus were not readily applicable to the informal language and style of social media. That language proved to be quite challenging with its use of creative spelling and punctuation, misspellings, slang, new words, URLs, and genre-specific terminology and abbreviations, e.g., RT for re-tweet and #hashtags. In addition to the genre difference, there is also a difference in length: social media messages are generally short, often length-limited by design as in Twitter, i.e., a sentence or a headline rather than a full document. How to handle such challenges has only recently been the subject of thorough research BIBREF2 , BIBREF3 , BIBREF4 , BIBREF5 , BIBREF6 , BIBREF7 , BIBREF8 , BIBREF9 ."
+],
+"highlighted_evidence": [
+" Moreover, due to their noisy nature, they are also processed using some Twitter-specific techniques such as substitution/removal of URLs, of user mentions, of hashtags, and of emoticons, spelling correction, elongation normalization, abbreviation lookup, punctuation removal, detection of amplifiers and diminishers, negation scope detection, etc.",
+"That language proved to be quite challenging with its use of creative spelling and punctuation, misspellings, slang, new words, URLs, and genre-specific terminology and abbreviations, e.g., RT for re-tweet and #hashtags. In addition to the genre difference, there is also a difference in length: social media messages are generally short, often length-limited by design as in Twitter, i.e., a sentence or a headline rather than a full document"
+]
+}
+],
+"annotation_id": [
+"71753531f52e1fc8ce0c1059d14979d0e723fff8"
+],
+"worker_id": [
+"34c35a1877e453ecaebcf625df3ef788e1953cc4"
+]
+},
+{
+"answer": [
+{
+"unanswerable": true,
+"extractive_spans": [],
+"yes_no": null,
+"free_form_answer": "",
+"evidence": [],
+"highlighted_evidence": []
+}
+],
+"annotation_id": [
+"021b8796d9378d1be927a2a74d587f9f64b7082e"
+],
+"worker_id": [
+"34c35a1877e453ecaebcf625df3ef788e1953cc4"
+]
+}
+]
+}
