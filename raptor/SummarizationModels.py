@@ -23,7 +23,8 @@ class GPT3TurboSummarizationModel(BaseSummarizationModel):
     def summarize(self, context, max_tokens=500, stop_sequence=None):
 
         try:
-            client = OpenAI()
+            client = OpenAI( api_key=os.environ["OPENROUTER_API_KEY"],
+    base_url="https://openrouter.ai/api/v1")
 
             response = client.chat.completions.create(
                 model=self.model,
@@ -53,7 +54,8 @@ class GPT3SummarizationModel(BaseSummarizationModel):
     def summarize(self, context, max_tokens=500, stop_sequence=None):
 
         try:
-            client = OpenAI()
+            client = OpenAI( api_key=os.environ["OPENROUTER_API_KEY"],
+    base_url="https://openrouter.ai/api/v1")
 
             response = client.chat.completions.create(
                 model=self.model,

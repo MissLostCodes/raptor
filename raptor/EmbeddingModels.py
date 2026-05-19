@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from openai import OpenAI
 from sentence_transformers import SentenceTransformer
 from tenacity import retry, stop_after_attempt, wait_random_exponential
-
+import os
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
 
 
@@ -16,7 +16,9 @@ class BaseEmbeddingModel(ABC):
 
 class OpenAIEmbeddingModel(BaseEmbeddingModel):
     def __init__(self, model="text-embedding-ada-002"):
-        self.client = OpenAI()
+        self.client = OpenAI( api_key=os.getenv("OPENROUTER_API_KEY"),
+
+    base_url="https://openrouter.ai/api/v1")
         self.model = model
 
     @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
