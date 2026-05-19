@@ -1,8 +1,9 @@
-from build_chunks import build_structure_chunks
-
+from StructureChunker.build_chunks import (
+    build_structure_chunks
+)
 
 chunks = build_structure_chunks(
-    "test_docs/sample.txt"
+    "StructureChunker/test_docs/sample.txt"
 )
 
 for chunk in chunks:

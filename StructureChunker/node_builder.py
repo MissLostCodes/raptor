@@ -41,6 +41,9 @@ def assign_end_pages(nodes, total_pages):
         dfs(n)
     for i in range(len(flat)):
         if i < len(flat) - 1:
-            flat[i].end_page = flat[i + 1].start_page - 1
+            flat[i].end_page = max(
+                flat[i].start_page,
+                flat[i + 1].start_page - 1
+            )
         else:
             flat[i].end_page = total_pages
