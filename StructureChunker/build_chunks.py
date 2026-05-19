@@ -83,15 +83,20 @@ def build_structure_chunks_from_text(text):
         len(pages)
     )
 
+    attach_text_to_nodes(
+        hierarchy,
+        pages
+    )
+
     for node in hierarchy:
+
         recursively_split_large_nodes(
             node,
             pages
         )
 
     chunks = export_chunks(
-        hierarchy,
-        pages
+        hierarchy
     )
 
     return chunks
