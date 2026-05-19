@@ -1,0 +1,9 @@
+MODEL_NAME ="openai/gpt-oss-120b:free"
+
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+
+MAX_SECTION_TOKENS = 1200
+
+RECURSIVE_SPLIT_THRESHOLD = 1500
+
+TEMPERATURE = 0

@@ -1,0 +1,31 @@
+1 Introduction
+
+Retrieval-Augmented Generation systems improve factual grounding.
+
+1.1 Motivation
+
+Fixed-size chunking introduces semantic fragmentation.
+
+1.2 Problem Statement
+
+Hierarchical retrieval systems depend heavily on chunk quality.
+
+2 Related Work
+
+RAPTOR introduces recursive abstraction trees.
+
+2.1 RAPTOR
+
+RAPTOR clusters semantically related chunks recursively.
+
+2.2 PAGEINDEX
+
+PAGEINDEX extracts explicit document hierarchy.
+
+3 Proposed Method
+
+The proposed framework performs structure-aware semantic decomposition.
+
+3.1 Recursive Splitting
+
+Large sections are recursively decomposed into semantic substructures.
