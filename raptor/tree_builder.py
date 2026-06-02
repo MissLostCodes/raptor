@@ -17,9 +17,9 @@ from .tree_structures import Node, Tree
 from .utils import (distances_from_embeddings, get_children, get_embeddings,
                     get_node_list, get_text,
                     indices_of_nearest_neighbors_from_distances, split_text)
-from StructureChunker.build_chunks import (
-    build_structure_chunks_from_text
-)
+from .chunking import Chunker
+from .chunking.token_chunker import TokenChunker
+
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
 
 
@@ -36,6 +36,7 @@ class TreeBuilderConfig:
         summarization_model=None,
         embedding_models=None,
         cluster_embedding_model=None,
+        chunker=None,
     ):
         if tokenizer is None:
             tokenizer = tiktoken.get_encoding("cl100k_base")
@@ -104,6 +105,12 @@ class TreeBuilderConfig:
             )
         self.cluster_embedding_model = cluster_embedding_model
 
+        if chunker is None:
+            chunker = TokenChunker(max_tokens=self.max_tokens, tokenizer=self.tokenizer)
+        if not isinstance(chunker, Chunker):
+            raise ValueError("chunker must be an instance of Chunker")
+        self.chunker = chunker
+
     def log_config(self):
         config_log = """
         TreeBuilderConfig:
@@ -117,6 +124,7 @@ class TreeBuilderConfig:
             Summarization Model: {summarization_model}
             Embedding Models: {embedding_models}
             Cluster Embedding Model: {cluster_embedding_model}
+            Chunker: {chunker}
         """.format(
             tokenizer=self.tokenizer,
             max_tokens=self.max_tokens,
@@ -128,6 +136,7 @@ class TreeBuilderConfig:
             summarization_model=self.summarization_model,
             embedding_models=self.embedding_models,
             cluster_embedding_model=self.cluster_embedding_model,
+            chunker=self.chunker,
         )
         return config_log
 
@@ -152,6 +161,7 @@ class TreeBuilder:
         self.summarization_model = config.summarization_model
         self.embedding_models = config.embedding_models
         self.cluster_embedding_model = config.cluster_embedding_model
+        self.chunker = config.chunker
 
         logging.info(
             f"Successfully initialized TreeBuilder with Config {config.log_config()}"
@@ -270,16 +280,7 @@ class TreeBuilder:
         Returns:
             Tree: The golden tree structure.
         """
-        #chunks =split_text(text, self.tokenizer, self.max_tokens)
-        structured_chunks = (
-            build_structure_chunks_from_text(text)
-        )
-
-        chunks = [
-            chunk.text
-            for chunk in structured_chunks
-            if chunk.text.strip()
-        ]
+        chunks = [c for c in self.chunker.chunk(text) if c.strip()]
         logging.info("Creating Leaf Nodes")
 
         if use_multithreading:

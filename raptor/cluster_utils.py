@@ -5,8 +5,11 @@ from typing import List, Optional
 
 import numpy as np
 import tiktoken
-import umap
 from sklearn.mixture import GaussianMixture
+
+# `umap` is imported lazily inside the functions that use it so that importing the
+# RAPTOR pipeline (config, tree builder) does not require the heavy umap-learn stack
+# until clustering actually runs (e.g. on Colab).
 
 # Initialize logging
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
@@ -26,6 +29,8 @@ def global_cluster_embeddings(
     n_neighbors: Optional[int] = None,
     metric: str = "cosine",
 ) -> np.ndarray:
+    import umap
+
     if n_neighbors is None:
         n_neighbors = int((len(embeddings) - 1) ** 0.5)
     reduced_embeddings = umap.UMAP(
@@ -37,6 +42,8 @@ def global_cluster_embeddings(
 def local_cluster_embeddings(
     embeddings: np.ndarray, dim: int, num_neighbors: int = 10, metric: str = "cosine"
 ) -> np.ndarray:
+    import umap
+
     reduced_embeddings = umap.UMAP(
         n_neighbors=num_neighbors, n_components=dim, metric=metric
     ).fit_transform(embeddings)

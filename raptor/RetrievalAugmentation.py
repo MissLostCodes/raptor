@@ -45,6 +45,7 @@ class RetrievalAugmentationConfig:
         tb_summarization_model=None,
         tb_embedding_models=None,
         tb_cluster_embedding_model="SBERT",
+        tb_chunker=None,
     ):
         # Validate tree_builder_type
         if tree_builder_type not in supported_tree_builders:
@@ -102,6 +103,7 @@ class RetrievalAugmentationConfig:
                 summarization_model=tb_summarization_model,
                 embedding_models=tb_embedding_models,
                 cluster_embedding_model=tb_cluster_embedding_model,
+                chunker=tb_chunker,
             )
 
         elif not isinstance(tree_builder_config, tree_builder_config_class):
