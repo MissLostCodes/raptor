@@ -2,7 +2,6 @@ import logging
 from abc import ABC, abstractmethod
 
 from openai import OpenAI
-from sentence_transformers import SentenceTransformer
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 import os
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
@@ -33,7 +32,18 @@ class OpenAIEmbeddingModel(BaseEmbeddingModel):
 
 class SBertEmbeddingModel(BaseEmbeddingModel):
     def __init__(self, model_name="sentence-transformers/multi-qa-mpnet-base-cos-v1"):
-        self.model = SentenceTransformer(model_name)
+        # Defer importing sentence-transformers and loading the (heavy) model until the
+        # first embedding is actually requested. This keeps constructing a config cheap
+        # and lets the library import in a CPU-only / offline environment.
+        self.model_name = model_name
+        self.model = None
+
+    def _ensure_model(self):
+        if self.model is None:
+            from sentence_transformers import SentenceTransformer
+
+            self.model = SentenceTransformer(self.model_name)
+        return self.model
 
     def create_embedding(self, text):
-        return self.model.encode(text)
+        return self._ensure_model().encode(text)

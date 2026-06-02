@@ -32,3 +32,7 @@ assertion.log
 *.log
 *.db
 .env
+# uv venv + LLM cache + harness outputs
+.venv/
+.llm_cache/
+results/fresults

@@ -7,9 +7,7 @@ from openai import OpenAI
 import getpass
 from abc import ABC, abstractmethod
 
-import torch
 from tenacity import retry, stop_after_attempt, wait_random_exponential
-from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 
 class BaseQAModel(ABC):
@@ -172,6 +170,11 @@ class GPT4QAModel(BaseQAModel):
 
 class UnifiedQAModel(BaseQAModel):
     def __init__(self, model_name="allenai/unifiedqa-v2-t5-3b-1363200"):
+        # Heavy deps (torch/transformers) imported lazily so the QA base classes stay
+        # importable in a CPU-only / offline environment.
+        import torch
+        from transformers import T5ForConditionalGeneration, T5Tokenizer
+
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = T5ForConditionalGeneration.from_pretrained(model_name).to(
             self.device
