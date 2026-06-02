@@ -1,0 +1,20 @@
+# Full stack for running the experiments on Google Colab (GPU runtime recommended for SBERT).
+# Local development uses a lighter set (see the harness design doc); these are the heavy
+# runtime deps the tree-build / FAISS / embedding paths need.
+faiss-cpu
+numpy
+scipy
+scikit-learn
+sentence-transformers
+tenacity
+tiktoken
+torch
+transformers
+umap-learn
+openai>=1.3
+datasets>=2.16
+huggingface-hub
+evaluate
+rouge-score
+nltk
+sacrebleu
