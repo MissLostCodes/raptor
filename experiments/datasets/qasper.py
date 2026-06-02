@@ -162,9 +162,9 @@ class QASPERLoader(DatasetLoader):
         subset_ids: Optional[List[str]] = None,
         limit: Optional[int] = None,
     ) -> List[Document]:
-        from datasets import load_dataset
+        from experiments.datasets.base import load_hf_split
 
-        ds = load_dataset("allenai/qasper", split=self.split)
+        ds = load_hf_split("allenai/qasper", split=self.split)
         docs = [parse_qasper_row(row) for row in ds]
 
         if subset_ids is not None:

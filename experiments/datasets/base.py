@@ -130,3 +130,61 @@ def select_subset(
         selected.extend(d.doc_id for d in chosen)
 
     return selected
+
+
+# ---------------------------------------------------------------------------
+# HuggingFace loading (script-free; works on datasets >= 3.x / 4.x)
+# ---------------------------------------------------------------------------
+# datasets >= 3.0 dropped dataset *loading scripts* ("Dataset scripts are no
+# longer supported"), which breaks former script datasets like allenai/qasper
+# and deepmind/narrativeqa. The modern, version-proof path is to read the
+# auto-converted Parquet that the Hub generates for every dataset on the
+# ``refs/convert/parquet`` branch. We try a normal load first (covers
+# Parquet/JSON-native repos) and fall back to that Parquet branch.
+
+PARQUET_REVISION = "refs/convert/parquet"
+
+
+def _parquet_data_files(repo: str, files: List[str], split: str) -> List[str]:
+    """Build ``hf://`` Parquet URLs for ``split`` from a repo's converted-Parquet
+    file listing.
+
+    The conversion lays files out as ``<config>/<split>/<shard>.parquet`` (the
+    config dir may be absent). Pure function so the path logic is unit-tested
+    without any network.
+    """
+    out: List[str] = []
+    for f in files:
+        if not f.endswith(".parquet"):
+            continue
+        if f"/{split}/" in f or f.startswith(f"{split}/"):
+            out.append(f"hf://datasets/{repo}@{PARQUET_REVISION}/{f}")
+    return out
+
+
+def load_hf_split(repo: str, split: str, config: Optional[str] = None):
+    """Load one split of a Hub dataset, robust to the removal of loading scripts.
+
+    1. Try ``load_dataset(repo, name=config, split=split)`` (Parquet/JSON-native).
+    2. On failure, load the auto-converted Parquet from ``refs/convert/parquet``.
+    """
+    from datasets import load_dataset
+
+    try:
+        return load_dataset(repo, name=config, split=split)
+    except Exception:
+        pass  # former script dataset -> use the converted Parquet branch
+
+    from huggingface_hub import HfApi
+
+    files = HfApi().list_repo_files(
+        repo, repo_type="dataset", revision=PARQUET_REVISION
+    )
+    data_files = _parquet_data_files(repo, files, split)
+    if not data_files:
+        raise RuntimeError(
+            f"Could not load {repo!r} split={split!r}: no loading script support "
+            f"in datasets>=3.0 and no Parquet found on {PARQUET_REVISION}."
+        )
+    # The parquet builder places all rows in a single 'train' split.
+    return load_dataset("parquet", data_files=data_files, split="train")

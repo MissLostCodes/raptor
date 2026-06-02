@@ -69,9 +69,9 @@ class NarrativeQALoader(DatasetLoader):
         subset_ids: Optional[List[str]] = None,
         limit: Optional[int] = None,
     ) -> List[Document]:
-        from datasets import load_dataset
+        from experiments.datasets.base import load_hf_split
 
-        ds = load_dataset("deepmind/narrativeqa", split=self.split)
+        ds = load_hf_split("deepmind/narrativeqa", split=self.split)
         docs = group_narrativeqa_rows(ds)
 
         if subset_ids is not None:

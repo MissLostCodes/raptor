@@ -1,0 +1,215 @@
+% Adaptive Hybrid Chunking for Hierarchical Retrieval -- preliminary draft.
+% Compile: pdflatex main.tex  (self-contained; no external .bib needed)
+% Or upload this single file to Overleaf.
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
+
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\tokenarm}{\textsc{Token}}
+\newcommand{\structarm}{\textsc{Structure}}
+\newcommand{\ahc}{\textsc{AHC}}
+\newcommand{\semarm}{\textsc{Semantic}}
+\newcommand{\flatarm}{\textsc{Flat}}
+
+\title{\textbf{Adaptive Hybrid Chunking for Hierarchical Retrieval-Augmented Generation}\\
+\large A Controlled Study of When Structure-Aware Leaf Chunking Helps RAPTOR}
+\author{TechPathX Research\\\texttt{admin@techpathx.com}}
+\date{\today \\[4pt] \emph{Preliminary draft --- experiments in progress}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+RAPTOR builds a hierarchical retrieval tree by recursively clustering and summarizing
+leaf chunks, but it inherits a naive token-based leaf chunker that ignores document
+structure. Structure-aware chunking should help---but only when usable structure
+\emph{exists}; on unstructured text (stories, transcripts), forcing an LLM to extract
+sections is brittle. We (i) frame a controlled diagnostic of \emph{when and why}
+structure-aware leaf chunking helps \emph{hierarchical} retrieval, and (ii) propose
+\textbf{Adaptive Hybrid Chunking (\ahc{})}: a cheap, deterministic structure score routes
+each document between structure-aware and token chunking, followed by a per-section
+character-offset mapping and repair step that guarantees RAPTOR-sized leaves. We evaluate
+on QASPER (papers), QuALITY (mixed), and NarrativeQA (stories), isolating the chunker as
+the \emph{only} variable inside an otherwise-frozen RAPTOR pipeline, with the same
+open-weight reader (\texttt{gpt-oss-120b} via OpenRouter) used for summarization and QA
+across all arms. This draft reports the study design, the method, and a fully
+implemented, offline-tested evaluation harness; quantitative results are pending and the
+results tables are placeholders.
+\end{abstract}
+
+\section{Introduction}
+Retrieval-augmented generation (RAG) quality depends on how documents are split into
+retrievable units. RAPTOR~\cite{raptor} extends flat RAG by recursively clustering leaf
+chunks and summarizing each cluster, producing a multi-level tree that is queried by a
+\emph{collapsed-tree} search over all nodes. RAPTOR is agnostic to how leaves are formed
+and uses a simple sentence/token splitter. While chunking quality is a known lever for
+flat RAG, its interaction with \emph{hierarchical} retrieval is under-studied---that
+interaction is our niche.
+
+A tempting claim is ``LLM-parsed structure chunks improve RAPTOR.'' We argue this is both
+incremental and, on unstructured corpora, likely invalid: an LLM asked to find sections in
+a short story will hallucinate or collapse them. The real questions are \emph{when}
+structure helps and whether a system can \emph{decide per document}. We make three claims,
+each falsifiable:
+
+\begin{itemize}
+  \item \textbf{H1 (diagnostic).} Structure-aware leaf chunking improves RAPTOR on
+  strongly-structured documents (papers) but does not help, or hurts, on weakly-structured
+  documents (stories).
+  \item \textbf{H2 (method).} \ahc{} matches or beats both pure baselines (\tokenarm{},
+  \structarm{}) across document types while issuing LLM parses on substantially fewer
+  documents than always-\structarm{}.
+  \item \textbf{H3 (spectrum).} Within a mixed corpus (QuALITY), the structure score
+  separates documents in a way that correlates with where structure chunking helps.
+\end{itemize}
+
+A confirmed-H1-but-null-H2 outcome is still an honest, publishable result and will be
+reported as such.
+
+\section{Related Work}
+\textbf{Hierarchical retrieval.} RAPTOR~\cite{raptor} is our frozen backbone. \textbf{Chunking.}
+Semantic, proposition, late, and layout-aware chunkers are an active area; we treat
+structure-aware chunking as a \emph{baseline}, not a contribution, and study its
+\emph{interaction} with tree retrieval. \textbf{Benchmarks.} We use QASPER~\cite{qasper}
+(information-seeking QA over NLP papers), QuALITY~\cite{quality} (multiple-choice over
+medium articles, with a HARD subset), and NarrativeQA~\cite{narrativeqa} (abstractive QA
+over full stories). Embeddings use Sentence-BERT~\cite{sbert}.
+
+\section{Method: Adaptive Hybrid Chunking}
+\ahc{} has three deterministic stages; the only non-deterministic step is a single,
+cached LLM parse used in structure mode.
+
+\paragraph{Stage 1 --- Structure score (no LLM).}
+We compute a score $s(d)\in[0,1]$ from surface signals over the non-empty lines of a
+document $d$: the fraction of lines matching heading patterns (numbered \texttt{1.},
+\texttt{2.1}; Markdown \texttt{\#}; short ALL-CAPS; \texttt{Chapter}/\texttt{Section}/%
+\texttt{Appendix} keywords), the presence of a table-of-contents-like region, and the
+regularity of inter-heading spacing. With $h$ the heading-line fraction, $t\in\{0,1\}$ the
+TOC indicator, and $r\in[0,1]$ the spacing regularity,
+\begin{equation}
+s(d) \;=\; \mathrm{clip}\!\left(0.70\cdot\min\!\Big(1,\tfrac{h}{0.15}\Big) + 0.15\,t + 0.15\,r,\; 0,\; 1\right).
+\end{equation}
+The score and its raw feature vector are cached and logged for a feature ablation.
+
+\paragraph{Stage 2 --- Route.}
+If $s(d)\ge\tau$, attempt structure-aware chunking (one LLM parse); otherwise use token
+chunking. The threshold $\tau$ is tuned on a \emph{dev} split and reported on a held-out
+\emph{test} split (no test-set tuning).
+
+\paragraph{Stage 3 --- Per-section validate and repair (structure mode).}
+Parsed section titles are located in the raw text by \emph{character offset} (fixing the
+page-collapse failure of the legacy chunker); unlocatable sections are marked, and any
+section that is unmappable or exceeds the leaf-token budget is token-split. This makes
+\ahc{} a true within-document hybrid and guarantees non-empty, RAPTOR-sized leaves.
+
+\section{Experimental Setup}
+
+\paragraph{Arms (only the chunker changes).}
+\tokenarm{} (original RAPTOR splitter, primary baseline), \structarm{} (always-LLM
+structure), \textbf{\ahc{}} (ours), \semarm{} (embedding-boundary chunking), and \flatarm{}
+(FAISS over token chunks, no tree, to contextualize the value of the tree).
+
+\paragraph{Frozen controls.}
+All arms share identical SBERT \texttt{multi-qa-mpnet-base-cos-v1} embeddings, identical
+seeded UMAP$+$GMM clustering, identical summarizer, identical reader, and identical
+collapsed-tree retrieval with a 2000-token budget---RAPTOR's main setting. The
+\emph{same} open-weight model, \texttt{gpt-oss-120b} served via OpenRouter, performs both
+summarization and QA for every arm, so differences are attributable to the chunker alone.
+All LLM calls are cached on disk (temperature $0$) for reproducibility under free-tier
+nondeterminism.
+
+\paragraph{Datasets, subsets, and metrics.}
+Table~\ref{tab:datasets} lists the curated, stratified, version-controlled subsets and the
+metric reported for each dataset, following RAPTOR~\cite{raptor}. NarrativeQA generation
+metrics use the modified AllenNLP script (BLEU smoothing; BLEU-4 weights
+$(.25,.25,.25,.25)$; tokenize-before-METEOR-map).
+
+\begin{table}[t]
+\centering
+\begin{tabular}{llll}
+\toprule
+Dataset & Structure & Subset & Metric \\
+\midrule
+QASPER      & papers (strong) & $\sim$50 papers   & Answer token-F1 (+ Evidence-F1) \\
+QuALITY     & mixed           & $\sim$50 docs     & Accuracy (full + HARD) \\
+NarrativeQA & stories (weak)  & $\sim$25 docs     & ROUGE-L, BLEU-1/4, METEOR \\
+\bottomrule
+\end{tabular}
+\caption{Evaluation datasets, curated subsets, and metrics.}
+\label{tab:datasets}
+\end{table}
+
+\paragraph{Implementation status.}
+The full harness is implemented and committed: a pluggable \texttt{Chunker} layer
+(\tokenarm{}/\structarm{}/\semarm{}/\ahc{}), the dataset loaders, the metric
+implementations, the cached/back-off OpenRouter models, and an orchestration runner that
+isolates the chunker inside the frozen RAPTOR pipeline. The logic is covered by an offline
+test suite (163 tests, no network or model downloads); the heavy tree-build/retrieval path
+runs from a one-click Colab notebook. Quantitative runs are pending.
+
+\section{Results}
+\todo{Populate after the Colab runs; numbers below are placeholders.}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+ & QASPER & QuALITY & QuALITY-HARD & NarrativeQA \\
+Arm & (Ans-F1) & (Acc) & (Acc) & (ROUGE-L) \\
+\midrule
+\tokenarm{} (baseline) & -- & -- & -- & -- \\
+\structarm{}           & -- & -- & -- & -- \\
+\semarm{}              & -- & -- & -- & -- \\
+\flatarm{}             & -- & -- & -- & -- \\
+\textbf{\ahc{} (ours)} & -- & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\caption{Main results (mean over seeds; bootstrap 95\% CIs to be added).
+\todo{fill in}}
+\label{tab:main}
+\end{table}
+
+We will additionally report, per dataset: the \ahc{} \emph{routing rate} (fraction of
+documents sent to structure mode), the LLM parse-call count versus always-\structarm{}
+(compute, since the API is free-tier), and the QuALITY \emph{structure-spectrum}
+correlation between per-document score and the per-document gain of \structarm{} over
+\tokenarm{} (H3).
+
+\section{Threats to Validity}
+Free-model nondeterminism and rate limits are mitigated by temperature $0$, on-disk
+caching, and reporting variance across seeds. Small curated subsets motivate bootstrap CIs
+and stratified sampling. The reader is held identical across arms to remove a QA-model
+confound. Pretraining contamination (papers/stories may be in the model's training data)
+is acknowledged. $\tau$ is tuned only on dev and reported, not cherry-picked. Claims are
+scoped to RAPTOR-style hierarchical pipelines.
+
+\section{Conclusion}
+We presented the design and a working, reproducible harness for a controlled study of
+leaf chunking in hierarchical RAG, and \ahc{}, a deterministic per-document router with
+per-section repair. The contribution is a characterization of \emph{when} structure helps
+plus an adaptive method that aims to match or beat both pure baselines at lower parse cost.
+Empirical validation is the immediate next step.
+
+\begin{thebibliography}{9}
+\bibitem{raptor} P.~Sarthi, S.~Abdullah, A.~Tuli, S.~Khanna, A.~Goldie, C.~D.~Manning.
+\emph{RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval}. ICLR 2024.
+arXiv:2401.18059.
+\bibitem{qasper} P.~Dasigi, K.~Lo, I.~Beltagy, A.~Cohan, N.~A.~Smith, M.~Gardner.
+\emph{A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers
+(QASPER)}. NAACL 2021.
+\bibitem{quality} R.~Y.~Pang et al. \emph{QuALITY: Question Answering with Long Input Texts,
+Yes!}. NAACL 2022.
+\bibitem{narrativeqa} T.~Ko\v{c}isk\'y et al. \emph{The NarrativeQA Reading Comprehension
+Challenge}. TACL 2018.
+\bibitem{sbert} N.~Reimers, I.~Gurevych. \emph{Sentence-BERT: Sentence Embeddings using
+Siamese BERT-Networks}. EMNLP 2019.
+\end{thebibliography}
+
+\end{document}

@@ -70,9 +70,9 @@ class QuALITYLoader(DatasetLoader):
         subset_ids: Optional[List[str]] = None,
         limit: Optional[int] = None,
     ) -> List[Document]:
-        from datasets import load_dataset
+        from experiments.datasets.base import load_hf_split
 
-        ds = load_dataset(self.hf_name, split=self.split)
+        ds = load_hf_split(self.hf_name, split=self.split)
         docs = self._normalize(ds)
 
         if subset_ids is not None:
