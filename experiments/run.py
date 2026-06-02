@@ -79,6 +79,10 @@ def main(argv: Optional[List[str]] = None):
     cfg = config_from_args(args)
 
     if args.dry_run:
+        import json
+
+        print("[dry-run] resolved ExperimentConfig:")
+        print(json.dumps(cfg.to_dict(), indent=2))
         return cfg
 
     # Heavy path: only imported when actually running.
