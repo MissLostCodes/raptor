@@ -63,3 +63,43 @@ def test_set_unique_id_fallback_for_doc_id():
     f["set_unique_id"] = "set42"
     doc = parse_quality_article(f)
     assert doc.doc_id == "set42"
+
+
+# --- field-name-variant robustness (different HF mirrors) -------------------
+def test_gold_index_from_answer_field():
+    # Mirror that uses 'answer' (1-based) instead of 'gold_label'.
+    art = {
+        "article_id": "x",
+        "article": "body",
+        "questions": [{"question": "q", "options": ["a", "b", "c", "d"], "answer": 3}],
+    }
+    doc = parse_quality_article(art)
+    assert doc.questions[0].gold_index == 2  # 1-based 3 -> idx 2
+
+
+def test_is_hard_from_hard_field():
+    # Mirror that uses 'hard' instead of 'difficult'.
+    art = {
+        "article_id": "x",
+        "article": "body",
+        "questions": [{"question": "q", "options": ["a", "b"], "gold_label": 1, "hard": True}],
+    }
+    doc = parse_quality_article(art)
+    assert doc.questions[0].is_hard is True
+
+
+def test_hard_bool_not_mistaken_for_gold():
+    # A bare 'hard' boolean must never be parsed as a gold label.
+    art = {
+        "article_id": "x",
+        "article": "body",
+        "questions": [{"question": "q", "options": ["a", "b"], "hard": True}],
+    }
+    doc = parse_quality_article(art)
+    assert doc.questions[0].gold_index is None
+    assert doc.questions[0].is_hard is True
+
+
+def test_article_text_from_context_field():
+    doc = parse_quality_article({"article_id": "x", "context": "the body", "questions": []})
+    assert doc.text == "the body"

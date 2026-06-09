@@ -31,19 +31,58 @@ from typing import List, Optional
 from experiments.datasets.base import DatasetLoader, Document, QAExample
 
 
+# Field-name variants seen across QuALITY HF mirrors. Canonical names first.
+# Hardening these prevents a silent metric failure: if the gold field is not
+# found, every ``gold_index`` is None and accuracy reads a silent 0; if the
+# hard field is not found, the QuALITY-HARD subset is silently empty.
+_GOLD_KEYS = ("gold_label", "gold", "answer", "label")
+_HARD_KEYS = ("difficult", "hard", "is_hard")
+_ARTICLE_KEYS = ("article", "context", "passage", "text")
+
+
 def _article_id(obj: dict) -> str:
     return str(obj.get("article_id") or obj.get("set_unique_id") or "")
 
 
+def _article_text(obj: dict) -> str:
+    for key in _ARTICLE_KEYS:
+        v = obj.get(key)
+        if v:
+            return v
+    return ""
+
+
+def _gold_index(q: dict):
+    """Return the 0-based gold option index, or ``None`` if absent.
+
+    The QuALITY gold answer is **1-based** (its convention across mirrors), so a
+    stored value ``v`` maps to index ``v - 1``. Booleans are ignored (a ``hard``
+    flag must not be mistaken for a gold label). Returns ``None`` on the test
+    split, where gold labels are withheld.
+    """
+    for key in _GOLD_KEYS:
+        val = q.get(key)
+        if isinstance(val, bool):
+            continue
+        if isinstance(val, int):
+            return val - 1
+    return None
+
+
+def _is_hard(q: dict) -> bool:
+    for key in _HARD_KEYS:
+        if key in q and q[key] is not None:
+            return bool(q[key])
+    return False
+
+
 def _parse_question(q: dict) -> QAExample:
-    gold_label = q.get("gold_label")
-    gold_index = (gold_label - 1) if isinstance(gold_label, int) else None
     return QAExample(
         question_id=str(q.get("question_unique_id") or q.get("question", "")),
         question=q.get("question", "") or "",
         options=list(q.get("options", []) or []),
-        gold_index=gold_index,
-        is_hard=bool(q.get("difficult", 0)),
+        gold_index=_gold_index(q),
+        is_hard=_is_hard(q),
     )
 
 
@@ -53,7 +92,7 @@ def parse_quality_article(obj: dict) -> Document:
     return Document(
         doc_id=_article_id(obj),
         title=obj.get("title", "") or "",
-        text=obj.get("article", "") or "",
+        text=_article_text(obj),
         questions=questions,
     )
 
@@ -102,7 +141,7 @@ class QuALITYLoader(DatasetLoader):
                 grouped[aid] = Document(
                     doc_id=aid,
                     title=row.get("title", "") or "",
-                    text=row.get("article", "") or "",
+                    text=_article_text(row),
                     questions=[],
                 )
                 order.append(aid)
