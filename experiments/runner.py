@@ -20,6 +20,23 @@ from experiments.metrics import (
     narrativeqa_metrics,
     qasper_answer_f1,
 )
+from experiments.models import ModerationBlocked
+
+
+def _maybe_tqdm(iterable, show, **kw):
+    """Wrap ``iterable`` in a tqdm bar when requested and available.
+
+    Degrades gracefully to the bare iterable when ``show`` is False or tqdm is
+    not installed, so the loop runs identically in headless/test environments.
+    """
+    if not show:
+        return iterable
+    try:
+        from tqdm.auto import tqdm
+
+        return tqdm(iterable, **kw)
+    except Exception:
+        return iterable
 
 
 # ---------------------------------------------------------------------------
@@ -126,8 +143,21 @@ def run(
     progress: Callable = print,
     summarization_model=None,
     qa_models: Optional[Dict] = None,
+    resume: bool = True,
+    show_progress: bool = True,
 ) -> dict:
     """Run the full experiment grid and write results to disk.
+
+    The loop is hardened against the failure modes that killed a long Colab run:
+
+    - **Per-question isolation:** a moderation block or any other answer-time
+      error is recorded (as a ``blocked``/``error`` record with no score fields)
+      and the grid keeps going instead of crashing.
+    - **Per-doc isolation:** a doc whose answerer BUILD fails is skipped (no
+      records) and is NOT marked done, so a later resume retries it.
+    - **Checkpoint + resume:** results are written after every doc; on restart
+      with ``resume=True`` already-completed ``(dataset, arm, doc)`` are skipped
+      and their records are loaded from disk.
 
     Args:
         cfg: ExperimentConfig.
@@ -139,6 +169,9 @@ def run(
         summarization_model / qa_models: optional injected models. When
             ``build_answerer_fn`` is provided (test path), real OpenRouter models
             are NOT constructed unless explicitly injected.
+        resume: when True, seed records from an existing results file and skip
+            ``(dataset, arm, doc)`` that are already complete.
+        show_progress: when True, wrap the per-doc loop in a tqdm bar.
 
     Returns ``{"config": cfg.to_dict(), "records": [...]}`` and writes it to
     ``cfg.results_dir/results_<seed>.json``.
@@ -152,7 +185,27 @@ def run(
         if summarization_model is None:
             summarization_model, _ = build_models(cfg)
 
+    out_path = os.path.join(cfg.results_dir, f"results_{seed}.json")
+
+    def _write():
+        os.makedirs(cfg.results_dir, exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as fh:
+            json.dump({"config": cfg.to_dict(), "records": records}, fh, indent=2)
+
     records: List[dict] = []
+    done_docs = set()
+    if resume and os.path.exists(out_path):
+        try:
+            with open(out_path, "r", encoding="utf-8") as fh:
+                prev = json.load(fh)
+            records = prev.get("records", [])
+            done_docs = {
+                (r.get("dataset"), r.get("arm"), r.get("doc_id")) for r in records
+            }
+        except Exception:
+            records, done_docs = [], set()
+
+    n_ok = n_blocked = n_errored = 0
 
     for dataset in cfg.datasets:
         progress(f"[dataset] {dataset}")
@@ -172,33 +225,70 @@ def run(
 
         for arm in cfg.arms:
             progress(f"  [arm] {arm}")
-            for doc in documents:
-                answerer = build_answerer_fn(
-                    arm, doc, cfg, summarization_model, qa_model
-                )
+            for doc in _maybe_tqdm(
+                documents, show_progress, desc=f"{dataset}/{arm}", leave=False
+            ):
+                if (dataset, arm, doc.doc_id) in done_docs:
+                    continue
+
+                try:
+                    answerer = build_answerer_fn(
+                        arm, doc, cfg, summarization_model, qa_model
+                    )
+                except Exception as exc:
+                    # Build failure: skip the doc entirely, leave it NOT done so
+                    # a later resume retries it.
+                    progress(
+                        f"[skip-doc] {dataset}/{arm}/{doc.doc_id} "
+                        f"build failed: {exc!r}"
+                    )
+                    continue
+
+                doc_records: List[dict] = []
                 for q in doc.questions:
-                    pred, _context = answerer.answer(compose_query(dataset, q))
+                    base = {
+                        "arm": arm,
+                        "dataset": dataset,
+                        "doc_id": doc.doc_id,
+                        "question_id": q.question_id,
+                    }
+                    try:
+                        pred, _context = answerer.answer(
+                            compose_query(dataset, q)
+                        )
+                    except ModerationBlocked as exc:
+                        doc_records.append(
+                            {**base, "blocked": True, "error": "moderation",
+                             "routing": {}}
+                        )
+                        n_blocked += 1
+                        continue
+                    except Exception as exc:
+                        doc_records.append(
+                            {**base, "blocked": False,
+                             "error": type(exc).__name__, "routing": {}}
+                        )
+                        n_errored += 1
+                        continue
+
                     rec = score_question(dataset, q, pred)
                     routing = {}
                     if hasattr(answerer, "routing_info"):
                         routing = answerer.routing_info() or {}
-                    records.append(
-                        {
-                            "arm": arm,
-                            "dataset": dataset,
-                            "doc_id": doc.doc_id,
-                            "question_id": q.question_id,
-                            **rec,
-                            "routing": routing,
-                        }
+                    doc_records.append(
+                        {**base, **rec, "blocked": False, "error": None,
+                         "routing": routing}
                     )
+                    n_ok += 1
 
-    result = {"config": cfg.to_dict(), "records": records}
+                records.extend(doc_records)
+                done_docs.add((dataset, arm, doc.doc_id))
+                _write()  # checkpoint after each doc
 
-    os.makedirs(cfg.results_dir, exist_ok=True)
-    out_path = os.path.join(cfg.results_dir, f"results_{seed}.json")
-    with open(out_path, "w", encoding="utf-8") as fh:
-        json.dump(result, fh, indent=2)
-    progress(f"[done] wrote {len(records)} records -> {out_path}")
+    _write()
+    progress(
+        f"[done] {n_ok} answered, {n_blocked} moderation-blocked, "
+        f"{n_errored} errored -> {out_path}"
+    )
 
-    return result
+    return {"config": cfg.to_dict(), "records": records}

@@ -18,3 +18,4 @@ evaluate
 rouge-score
 nltk
 sacrebleu
+tqdm

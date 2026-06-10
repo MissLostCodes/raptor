@@ -12,12 +12,20 @@ exponential back-off, which covers transient errors such as HTTP 429.
 
 import hashlib
 import json
+import logging
 import os
 
-from tenacity import retry, stop_after_attempt, wait_random_exponential
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_random_exponential,
+)
 
 from raptor.SummarizationModels import BaseSummarizationModel
 from raptor.QAModels import BaseQAModel
+
+_log = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
@@ -65,6 +73,68 @@ def _make_openai_client(base_url: str, api_key_env: str):
 
 
 # ---------------------------------------------------------------------------
+# Moderation / retry classification
+# ---------------------------------------------------------------------------
+class ModerationBlocked(Exception):
+    """Raised when the provider rejects input via content moderation (HTTP 403).
+
+    Permanent: must NOT be retried. Carries the human-readable reason(s).
+    """
+
+    def __init__(self, message, reason=None):
+        super().__init__(message)
+        self.reason = reason
+
+
+def _extract_moderation_reason(exc):
+    """Best-effort human-readable moderation reason. Defensive: returns None."""
+    body = getattr(exc, "body", None)
+    if isinstance(body, dict):
+        metadata = body.get("metadata")
+        if isinstance(metadata, dict):
+            reasons = metadata.get("reasons")
+            if isinstance(reasons, (list, tuple)) and reasons:
+                return ", ".join(str(r) for r in reasons)
+            if isinstance(reasons, str) and reasons:
+                return reasons
+    # Fall back to a quoted reason inside the message, e.g. flagged for "x".
+    text = str(exc)
+    if '"' in text:
+        parts = text.split('"')
+        if len(parts) >= 3 and parts[1].strip():
+            return parts[1].strip()
+    return None
+
+
+def _as_moderation_blocked(exc):
+    """Return a ModerationBlocked if ``exc`` is a moderation 403, else None."""
+    if getattr(exc, "status_code", None) == 403:
+        lowered = str(exc).lower()
+        if "moderat" in lowered or "flagged" in lowered:
+            return ModerationBlocked(str(exc), reason=_extract_moderation_reason(exc))
+    return None
+
+
+def _should_retry(exc):
+    """tenacity predicate: True => retry. False => re-raise immediately."""
+    if isinstance(exc, ModerationBlocked):
+        return False
+    status = getattr(exc, "status_code", None)
+    if status is None:
+        return True  # generic transient error -> keep retrying
+    if status == 429:
+        return True
+    if 400 <= status < 500:
+        return False  # permanent client errors
+    return True  # 5xx and anything else
+
+
+def _extractive_summary_fallback(context, max_tokens):
+    """Cheap extractive summary: leading slice of the context (~4 chars/token)."""
+    return context.strip()[: max_tokens * 4]
+
+
+# ---------------------------------------------------------------------------
 # Summarization model
 # ---------------------------------------------------------------------------
 class CachedOpenRouterSummarizationModel(BaseSummarizationModel):
@@ -91,14 +161,25 @@ class CachedOpenRouterSummarizationModel(BaseSummarizationModel):
             self._client = _make_openai_client(self.base_url, self.api_key_env)
         return self._client
 
-    @retry(wait=wait_random_exponential(min=1, max=30), stop=stop_after_attempt(6))
+    @retry(
+        retry=retry_if_exception(_should_retry),
+        wait=wait_random_exponential(min=1, max=30),
+        stop=stop_after_attempt(6),
+        reraise=True,
+    )
     def _create(self, messages, max_tokens):
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=messages,
-            max_tokens=max_tokens,
-            temperature=self.temperature,
-        )
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=self.temperature,
+            )
+        except Exception as exc:
+            blocked = _as_moderation_blocked(exc)
+            if blocked is not None:
+                raise blocked from exc
+            raise
         return response.choices[0].message.content
 
     def summarize(self, context, max_tokens=150, stop_sequence=None) -> str:
@@ -119,7 +200,14 @@ class CachedOpenRouterSummarizationModel(BaseSummarizationModel):
         if cached is not None:
             return cached
 
-        content = self._create(messages, max_tokens)
+        try:
+            content = self._create(messages, max_tokens)
+        except ModerationBlocked as exc:
+            _log.warning(
+                "summarization moderation-blocked (%s); using extractive fallback",
+                exc.reason or exc,
+            )
+            return _extractive_summary_fallback(context, max_tokens)
         self.cache.set(key, content)
         return content
 
@@ -158,14 +246,25 @@ class CachedOpenRouterQAModel(BaseQAModel):
             self._client = _make_openai_client(self.base_url, self.api_key_env)
         return self._client
 
-    @retry(wait=wait_random_exponential(min=1, max=30), stop=stop_after_attempt(6))
+    @retry(
+        retry=retry_if_exception(_should_retry),
+        wait=wait_random_exponential(min=1, max=30),
+        stop=stop_after_attempt(6),
+        reraise=True,
+    )
     def _create(self, messages, max_tokens):
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=messages,
-            max_tokens=max_tokens,
-            temperature=self.temperature,
-        )
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=self.temperature,
+            )
+        except Exception as exc:
+            blocked = _as_moderation_blocked(exc)
+            if blocked is not None:
+                raise blocked from exc
+            raise
         return response.choices[0].message.content
 
     def answer_question(self, context, question, max_tokens=150, stop_sequence=None) -> str:

@@ -77,14 +77,71 @@ def _summary(values: List[float], seed: int = 0) -> dict:
     }
 
 
-def aggregate(records: List[dict], seed: int = 0) -> dict:
+def exclude_blocked_uniformly(records: List[dict]) -> List[dict]:
+    """Drop a (dataset, doc_id, question_id) from ALL arms if blocked anywhere.
+
+    Content-moderation blocks (and other errors) happen on the per-arm
+    retrieved context, so the same question can be blocked under one arm and
+    answered under another. Scoring only the arms that happened to answer it
+    would make the arm-vs-arm comparison unfair. So if a question is
+    blocked/errored under ANY arm, it is removed from EVERY arm at report time.
+
+    Records lacking dataset/doc_id/question_id/blocked/error keys (e.g. the
+    simpler fixtures in older tests) are never considered "blocked" and are
+    passed through unchanged.
+    """
+    blocked_keys = {
+        (r.get("dataset"), r.get("doc_id"), r.get("question_id"))
+        for r in records
+        if r.get("blocked") or r.get("error")
+    }
+    return [
+        r
+        for r in records
+        if (r.get("dataset"), r.get("doc_id"), r.get("question_id")) not in blocked_keys
+    ]
+
+
+def blocked_report(records: List[dict]) -> dict:
+    """Per-dataset count of distinct questions dropped due to a block/error.
+
+    Returns ``{dataset: {"dropped_questions": int, "errors": {type: count}}}``
+    including only datasets that actually had at least one block. An all-clean
+    run yields ``{}``.
+    """
+    dropped: Dict[str, set] = defaultdict(set)
+    errors: Dict[str, Dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for r in records:
+        if r.get("blocked") or r.get("error"):
+            ds = r.get("dataset")
+            dropped[ds].add((r.get("doc_id"), r.get("question_id")))
+            err = r.get("error") or ("blocked" if r.get("blocked") else "unknown")
+            errors[ds][str(err)] += 1
+
+    return {
+        ds: {
+            "dropped_questions": len(pairs),
+            "errors": dict(errors[ds]),
+        }
+        for ds, pairs in dropped.items()
+    }
+
+
+def aggregate(records: List[dict], seed: int = 0, drop_blocked: bool = True) -> dict:
     """Group records by (arm, dataset, metric) -> summary stats.
 
     Numeric generative/F1 metrics are averaged directly. Quality 'correct'
     becomes both 'accuracy' (overall) and 'accuracy_hard' (is_hard subset).
 
+    When ``drop_blocked`` is True (the default) any question blocked/errored
+    under any arm is removed from all arms first, so every arm is scored on the
+    exact same question set.
+
     Returns a nested dict: ``{arm: {dataset: {metric: summary}}}``.
     """
+    if drop_blocked:
+        records = exclude_blocked_uniformly(records)
+
     # Collect raw value lists.
     buckets: Dict[Tuple[str, str, str], List[float]] = defaultdict(list)
     for r in records:
@@ -142,7 +199,9 @@ def routing_rate(records: List[dict]) -> dict:
     }
 
 
-def to_markdown(agg: dict, routing: Optional[dict] = None) -> str:
+def to_markdown(
+    agg: dict, routing: Optional[dict] = None, dropped: Optional[dict] = None
+) -> str:
     """Render the aggregate (and optional routing rates) as Markdown."""
     lines: List[str] = []
     lines.append("# Chunking-arms results\n")
@@ -177,6 +236,15 @@ def to_markdown(agg: dict, routing: Optional[dict] = None) -> str:
                 "| {ds} | {rate:.4f} | {n} |".format(
                     ds=ds, rate=r["structure_rate"], n=r["n_docs"]
                 )
+            )
+
+    if dropped:
+        lines.append("\n## Dropped (moderation-blocked) questions\n")
+        lines.append("| dataset | dropped_questions |")
+        lines.append("| --- | ---: |")
+        for ds in sorted(dropped.keys()):
+            lines.append(
+                "| {ds} | {n} |".format(ds=ds, n=dropped[ds]["dropped_questions"])
             )
 
     return "\n".join(lines) + "\n"
