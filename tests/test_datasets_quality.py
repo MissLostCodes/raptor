@@ -67,14 +67,28 @@ def test_set_unique_id_fallback_for_doc_id():
 
 # --- field-name-variant robustness (different HF mirrors) -------------------
 def test_gold_index_from_answer_field():
-    # Mirror that uses 'answer' (1-based) instead of 'gold_label'.
+    # 'answer' is the index-style field (0-based) used by emozilla/quality, where
+    # values range over 0..3 (verified: 491 rows have answer==0). It must be used
+    # as-is, NOT decremented like the 1-based 'gold_label'.
     art = {
         "article_id": "x",
         "article": "body",
         "questions": [{"question": "q", "options": ["a", "b", "c", "d"], "answer": 3}],
     }
     doc = parse_quality_article(art)
-    assert doc.questions[0].gold_index == 2  # 1-based 3 -> idx 2
+    assert doc.questions[0].gold_index == 3  # 0-based 3 -> idx 3
+
+
+def test_gold_index_answer_zero_is_valid_not_negative():
+    # The off-by-one bug mapped answer==0 -> -1 (always scored wrong) for ~24% of
+    # QuALITY. 0-based answer==0 must map to idx 0.
+    art = {
+        "article_id": "x",
+        "article": "body",
+        "questions": [{"question": "q", "options": ["a", "b", "c", "d"], "answer": 0}],
+    }
+    doc = parse_quality_article(art)
+    assert doc.questions[0].gold_index == 0
 
 
 def test_is_hard_from_hard_field():
@@ -103,3 +117,40 @@ def test_hard_bool_not_mistaken_for_gold():
 def test_article_text_from_context_field():
     doc = parse_quality_article({"article_id": "x", "context": "the body", "questions": []})
     assert doc.text == "the body"
+
+
+# --- one-row-per-question mirror (emozilla/quality) -------------------------
+def test_normalize_groups_one_row_per_question_by_article():
+    # emozilla/quality: one row per question, NO article id, 0-based 'answer'.
+    # Without grouping-by-article the loader collapsed all 2086 questions into a
+    # single doc_id='' Document with one wrong article -> meaningless results.
+    from experiments.datasets.quality import QuALITYLoader
+
+    rows = [
+        {"article": "STORY ALPHA body", "question": "qa1",
+         "options": ["a", "b", "c", "d"], "answer": 0, "hard": False},
+        {"article": "STORY ALPHA body", "question": "qa2",
+         "options": ["a", "b", "c", "d"], "answer": 3, "hard": True},
+        {"article": "STORY BETA body", "question": "qb1",
+         "options": ["a", "b", "c", "d"], "answer": 2, "hard": False},
+    ]
+    docs = QuALITYLoader._normalize(rows)
+
+    # Two distinct articles -> two Documents (NOT collapsed into one).
+    assert len(docs) == 2
+    alpha = next(d for d in docs if d.text == "STORY ALPHA body")
+    beta = next(d for d in docs if d.text == "STORY BETA body")
+    assert len(alpha.questions) == 2
+    assert len(beta.questions) == 1
+
+    # Non-empty, distinct doc ids (no more doc_id='').
+    assert alpha.doc_id and beta.doc_id and alpha.doc_id != beta.doc_id
+
+    # 0-based answer used as-is; hard flag preserved.
+    assert alpha.questions[0].gold_index == 0
+    assert alpha.questions[1].gold_index == 3
+    assert alpha.questions[1].is_hard is True
+
+    # Question ids are non-empty and unique within a document.
+    qids = [q.question_id for q in alpha.questions]
+    assert all(qids) and len(set(qids)) == 2

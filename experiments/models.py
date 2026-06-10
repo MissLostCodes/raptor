@@ -134,6 +134,34 @@ def _extractive_summary_fallback(context, max_tokens):
     return context.strip()[: max_tokens * 4]
 
 
+def _coerce_content(response, model, max_tokens) -> str:
+    """Return the completion text as a GUARANTEED string.
+
+    gpt-oss is a reasoning model: its OpenAI-compatible response can carry
+    ``message.content = None`` (e.g. the token budget was spent on reasoning and
+    no visible content was emitted). If that None propagates, the RAPTOR tree
+    builder calls ``tiktoken.encode(None)`` -> ``TypeError: expected string or
+    buffer`` and the whole tree build dies. Coerce to a string here (preferring a
+    reasoning field if the provider exposes one), and warn on an empty completion
+    so it is visible in the run output.
+    """
+    message = response.choices[0].message
+    content = getattr(message, "content", None)
+    if content:
+        return content
+    for attr in ("reasoning_content", "reasoning"):
+        alt = getattr(message, attr, None)
+        if alt:
+            return alt
+    _log.warning(
+        "empty completion (content=None) from model=%s (max_tokens=%s); returning "
+        "empty string. If frequent, raise max_tokens or lower the reasoning effort.",
+        model,
+        max_tokens,
+    )
+    return ""
+
+
 # ---------------------------------------------------------------------------
 # Summarization model
 # ---------------------------------------------------------------------------
@@ -180,7 +208,7 @@ class CachedOpenRouterSummarizationModel(BaseSummarizationModel):
             if blocked is not None:
                 raise blocked from exc
             raise
-        return response.choices[0].message.content
+        return _coerce_content(response, self.model, max_tokens)
 
     def summarize(self, context, max_tokens=150, stop_sequence=None) -> str:
         messages = [
@@ -208,7 +236,8 @@ class CachedOpenRouterSummarizationModel(BaseSummarizationModel):
                 exc.reason or exc,
             )
             return _extractive_summary_fallback(context, max_tokens)
-        self.cache.set(key, content)
+        if content:  # never cache an empty completion -> a re-run can retry it
+            self.cache.set(key, content)
         return content
 
 
@@ -265,7 +294,7 @@ class CachedOpenRouterQAModel(BaseQAModel):
             if blocked is not None:
                 raise blocked from exc
             raise
-        return response.choices[0].message.content
+        return _coerce_content(response, self.model, max_tokens)
 
     def answer_question(self, context, question, max_tokens=150, stop_sequence=None) -> str:
         messages = [
@@ -283,7 +312,8 @@ class CachedOpenRouterQAModel(BaseQAModel):
             return cached.strip()
 
         content = self._create(messages, max_tokens)
-        self.cache.set(key, content)
+        if content:  # never cache an empty completion -> a re-run can retry it
+            self.cache.set(key, content)
         return content.strip()
 
 

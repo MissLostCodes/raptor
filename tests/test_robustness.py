@@ -124,6 +124,20 @@ def test_summarize_moderation_falls_back_to_extractive(tmp_path):
     assert client.calls == 1  # not retried
 
 
+def test_none_content_is_coerced_to_empty_string_not_crash(tmp_path):
+    # gpt-oss is a reasoning model; its OpenAI-compatible response can carry
+    # message.content=None (e.g. the token budget was spent on reasoning). The
+    # harness MUST coerce that to a string so it never reaches the tree builder's
+    # tiktoken.encode(None), which raises "expected string or buffer" and killed
+    # the whole tree build (every doc skipped -> 0 records).
+    client = FakeClient(content=None)
+    s = CachedOpenRouterSummarizationModel(client=client, cache=DiskCache(str(tmp_path / "cs")))
+    assert s.summarize("some context") == ""
+
+    qa = CachedOpenRouterQAModel(client=client, cache=DiskCache(str(tmp_path / "cq")))
+    assert qa.answer_question("ctx", "q") == ""
+
+
 # ---------------------------------------------------------------------------
 # runner: per-question isolation + resume
 # ---------------------------------------------------------------------------

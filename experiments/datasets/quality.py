@@ -14,18 +14,21 @@ Assumed schema (article-level object)::
       }, ... ],
     }
 
-``parse_quality_article`` builds one ``QAExample`` per question with
-``gold_index = gold_label - 1`` (or ``None`` when ``gold_label`` is missing,
-e.g. the held-out test split) and ``is_hard = bool(difficult)``.
+``parse_quality_article`` builds one ``QAExample`` per question. The gold base
+depends on the field: native 1-based ``gold_label``/``gold`` are decremented;
+0-based index fields ``answer``/``label`` are used as-is. ``is_hard`` comes from
+``difficult``/``hard``.
 
-The HuggingFace mirror (default ``emozilla/quality``) may be flattened to
-one row per question; ``QuALITYLoader.load`` therefore normalizes both
-article-level and question-level rows, grouping question-level rows by their
-article id before parsing.
+The default HuggingFace mirror (``emozilla/quality``) is flattened to one row
+per question and has NO article-id field, so ``QuALITYLoader._normalize`` groups
+question-level rows by their **article text** (each passage -> one Document);
+otherwise every question would collapse into a single ``doc_id=''`` Document.
+Article-level rows (a ``questions`` list) are parsed directly.
 """
 
 from __future__ import annotations
 
+import hashlib
 from typing import List, Optional
 
 from experiments.datasets.base import DatasetLoader, Document, QAExample
@@ -35,7 +38,12 @@ from experiments.datasets.base import DatasetLoader, Document, QAExample
 # Hardening these prevents a silent metric failure: if the gold field is not
 # found, every ``gold_index`` is None and accuracy reads a silent 0; if the
 # hard field is not found, the QuALITY-HARD subset is silently empty.
-_GOLD_KEYS = ("gold_label", "gold", "answer", "label")
+# QuALITY gold-label base differs by mirror name:
+#   * 'gold_label'/'gold' are the dataset-native 1-based labels (1..N).
+#   * 'answer'/'label' are 0-based option indices -- emozilla/quality uses
+#     'answer' in 0..3 (verified: 491 validation rows have answer==0, none ==4).
+_GOLD_KEYS_ONE_BASED = ("gold_label", "gold")
+_GOLD_KEYS_ZERO_BASED = ("answer", "label")
 _HARD_KEYS = ("difficult", "hard", "is_hard")
 _ARTICLE_KEYS = ("article", "context", "passage", "text")
 
@@ -55,17 +63,23 @@ def _article_text(obj: dict) -> str:
 def _gold_index(q: dict):
     """Return the 0-based gold option index, or ``None`` if absent.
 
-    The QuALITY gold answer is **1-based** (its convention across mirrors), so a
-    stored value ``v`` maps to index ``v - 1``. Booleans are ignored (a ``hard``
-    flag must not be mistaken for a gold label). Returns ``None`` on the test
-    split, where gold labels are withheld.
+    1-based labels ('gold_label'/'gold') are decremented; 0-based index fields
+    ('answer'/'label', as in emozilla/quality) are used as-is. Booleans are
+    ignored (a ``hard`` flag must not be mistaken for a gold label). Returns
+    ``None`` on the test split, where gold labels are withheld.
     """
-    for key in _GOLD_KEYS:
+    for key in _GOLD_KEYS_ONE_BASED:
         val = q.get(key)
         if isinstance(val, bool):
             continue
         if isinstance(val, int):
             return val - 1
+    for key in _GOLD_KEYS_ZERO_BASED:
+        val = q.get(key)
+        if isinstance(val, bool):
+            continue
+        if isinstance(val, int):
+            return val
     return None
 
 
@@ -135,8 +149,19 @@ class QuALITYLoader(DatasetLoader):
                 article_level.append(parse_quality_article(row))
                 continue
 
-            # Question-level row: group by article id.
+            # Question-level row: group into one Document per article.
             aid = _article_id(row)
+            if not aid:
+                # emozilla/quality has NO article-id field, so every row would
+                # group under "" -> all 2086 questions collapse into a single
+                # doc_id='' Document with one wrong article. Group by the article
+                # TEXT instead so each passage becomes its own Document.
+                text = _article_text(row)
+                aid = (
+                    "art-" + hashlib.sha1(text.encode("utf-8")).hexdigest()[:16]
+                    if text
+                    else "art-empty"
+                )
             if aid not in grouped:
                 grouped[aid] = Document(
                     doc_id=aid,
@@ -145,6 +170,11 @@ class QuALITYLoader(DatasetLoader):
                     questions=[],
                 )
                 order.append(aid)
-            grouped[aid].questions.append(_parse_question(row))
+            q = _parse_question(row)
+            if not q.question_id or q.question_id == q.question:
+                # This mirror has no stable per-question id (question_id falls
+                # back to the question text); make one unique within the doc.
+                q.question_id = f"{aid}_q{len(grouped[aid].questions)}"
+            grouped[aid].questions.append(q)
 
         return article_level + [grouped[a] for a in order]
