@@ -293,6 +293,79 @@ def predict_size(rho: float, fit: dict, l_min: int = 50, l_max: int = 400) -> in
     return int(max(l_min, min(l_max, round(raw))))
 
 
+def feature_target_correlations(
+    feat_by_doc: Dict[str, Dict[str, float]],
+    target_by_doc: Dict[str, int],
+    feature_names: List[str] | None = None,
+) -> List[Tuple[str, float]]:
+    """Spearman rank-corr of each density feature against the per-doc optimal size.
+
+    ``feat_by_doc`` maps ``doc_id -> {feature_name: value}`` (the feature dict from
+    :func:`raptor.chunking.density_score.density_score`); ``target_by_doc`` maps
+    ``doc_id -> optimal_size``. Correlations are computed over the documents present
+    in BOTH. Returns a list of ``(feature_name, signed_spearman)`` sorted by
+    DESCENDING absolute correlation, so the most predictive feature (in either
+    direction) is first.
+
+    This is the diagnostic behind the key pilot finding: the equal-weight composite
+    ``rho`` washes out because individual features correlate with optimal size in
+    OPPOSITE directions. Selecting the single strongest feature (see
+    :func:`select_and_fit`) recovers the signal the composite cancels. If
+    ``feature_names`` is given, only those features are scored (and in that order
+    before sorting); otherwise the union of keys across all feature dicts is used.
+    """
+    keys = [k for k in target_by_doc if k in feat_by_doc]
+    if feature_names is None:
+        names: List[str] = []
+        for k in keys:
+            for f in feat_by_doc[k]:
+                if f not in names:
+                    names.append(f)
+    else:
+        names = list(feature_names)
+
+    targets = [float(target_by_doc[k]) for k in keys]
+    out: List[Tuple[str, float]] = []
+    for f in names:
+        xs = [float(feat_by_doc[k].get(f, 0.0)) for k in keys]
+        out.append((f, rank_corr(xs, targets)))
+    out.sort(key=lambda t: abs(t[1]), reverse=True)
+    return out
+
+
+def select_and_fit(
+    feat_by_doc: Dict[str, Dict[str, float]],
+    target_by_doc: Dict[str, int],
+    train_ids: List[str],
+    feature_names: List[str] | None = None,
+) -> dict:
+    """Pick the most predictive single feature on TRAIN, then fit ``size = a + b*feature``.
+
+    This is the parsimonious, training-free calibration arm. Rather than feeding the
+    dead equal-weight composite ``rho`` into :func:`fit_rho_to_size`, it ranks the
+    density features by |Spearman| against the optimal size **on the training docs
+    only** (no test leakage), selects the top one, and fits the same two-parameter
+    OLS line on that feature. Returns::
+
+        {"feature": str, "corr": float, "fit": <fit_rho_to_size dict>}
+
+    Apply it with ``predict_size(feat_by_doc[doc][result["feature"]], result["fit"])``.
+    With no usable training docs the feature is ``None`` and ``fit`` is the empty/
+    constant fallback from :func:`fit_rho_to_size`. Selecting among features on a tiny
+    sample is itself a (mild) source of optimism — report it on a held-out TEST split
+    and treat single-feature wins on small N as directional, not conclusive.
+    """
+    train = {k: feat_by_doc[k] for k in train_ids if k in feat_by_doc and k in target_by_doc}
+    train_targets = {k: target_by_doc[k] for k in train}
+    corrs = feature_target_correlations(train, train_targets, feature_names)
+    if not corrs:
+        return {"feature": None, "corr": 0.0, "fit": fit_rho_to_size({}, {})}
+    feature, corr = corrs[0]
+    feat_values = {k: float(train[k].get(feature, 0.0)) for k in train}
+    fit = fit_rho_to_size(feat_values, train_targets)
+    return {"feature": feature, "corr": corr, "fit": fit}
+
+
 def train_test_split_docs(
     doc_ids: List[str], frac_train: float = 0.7, seed: int = 0
 ) -> Tuple[List[str], List[str]]:

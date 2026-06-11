@@ -147,7 +147,14 @@ QuALITY accuracy; NarrativeQA ROUGE-L/BLEU/METEOR.
   (scales sweep to ~50 docs, headroom Fig.1, Table 1 held-out eval, learned-regressor baseline)
 - ✅ novelty due-diligence memo `docs/specs/2026-06-11-related-work-novelty.md`
   (closest threat = Ekimetrics 2603.25333, not Mix-of-Granularity)
-- ⏳ run the scaled (~50-doc) sweep + calibration notebook → H2 gate (closed-form ≈ learned)
+- ✅ H2 PREVIEW (n=8, `docs/results/2026-06-11-h2-density-feature-preview.md`): the
+  equal-weight composite `rho` is near-zero predictive (+0.04) because features are
+  strongly but oppositely signed (`mean_word_len` +0.79, `nonstopword_ratio` +0.66,
+  `type_token_ratio` −0.60). Method updated: `granularity_calibration.select_and_fit`
+  picks the strongest single feature on TRAIN (closed-form, 1 feat + 2 params) instead
+  of the dead composite; calibration notebook reports it as the headline training-free arm.
+- ⏳ run the scaled (~50-doc) sweep + calibration notebook → H2 gate (selected-feature
+  closed-form beats best-fixed, approaches learned regressor + oracle on held-out docs)
 - ⏳ adaptive chunker arm + pipeline wiring (needs H2)
 - ⏳ E3/E4 end-to-end runs + paper tables
 - ⏳ full read of Ekimetrics 2603.25333 before camera-ready

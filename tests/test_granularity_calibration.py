@@ -18,6 +18,8 @@ from experiments.granularity_calibration import (
     fit_rho_to_size,
     predict_size,
     train_test_split_docs,
+    feature_target_correlations,
+    select_and_fit,
 )
 
 
@@ -321,3 +323,69 @@ def test_train_test_split_edge_fractions():
     assert set(all_train) == set(ids) and no_test == []
     no_train, all_test = train_test_split_docs(ids, frac_train=0.0)
     assert no_train == [] and set(all_test) == set(ids)
+
+
+# --------------------------------------------------------------------------- #
+# feature_target_correlations / select_and_fit
+# --------------------------------------------------------------------------- #
+# Feature "good" tracks the target perfectly (Spearman +1); "bad" tracks it
+# perfectly inverted (Spearman -1); "noise" is constant (no ranking info, ~0).
+# This mirrors the pilot finding: averaging good + bad cancels the signal, so a
+# selector that picks the single strongest |corr| feature must recover it.
+FEATS = {
+    "A": {"good": 0.1, "bad": 0.9, "noise": 0.5},
+    "B": {"good": 0.2, "bad": 0.8, "noise": 0.5},
+    "C": {"good": 0.3, "bad": 0.7, "noise": 0.5},
+    "D": {"good": 0.4, "bad": 0.6, "noise": 0.5},
+}
+TARGET = {"A": 50, "B": 100, "C": 200, "D": 400}
+
+
+def test_feature_target_correlations_sorted_by_abs_corr():
+    corrs = feature_target_correlations(FEATS, TARGET)
+    names = [c[0] for c in corrs]
+    # "good" and "bad" both have |corr| == 1; "noise" (constant) is last.
+    assert names[-1] == "noise"
+    assert set(names[:2]) == {"good", "bad"}
+    by = dict(corrs)
+    assert by["good"] == 1.0
+    assert by["bad"] == -1.0
+    assert abs(by["noise"]) < 1e-9
+
+
+def test_feature_target_correlations_only_shared_docs():
+    feats = dict(FEATS)
+    feats["Z"] = {"good": 9.9, "bad": 0.0, "noise": 0.5}  # no target -> ignored
+    corrs = feature_target_correlations(feats, TARGET)
+    assert dict(corrs)["good"] == 1.0  # Z did not perturb the correlation
+
+
+def test_feature_target_correlations_respects_feature_names_subset():
+    corrs = feature_target_correlations(FEATS, TARGET, feature_names=["noise", "good"])
+    assert {c[0] for c in corrs} == {"noise", "good"}
+
+
+def test_select_and_fit_picks_strongest_feature_and_fits():
+    res = select_and_fit(FEATS, TARGET, train_ids=["A", "B", "C", "D"])
+    # Either perfectly-correlated feature is acceptable; both have |corr| == 1.
+    assert res["feature"] in {"good", "bad"}
+    assert abs(res["corr"]) == 1.0
+    # The fitted line should predict the held-in targets monotonically and in range.
+    p_small = predict_size(FEATS["A"][res["feature"]], res["fit"], l_min=50, l_max=400)
+    p_large = predict_size(FEATS["D"][res["feature"]], res["fit"], l_min=50, l_max=400)
+    if res["feature"] == "good":  # positive slope: A(0.1)->small, D(0.4)->large
+        assert p_small < p_large
+    else:  # "bad": negative slope
+        assert p_small > p_large
+
+
+def test_select_and_fit_uses_only_train_docs():
+    # Selection must not peek at the held-out doc "D".
+    res = select_and_fit(FEATS, TARGET, train_ids=["A", "B", "C"])
+    assert res["feature"] in {"good", "bad"}
+
+
+def test_select_and_fit_empty_train_is_safe():
+    res = select_and_fit(FEATS, TARGET, train_ids=[])
+    assert res["feature"] is None
+    assert res["fit"]["n"] == 0
