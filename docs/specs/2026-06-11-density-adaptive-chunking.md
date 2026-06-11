@@ -141,7 +141,13 @@ QuALITY accuracy; NarrativeQA ROUGE-L/BLEU/METEOR.
 - ✅ `density_score.py` extractor + `density_to_leaf_tokens` (+ tests)
 - ✅ `experiments/granularity_sweep.py` + tests + `notebooks/granularity_sweep.ipynb`
 - ✅ `notebooks/qasper_ahc_vs_token.ipynb`, `docs/results/2026-06-11-quality-ahc-vs-token-pilot.md`
-- ⏳ density→size calibration (needs E1 output)
-- ⏳ adaptive chunker arm + pipeline wiring (needs H1/H2)
+- ✅ H1 de-risk gate PASSED (8-doc pilot: best size spans 50→400, doc-heterogeneous)
+- ✅ `experiments/granularity_calibration.py` (headroom accounting + closed-form
+  density→size fit, train/test split) + 30 tests + `notebooks/granularity_calibration.ipynb`
+  (scales sweep to ~50 docs, headroom Fig.1, Table 1 held-out eval, learned-regressor baseline)
+- ✅ novelty due-diligence memo `docs/specs/2026-06-11-related-work-novelty.md`
+  (closest threat = Ekimetrics 2603.25333, not Mix-of-Granularity)
+- ⏳ run the scaled (~50-doc) sweep + calibration notebook → H2 gate (closed-form ≈ learned)
+- ⏳ adaptive chunker arm + pipeline wiring (needs H2)
 - ⏳ E3/E4 end-to-end runs + paper tables
-- ⏳ read Mix-of-Granularity (novelty due-diligence)
+- ⏳ full read of Ekimetrics 2603.25333 before camera-ready
