@@ -27,10 +27,15 @@ def get_chunker(
     parse_fn: Optional[Callable[[str], List[str]]] = None,
     tau: float = 0.5,
     embed_fn=None,
+    size_fn: Optional[Callable[[str], int]] = None,
+    l_min: int = 50,
+    l_max: int = 400,
 ) -> Chunker:
     """Return a Chunker by arm name. `parse_fn` overrides the default cached LLM parser
     (used in tests to avoid the network). `embed_fn` injects sentence embeddings for the
-    semantic arm; `tau` is the routing threshold for the ahc arm."""
+    semantic arm; `tau` is the routing threshold for the ahc/density arms. `size_fn`
+    injects the calibrated density->size policy for the 'density' arm (default: the
+    uncalibrated composite placeholder), with `l_min`/`l_max` clipping its output."""
     tokenizer = tokenizer or tiktoken.get_encoding("cl100k_base")
     if name == "token":
         return TokenChunker(max_tokens=max_tokens, tokenizer=tokenizer)
@@ -50,6 +55,19 @@ def get_chunker(
         return AHCChunker(
             parse_fn=fn, tau=tau, max_tokens=max_tokens, tokenizer=tokenizer
         )
+    if name == "density":
+        from .density_adaptive_chunker import DensityAdaptiveChunker
+
+        fn = parse_fn or _default_cached_parse_fn(model, cache_dir)
+        return DensityAdaptiveChunker(
+            parse_fn=fn,
+            size_fn=size_fn,
+            tau=tau,
+            l_min=l_min,
+            l_max=l_max,
+            tokenizer=tokenizer,
+        )
     raise ValueError(
-        f"Unknown chunker: {name!r} (expected 'token', 'structure', 'semantic', or 'ahc')"
+        f"Unknown chunker: {name!r} "
+        "(expected 'token', 'structure', 'semantic', 'ahc', or 'density')"
     )

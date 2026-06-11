@@ -33,8 +33,19 @@ class ExperimentConfig:
     leaf_max_tokens: int = 100  # RAPTOR leaf chunk size
     summarization_max_tokens: int = 150
     qa_max_tokens: int = 150
-    tau: float = 0.5  # AHC routing threshold
+    tau: float = 0.5  # AHC / density routing threshold
     semantic_breakpoint_percentile: int = 85
+
+    # --- density-adaptive arm (calibrated by experiments.granularity_calibration) ---
+    # When `density_feature` is set, the 'density' arm sizes each document's leaves via
+    # size = clip(density_a + density_b * feature, density_l_min, density_l_max). These
+    # come from select_and_fit on the oracle sweep (feature, fit["a"], fit["b"]). Left
+    # unset, the 'density' arm falls back to the uncalibrated composite placeholder.
+    density_feature: str = ""  # e.g. "mean_word_len_chars_norm"; "" -> placeholder
+    density_a: float = 0.0
+    density_b: float = 0.0
+    density_l_min: int = 50
+    density_l_max: int = 400
 
     # --- io ---
     cache_dir: str = ".llm_cache"

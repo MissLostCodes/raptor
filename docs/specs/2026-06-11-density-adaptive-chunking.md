@@ -81,10 +81,18 @@ incompatible with token chunks). Yields `optimal_size(doc) = argmax_S coverage`.
 density formula (few params, train/test split, no test tuning) is then fit to predict
 `optimal_size` from density features.
 
-### Integration — *pending H1/H2*
-A new chunker/arm (`density` or extend `ahc`) sets each leaf's token budget from the local
-density score, respecting structure boundaries where the structure axis fires. Slots into
-the frozen RAPTOR pipeline as one more arm; only the chunker varies.
+### Integration — *built (mechanism); awaiting calibrated coefficients from H2*
+`raptor/chunking/density_adaptive_chunker.py` (`DensityAdaptiveChunker`) is the `density`
+arm: a two-axis controller that routes on the structure score (structure vs token, like
+AHC) **and** sets each document's leaf token budget from an injected `size_fn`. The
+calibrated policy is built by `make_calibrated_size_fn(feature, a, b, l_min, l_max)` from
+the `select_and_fit` output and bridges offline calibration → online chunking (needs only
+the one density feature at inference — no SBERT/LLM/labels). Wired through
+`get_chunker("density", size_fn=…)`, `ExperimentConfig.density_{feature,a,b,l_min,l_max}`,
+`pipeline.make_ra_config` (`TREE_ARMS` now includes `density`), and `routing_info` (logs
+the per-document `leaf_size`). Default `size_fn` is the **uncalibrated composite
+placeholder** — runnable but not for reported numbers. The mechanism is unit-tested
+offline; only the fitted `(feature, a, b)` are pending the ~50-doc H2 run.
 
 ## Experiments
 
@@ -153,8 +161,11 @@ QuALITY accuracy; NarrativeQA ROUGE-L/BLEU/METEOR.
   `type_token_ratio` −0.60). Method updated: `granularity_calibration.select_and_fit`
   picks the strongest single feature on TRAIN (closed-form, 1 feat + 2 params) instead
   of the dead composite; calibration notebook reports it as the headline training-free arm.
+- ✅ adaptive chunker arm + pipeline wiring: `DensityAdaptiveChunker`, `make_calibrated_size_fn`,
+  `get_chunker("density")`, config + `make_ra_config` + `routing_info` (mechanism unit-tested,
+  271 suite-wide). Only the fitted `(feature, a, b)` are pending H2.
 - ⏳ run the scaled (~50-doc) sweep + calibration notebook → H2 gate (selected-feature
-  closed-form beats best-fixed, approaches learned regressor + oracle on held-out docs)
-- ⏳ adaptive chunker arm + pipeline wiring (needs H2)
+  closed-form beats best-fixed, approaches learned regressor + oracle on held-out docs);
+  then drop `(feature, a, b)` into `ExperimentConfig.density_*` and run E3.
 - ⏳ E3/E4 end-to-end runs + paper tables
 - ⏳ full read of Ekimetrics 2603.25333 before camera-ready

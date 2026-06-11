@@ -20,7 +20,7 @@ from raptor.RetrievalAugmentation import (
     RetrievalAugmentationConfig,
 )
 
-TREE_ARMS = ("token", "structure", "semantic", "ahc")
+TREE_ARMS = ("token", "structure", "semantic", "ahc", "density")
 
 
 def make_ra_config(
@@ -48,6 +48,19 @@ def make_ra_config(
             f"Unknown arm: {arm!r} (expected one of {TREE_ARMS} or 'flat')"
         )
 
+    # The 'density' arm sizes leaves per document from a calibrated density->size map.
+    size_fn = None
+    if arm == "density" and getattr(cfg, "density_feature", ""):
+        from raptor.chunking.density_adaptive_chunker import make_calibrated_size_fn
+
+        size_fn = make_calibrated_size_fn(
+            cfg.density_feature,
+            cfg.density_a,
+            cfg.density_b,
+            l_min=cfg.density_l_min,
+            l_max=cfg.density_l_max,
+        )
+
     chunker = get_chunker(
         arm,
         max_tokens=cfg.leaf_max_tokens,
@@ -56,6 +69,9 @@ def make_ra_config(
         parse_fn=parse_fn,
         embed_fn=embed_fn,
         tau=cfg.tau,
+        size_fn=size_fn,
+        l_min=getattr(cfg, "density_l_min", 50),
+        l_max=getattr(cfg, "density_l_max", 400),
     )
     return RetrievalAugmentationConfig(
         qa_model=qa_model,
@@ -101,6 +117,9 @@ class _TreeAnswerer:
         if ch is not None and hasattr(ch, "last_route"):
             info["route"] = getattr(ch, "last_route", None)
             info["score"] = getattr(ch, "last_score", None)
+        # The density arm also exposes its per-document adaptive leaf size.
+        if ch is not None and getattr(ch, "last_size", None) is not None:
+            info["leaf_size"] = ch.last_size
         return info
 
 
