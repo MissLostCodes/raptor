@@ -168,4 +168,8 @@ QuALITY accuracy; NarrativeQA ROUGE-L/BLEU/METEOR.
   closed-form beats best-fixed, approaches learned regressor + oracle on held-out docs);
   then drop `(feature, a, b)` into `ExperimentConfig.density_*` and run E3.
 - ⏳ E3/E4 end-to-end runs + paper tables
-- ⏳ full read of Ekimetrics 2603.25333 before camera-ready
+- ✅ novelty due-diligence verified live (2026-06-11): all 4 arXiv IDs real; Ekimetrics 2603.25333
+  read via repo+blog — SC is a within-bounds compliance penalty (not a size policy), splitter selects
+  fixed discrete variants (600/1100 tok) not a continuous size, retrieval is flat, nothing trained.
+  Our separators (continuous-size / RAPTOR-tree / oracle-calibration) hold; "training-free" only
+  separates us from the *learned* MoG/HiChunk, not from Ekimetrics. Full PDF read = nice-to-have.

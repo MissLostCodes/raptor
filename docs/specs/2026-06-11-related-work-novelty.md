@@ -4,8 +4,14 @@
 **Scope:** positioning vs the closest prior art on adaptive chunk granularity for RAG.
 **Sources read:** arXiv:2406.00456 (Mix-of-Granularity, HTML v1), arXiv:2509.11552 (HiChunk, HTML v2),
 arXiv:2505.21700 (Rethinking Chunk Size, abstract), arXiv:2603.25333 / `ekimetrics/adaptive-chunking`
-(Adaptive Chunking, abstract + repo). The 2406.00456 PDF would not render (binary); the arXiv HTML v1
-was used instead and is sufficient. The 2505.21700 and 2603.25333 PDFs were read at abstract depth only.
+(Adaptive Chunking). All four arXiv IDs were **re-verified against the live web on 2026-06-11**
+(titles/IDs/venues confirmed real — MoG = COLING 2025, Ekimetrics = LREC 2026). For Ekimetrics the
+**repo README + the LightOn blog were read directly** (arXiv HTML 404s), which **confirms the three
+claims our differentiation depends on** (details in Threat #1): Size Compliance = "fraction of chunks
+within target token-count bounds" (a binary penalty, not a size policy); the split-then-merge splitter
+uses **fixed per-method targets** (e.g. 600 vs 1100 tokens) and the framework **selects the best
+discrete variant per document**, not a continuous size; retrieval is **flat** (no tree); and the
+selection is **closed-form** (intrinsic metrics + an LLM-regex splitter, nothing trained).
 
 ---
 
@@ -70,6 +76,11 @@ selector (MoG) or one structural detector (HiChunk).
   query-time. Keep that distinction explicit or the hierarchical claim weakens.
 - **"Competitive with a learned selector"** is a claim, not yet a result (H2/H3 pending). It is only
   defensible once E2/E3 land; until then it is an aspiration, not novelty.
+- **"Training-free" is NOT a differentiator versus Ekimetrics** (verified: their selection is also
+  closed-form, nothing trained). It is a clean differentiator only versus the *learned* MoG/HiChunk.
+  Against Ekimetrics, lead with **continuous size vs discrete variant**, **hierarchical tree vs flat**,
+  and **oracle calibration vs intrinsic-metric heuristic** — never with "we don't train a model," which
+  they can also say.
 
 ---
 
@@ -95,12 +106,23 @@ selector (MoG) or one structural detector (HiChunk).
 
 ## Threats to novelty (stated honestly)
 
-1. **Ekimetrics Adaptive Chunking (2603.25333, LREC 2026) is a strong, recent collision.** It is
-   closed-form, per-document, and feature-driven — three of our four pillars. Our novelty rests on
-   *continuous size* (not method), *hierarchical leaf* (not flat), and *oracle calibration*. If those
-   three do not hold up empirically, the gap to this paper narrows substantially. We have only read its
-   abstract/repo; a full read is recommended before camera-ready to confirm SC does not constitute a
-   size policy and that the recursive splitter is not effectively a leaf-size controller.
+1. **Ekimetrics Adaptive Chunking (2603.25333, LREC 2026) is the closest prior work — but the
+   collision is NARROWER than feared (VERIFIED 2026-06-11).** It is closed-form, per-document, and
+   feature-driven — three of our four pillars. The two specific worries are now **resolved against the
+   repo + LightOn blog**:
+   - *Does Size Compliance constitute a size policy?* **No.** SC is "the fraction of chunks within
+     target token-count bounds" — a binary compliance **penalty** on a *preset* bound, not a mechanism
+     that *chooses* the bound. We choose the per-document size from density; they only check conformance
+     to a fixed window.
+   - *Is the recursive splitter effectively a leaf-size controller?* **No.** It runs with **fixed
+     per-method targets** (e.g. 600 vs 1100 tokens) and the framework **selects the best discrete
+     variant per document** via the five metrics — discrete method/variant selection, not a continuous
+     calibrated size. Their own text: "the splitter itself doesn't adaptively choose its own chunk
+     size."
+   - Retrieval is **flat** (no RAPTOR/tree/parent-summary), and nothing is trained.
+   So our separation holds on **continuous size** (not discrete variant), **hierarchical RAPTOR leaf**
+   (not flat), and **oracle calibration** (not intrinsic-metric heuristic). A full PDF read before
+   camera-ready is still worthwhile, but the differentiation no longer rests on an unread claim.
 2. **The broad idea "adapt size to information density" is folklore + published.** Practitioner
    heuristics ("smaller chunks for dense text") plus 2505.21700's empirical finding mean we cannot
    claim the concept, only the formalized, validated, hierarchical-leaf mechanism. Reviewers may judge
@@ -128,12 +150,19 @@ selector (MoG) or one structural detector (HiChunk).
    work occupies all four, and the two-axis structure/density decomposition is itself unclaimed.
 2. **Closest threat is NOT Mix-of-Granularity — it is Ekimetrics Adaptive Chunking (2603.25333),**
    which already does closed-form, per-document, feature-driven selection; our separation from it rides
-   entirely on continuous-size-vs-method, tree-vs-flat, and oracle-calibration.
+   entirely on continuous-size-vs-method, tree-vs-flat, and oracle-calibration. **Verified 2026-06-11:**
+   SC is a within-bounds compliance penalty (not a size policy), their splitter selects among fixed
+   discrete variants (600/1100 tok), retrieval is flat, nothing is trained — so all three separators
+   hold. Corollary: **do not use "training-free" to separate from Ekimetrics** (they are too); reserve
+   it for the contrast with the *learned* MoG/HiChunk.
 3. **Mix-of-Granularity (2406.00456) is cleanly differentiated:** it is learned (supervised MLP router),
    per-query, and flat — we are training-free, per-document, and hierarchical. This contrast is the
    strongest, most quotable part of our positioning.
 4. **Do not claim the broad concept** ("adapt size to density"); it is folklore plus 2505.21700. Claim
    the specific mechanism, the hierarchical-leaf setting, and the oracle validation.
-5. **Verdict: niche is clear-but-contingent.** It holds *iff* H1 (size matters and is doc-heterogeneous)
-   and H2 (closed-form ≈ learned) land empirically; until then the strongest claims are aspirational.
-   Recommend a full read of 2603.25333 before camera-ready.
+5. **Verdict: niche is clear-but-contingent.** It holds *iff* H1 (size matters and is doc-heterogeneous,
+   ✅ passed on the 8-doc pilot) and H2 (closed-form selected-feature map ≈ learned regressor) land
+   empirically; until then the strongest claims are aspirational. The novelty-vs-prior-art question is
+   no longer a risk (the closest competitor is read and the separators are verified); the remaining risk
+   is purely **empirical** (does H2 hold at ~50 docs?). A full PDF read of 2603.25333 before camera-ready
+   remains nice-to-have, not blocking.
