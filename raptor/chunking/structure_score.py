@@ -7,7 +7,9 @@ used to compute it.
 
 Score formula (documented):
 
-    heading_line_frac_scaled = min(1.0, heading_line_frac / 0.15)
+    heading_line_frac_scaled = min(
+        1.0, max(heading_line_frac, generic_heading_frac) / 0.15
+    )
     score = clip(
         0.70 * heading_line_frac_scaled
       + 0.15 * (1.0 if has_toc else 0.0)
@@ -15,10 +17,14 @@ Score formula (documented):
         0.0, 1.0,
     )
 
-`heading_line_frac` (the fraction of non-empty lines that look like a heading) is the
-dominant signal: it saturates at a 15% heading density, so a doc with >= ~15% heading
-lines already maxes that term. A table of contents and regular heading spacing each add
-a smaller structural bonus. Empty / whitespace-only input scores 0.0.
+`heading_line_frac` (the fraction of non-empty lines that look like a numbered,
+markdown, short ALL-CAPS, or keyword heading) is the dominant signal: it saturates at a
+15% heading density, so a doc with >= ~15% heading lines already maxes that term.
+`generic_heading_frac` is a complementary detector for plain Title Case section headers
+(e.g. scientific papers: ``Introduction``, ``Related Work``) that carry no numbering or
+markdown markers; the dominant term takes the max of the two fractions. A table of
+contents and regular heading spacing each add a smaller structural bonus. Empty /
+whitespace-only input scores 0.0.
 """
 
 import re
@@ -31,6 +37,14 @@ _KEYWORD_RE = re.compile(r"^\s*(chapter|section|appendix|part)\b", re.IGNORECASE
 _LETTER_RE = re.compile(r"[A-Za-z]")
 _DOTTED_LEADER_RE = re.compile(r"\.{3,}\s*\d+\s*$")
 
+# Generic Title Case heading detection.
+_TERMINAL_PUNCT_RE = re.compile(r"[.?!,;]$")
+_WORD_RE = re.compile(r"[A-Za-z][A-Za-z'-]*")
+_GENERIC_STOPWORDS = {
+    "of", "the", "and", "in", "for", "to", "a", "an", "with",
+    "on", "by", "at", "from", "as", "or", "is", "are",
+}
+
 
 def _is_allcaps_short(line: str) -> bool:
     stripped = line.strip()
@@ -39,6 +53,29 @@ def _is_allcaps_short(line: str) -> bool:
     if not _LETTER_RE.search(stripped):
         return False
     return stripped == stripped.upper()
+
+
+def _is_title_ish(stripped: str) -> bool:
+    """True if a short line reads like a plain Title Case heading.
+
+    Independent of surrounding lines: checks length, word count, terminal
+    punctuation, minimum alphabetic content, and that >= 60% of the non-stopword
+    "content" words start with an uppercase letter.
+    """
+    if len(stripped) > 64:
+        return False
+    if len(stripped.split()) > 12:
+        return False
+    if _TERMINAL_PUNCT_RE.search(stripped):
+        return False
+    if len(_LETTER_RE.findall(stripped)) < 2:
+        return False
+    words = _WORD_RE.findall(stripped)
+    content = [w for w in words if w.lower() not in _GENERIC_STOPWORDS]
+    if not content:
+        return False
+    upper = sum(1 for w in content if w[0].isupper())
+    return upper / len(content) >= 0.6
 
 
 def _clip(x: float, lo: float, hi: float) -> float:
@@ -52,6 +89,7 @@ def structure_score(text: str) -> Tuple[float, Dict]:
         "markdown_heading_frac": 0.0,
         "allcaps_short_frac": 0.0,
         "keyword_heading_frac": 0.0,
+        "generic_heading_frac": 0.0,
         "heading_line_frac": 0.0,
         "has_toc": False,
         "heading_spacing_regularity": 0.0,
@@ -93,10 +131,35 @@ def structure_score(text: str) -> Tuple[float, Dict]:
 
     heading_count = len(heading_line_numbers)
 
+    # generic Title Case heading lines: title-ish, preceded by a blank line, and
+    # followed by a strictly longer body line. Uses the full `lines` (blank lines
+    # carry the context); fraction is over non-empty lines like the others.
+    generic = 0
+    for i, ln in enumerate(lines):
+        s = ln.strip()
+        if not s:
+            continue
+        if not _is_title_ish(s):
+            continue
+        # preceded by a blank line (or start of document)
+        if i != 0 and lines[i - 1].strip():
+            continue
+        # followed by a longer body (next non-empty line, stripped, longer than s)
+        body_len = 0
+        for j in range(i + 1, len(lines)):
+            nxt = lines[j].strip()
+            if nxt:
+                body_len = len(nxt)
+                break
+        if body_len <= len(s):
+            continue
+        generic += 1
+
     features["numbered_heading_frac"] = numbered / n
     features["markdown_heading_frac"] = markdown / n
     features["allcaps_short_frac"] = allcaps / n
     features["keyword_heading_frac"] = keyword / n
+    features["generic_heading_frac"] = generic / n
     features["heading_line_frac"] = heading_count / n
 
     # has_toc heuristic: a "table of contents"/"contents" line near the top, OR several
@@ -123,7 +186,10 @@ def structure_score(text: str) -> Tuple[float, Dict]:
         else:
             features["heading_spacing_regularity"] = 0.0
 
-    heading_line_frac_scaled = min(1.0, features["heading_line_frac"] / 0.15)
+    heading_line_frac_scaled = min(
+        1.0,
+        max(features["heading_line_frac"], features["generic_heading_frac"]) / 0.15,
+    )
     score = (
         0.70 * heading_line_frac_scaled
         + 0.15 * (1.0 if features["has_toc"] else 0.0)
