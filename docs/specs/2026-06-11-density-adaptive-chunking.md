@@ -164,9 +164,18 @@ QuALITY accuracy; NarrativeQA ROUGE-L/BLEU/METEOR.
 - ✅ adaptive chunker arm + pipeline wiring: `DensityAdaptiveChunker`, `make_calibrated_size_fn`,
   `get_chunker("density")`, config + `make_ra_config` + `routing_info` (mechanism unit-tested,
   271 suite-wide). Only the fitted `(feature, a, b)` are pending H2.
-- ⏳ run the scaled (~50-doc) sweep + calibration notebook → H2 gate (selected-feature
-  closed-form beats best-fixed, approaches learned regressor + oracle on held-out docs);
-  then drop `(feature, a, b)` into `ExperimentConfig.density_*` and run E3.
+- ✅ calibration notebook hardened for the run: the held-out eval is now reported over
+  **50 random train/test splits** (mean±std TEST coverage per policy, win-rate of the
+  selected-feature map over best-global-fixed, and feature-selection stability) — the
+  single-split Table 1 is kept only as an illustration. Notebook nbformat-validated, all
+  Python cells compile, return-shape unpackings audited against source.
+- ⏳ run the scaled (~50-doc) sweep + calibration notebook → **H2 gate** = on the
+  repeated-split robustness table the selected-feature closed-form (i) beats
+  best-global-fixed at a high win-rate, (ii) with a *stable* selected feature (one feature
+  chosen in most splits), and (iii) approaches the learned regressor + per-doc oracle. If
+  it holds, drop `(feature, a, b)` into `ExperimentConfig.density_*` and run E3; if not,
+  pivot to the honest "best-fixed size is enough" negative result (carried by the
+  headroom/Fig.1 + the cheap proxy, not E3).
 - ⏳ E3/E4 end-to-end runs + paper tables
 - ✅ novelty due-diligence verified live (2026-06-11): all 4 arXiv IDs real; Ekimetrics 2603.25333
   read via repo+blog — SC is a within-bounds compliance penalty (not a size policy), splitter selects
