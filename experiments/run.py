@@ -40,6 +40,13 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--n-narrativeqa", dest="n_narrativeqa", type=int, default=None)
     p.add_argument("--dry-run", dest="dry_run", action="store_true",
                    help="Build the config and return without running.")
+    p.add_argument("--subsets-dir", dest="subsets_dir", type=str, default=None,
+                   help="Directory of pinned-subset JSONs (default: "
+                        "experiments/datasets/subsets).")
+    p.add_argument("--allow-unpinned", dest="allow_unpinned", action="store_true",
+                   help="Allow running a dataset with no pinned subset (uses the "
+                        "first --n-<dataset> docs by load order; NOT reproducible). "
+                        "Intended for pilot smoke runs only.")
     return p
 
 
@@ -101,7 +108,12 @@ def main(argv: Optional[List[str]] = None):
                 "narrativeqa METEOR will be reported as None."
             )
 
-    results = runner.run(cfg, seed=args.seed)
+    results = runner.run(
+        cfg,
+        seed=args.seed,
+        subsets_dir=args.subsets_dir,
+        allow_unpinned=args.allow_unpinned,
+    )
     agg = report.aggregate(results["records"])
     routing = report.routing_rate(results["records"])
     print(report.to_markdown(agg, routing))

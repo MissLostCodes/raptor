@@ -40,3 +40,17 @@ def test_partial_size_override_keeps_other_defaults():
     assert cfg.subset_sizes["qasper"] == 3
     assert cfg.subset_sizes["quality"] == 50
     assert cfg.subset_sizes["narrativeqa"] == 25
+
+
+def test_parser_accepts_allow_unpinned_and_subsets_dir():
+    args = run_cli.build_parser().parse_args(
+        ["--allow-unpinned", "--subsets-dir", "/tmp/subsets"]
+    )
+    assert args.allow_unpinned is True
+    assert args.subsets_dir == "/tmp/subsets"
+
+
+def test_parser_pinned_run_is_the_default():
+    args = run_cli.build_parser().parse_args([])
+    assert args.allow_unpinned is False  # reproducible pinned run by default
+    assert args.subsets_dir is None
