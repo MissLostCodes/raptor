@@ -25,6 +25,7 @@ from experiments.metrics.generation import (
     bleu_4,
     meteor,
     narrativeqa_metrics,
+    stage_meteor_data,
 )
 
 __all__ = [
@@ -46,4 +47,5 @@ __all__ = [
     "bleu_4",
     "meteor",
     "narrativeqa_metrics",
+    "stage_meteor_data",
 ]

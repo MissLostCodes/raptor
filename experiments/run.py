@@ -88,6 +88,19 @@ def main(argv: Optional[List[str]] = None):
     # Heavy path: only imported when actually running.
     from experiments import report, runner
 
+    # Pre-stage METEOR data up front so a NarrativeQA run reports it (or warns
+    # loudly) rather than silently emitting meteor=None per question.
+    if "narrativeqa" in cfg.datasets:
+        from experiments.metrics import stage_meteor_data
+
+        if stage_meteor_data():
+            print("[meteor] NLTK data staged; METEOR enabled for narrativeqa.")
+        else:
+            print(
+                "[meteor] WARNING: NLTK METEOR data unavailable offline; "
+                "narrativeqa METEOR will be reported as None."
+            )
+
     results = runner.run(cfg, seed=args.seed)
     agg = report.aggregate(results["records"])
     routing = report.routing_rate(results["records"])

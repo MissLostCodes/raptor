@@ -13,6 +13,7 @@ ROUGE-L uses the ``rouge_score`` library (rougeL, use_stemmer=True), F-measure,
 taking the max over references.
 """
 
+import os
 from typing import List, Optional
 
 from nltk.translate.bleu_score import SmoothingFunction, sentence_bleu
@@ -68,16 +69,25 @@ def bleu_4(prediction: str, references: List[str]) -> float:
     )
 
 
-def _ensure_meteor_data() -> None:
+def _ensure_meteor_data(download_dir: Optional[str] = None) -> None:
     """Lazily make sure NLTK METEOR data is present.
 
     Raises RuntimeError (which tests treat as skip) if it cannot be obtained.
+
+    ``download_dir`` lets the caller stage the data into a persistent,
+    cache-friendly location (e.g. a Google Drive path on Colab) so it survives
+    across runtime restarts; when given, that dir is searched first.
     """
     global _METEOR_READY
     if _METEOR_READY:
         return
 
     import nltk
+
+    if download_dir:
+        os.makedirs(download_dir, exist_ok=True)
+        if download_dir not in nltk.data.path:
+            nltk.data.path.insert(0, download_dir)
 
     required = [
         ("corpora/wordnet", "wordnet"),
@@ -89,7 +99,7 @@ def _ensure_meteor_data() -> None:
             nltk.data.find(find_path)
         except LookupError:
             try:
-                ok = nltk.download(pkg, quiet=True)
+                ok = nltk.download(pkg, quiet=True, download_dir=download_dir)
             except Exception as exc:  # network / IO failure
                 raise RuntimeError(
                     f"METEOR data '{pkg}' unavailable (download failed): {exc}"
@@ -108,6 +118,21 @@ def _ensure_meteor_data() -> None:
         raise RuntimeError(f"METEOR data could not be loaded: {exc}") from exc
 
     _METEOR_READY = True
+
+
+def stage_meteor_data(download_dir: Optional[str] = None) -> bool:
+    """Pre-fetch NLTK METEOR data so :func:`meteor` computes instead of None.
+
+    Never raises -- returns True if METEOR data is usable, False otherwise. Call
+    once at run startup (especially before a NarrativeQA run) so the run fails
+    loud / warns up front rather than silently reporting ``meteor=None`` per
+    question. Pass ``download_dir`` to stage into a persistent cache.
+    """
+    try:
+        _ensure_meteor_data(download_dir)
+        return True
+    except RuntimeError:
+        return False
 
 
 def meteor(prediction: str, references: List[str]) -> float:

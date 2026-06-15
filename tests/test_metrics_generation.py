@@ -8,6 +8,7 @@ from experiments.metrics import (
     bleu_4,
     meteor,
     narrativeqa_metrics,
+    stage_meteor_data,
 )
 
 
@@ -73,3 +74,14 @@ def test_meteor_identical_or_skip():
         pytest.skip(f"meteor data unavailable offline: {e}")
     assert 0.0 <= val <= 1.0
     assert val > 0.9
+
+
+def test_stage_meteor_data_returns_bool_and_is_idempotent():
+    first = stage_meteor_data()
+    second = stage_meteor_data()
+    assert isinstance(first, bool)
+    assert first == second  # never raises; stable across calls
+    # When staging succeeds, METEOR must actually compute (not return None).
+    if first:
+        assert meteor("the cat sat", ["the cat sat"]) > 0.9
+        assert narrativeqa_metrics("the cat sat", ["the cat sat"])["meteor"] is not None
