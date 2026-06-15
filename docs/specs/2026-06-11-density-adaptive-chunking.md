@@ -1,8 +1,19 @@
 # Density-Adaptive Leaf Granularity for Hierarchical RAG — Research Spec
 
-**Date:** 2026-06-11 · **Branch:** `ckraptor` · **Status:** active (de-risk gate pending)
+**Date:** 2026-06-11 (updated 2026-06-15) · **Branch:** `ckraptor` · **Status:** **pivoted to
+negative result** — H1 PASS, **H2 gate FAILED at n=50** (see
+`docs/results/2026-06-15-h2-density-50doc.md`). Density-adaptive arm is **not** a reported
+arm; E3 for the density arm is **not** run. Contribution reframed: harness + H1 headroom +
+H2 negative result (cheap density features can't beat a tuned fixed leaf size).
 
 ## One-line contribution
+
+> **⚠️ REFUTED (2026-06-15).** The hypothesis below — that the training-free density→size
+> map rivals a learned selector and beats a fixed size — **did not survive the n=50 H2 run**.
+> Both the closed-form map and a learned regressor lose to a tuned global fixed leaf size.
+> The text below is retained as the original framing; see the top-of-file status and
+> `docs/results/2026-06-15-h2-density-50doc.md` for the actual outcome and the negative-result
+> reframe.
 
 A **training-free, deterministic, two-axis chunking controller** for hierarchical
 (RAPTOR-style) retrieval: a **structure score** decides *where* to cut (boundaries /
@@ -42,18 +53,20 @@ prior work states this decomposition cleanly.
 
 ## Hypotheses
 
-- **H1 (de-risk gate) — size matters & is heterogeneous.** On QASPER, leaf granularity
-  materially changes gold-evidence retrieval, **and** the optimal granularity varies
-  across documents. *If false (flat curve or one shared optimum), there is no adaptive
-  contribution — we stop and report the negative result + best fixed size.*
-- **H2 — cheap features predict it.** Closed-form density features predict per-document
-  optimal granularity better than a global constant, approaching a learned regressor on
-  the same features.
-- **H3 — end-to-end win.** Density-adaptive leaf sizing improves QASPER Answer-F1 /
-  evidence-F1 over fixed-100 and over best-global-fixed, approaching the per-doc oracle —
-  at zero training and negligible cost.
-- **H4 — generality / no harm.** On unstructured corpora (QuALITY narrative), adaptive
-  sizing does no harm (the structure axis correctly avoids over-segmentation).
+- **H1 (de-risk gate) — size matters & is heterogeneous. ✅ PASS (n=50).** On QASPER, leaf
+  granularity materially changes gold-evidence retrieval, **and** the optimal granularity
+  varies across documents (oracle +9.8% rel. over best fixed; optimum spans 50→400). *If
+  false (flat curve or one shared optimum), there is no adaptive contribution — we stop and
+  report the negative result + best fixed size.*
+- **H2 — cheap features predict it. ❌ FAIL (n=50).** Closed-form density features do **not**
+  predict per-document optimal granularity well enough to beat a global constant: the
+  selected-feature map loses to best-global-fixed (0.704 vs 0.729, win-rate 14%) and a
+  learned 6-feature regressor also loses (0.707). The feature set — not the closed-form
+  map — is the bottleneck. See `docs/results/2026-06-15-h2-density-50doc.md`.
+- **H3 — end-to-end win. ⛔ NOT RUN (gated off by H2 failure).** Density-adaptive leaf sizing
+  would have been tested vs fixed-100 / best-global-fixed / oracle; not run because the
+  proxy already shows the adaptive arm loses to fixed.
+- **H4 — generality / no harm. ⛔ NOT RUN (no shippable adaptive arm to generalize).**
 
 ## Method
 
@@ -138,10 +151,14 @@ QuALITY accuracy; NarrativeQA ROUGE-L/BLEU/METEOR.
 
 1. **Phase 1 (done):** generic structure detector, QASPER token-vs-ahc notebook, QuALITY
    pilot results doc.
-2. **Phase 2a (built, awaiting run):** E1 de-risk sweep (`granularity_sweep.ipynb`).
-   **GATE:** H1 must hold or we pivot.
-3. **Phase 2b (post-gate):** fit density→size; E2; integrate the adaptive arm.
-4. **Phase 2c:** E3/E4 end-to-end; assemble paper tables/figures.
+2. **Phase 2a (done):** E1 de-risk sweep (`granularity_sweep.ipynb`). **GATE H1: PASSED**
+   (n=50, oracle +9.8% rel., optimum heterogeneous).
+3. **Phase 2b (done):** E2 fit density→size + held-out eval. **GATE H2: FAILED** (n=50,
+   2026-06-15) — cheap density features + learned regressor both lose to best-global-fixed.
+   The adaptive arm is built/unit-tested but **not calibrated/reported**.
+4. **Phase 2c (CANCELLED for the density arm):** E3/E4 end-to-end not run (gated off by H2).
+   **→ Pivot:** assemble the *negative-result* paper from H1 headroom + the cheap SBERT
+   proxy (Fig.1 + H2 ablation/robustness tables), no LLM E3 required.
 
 ## Implementation status
 
@@ -169,14 +186,17 @@ QuALITY accuracy; NarrativeQA ROUGE-L/BLEU/METEOR.
   selected-feature map over best-global-fixed, and feature-selection stability) — the
   single-split Table 1 is kept only as an illustration. Notebook nbformat-validated, all
   Python cells compile, return-shape unpackings audited against source.
-- ⏳ run the scaled (~50-doc) sweep + calibration notebook → **H2 gate** = on the
-  repeated-split robustness table the selected-feature closed-form (i) beats
-  best-global-fixed at a high win-rate, (ii) with a *stable* selected feature (one feature
-  chosen in most splits), and (iii) approaches the learned regressor + per-doc oracle. If
-  it holds, drop `(feature, a, b)` into `ExperimentConfig.density_*` and run E3; if not,
-  pivot to the honest "best-fixed size is enough" negative result (carried by the
-  headroom/Fig.1 + the cheap proxy, not E3).
-- ⏳ E3/E4 end-to-end runs + paper tables
+- ✅ scaled (~50-doc) sweep + calibration notebook **RUN (2026-06-15)** → **H2 gate FAILED**.
+  On the 50-split robustness table: (i) selected-feature map beats best-global-fixed in only
+  **7/50 (14%)** splits and is *below* it on average (0.704 vs 0.729) — FAIL; (ii) feature
+  *is* stable (`type_token_ratio` 47/50) — PASS; (iii) it does **not** approach the oracle
+  (0.704 vs 0.806) and only matches the learned regressor (0.707) because **both lose to
+  fixed** — FAIL. The n=8-preview features overfit and collapsed at n=50. Decision per gate:
+  **pivot to the negative result** — `(feature, a, b)` **not** injected into
+  `ExperimentConfig.density_*`; full results in `docs/results/2026-06-15-h2-density-50doc.md`.
+- ⛔ E3/E4 end-to-end runs for the density arm — **NOT RUN** (gated off by H2 failure).
+- ⏳ negative-result paper tables/figures: H1 headroom (Fig.1) + H2 ablation/robustness
+  tables, carried by the cheap SBERT proxy (no E3).
 - ✅ novelty due-diligence verified live (2026-06-11): all 4 arXiv IDs real; Ekimetrics 2603.25333
   read via repo+blog — SC is a within-bounds compliance penalty (not a size policy), splitter selects
   fixed discrete variants (600/1100 tok) not a continuous size, retrieval is flat, nothing trained.
