@@ -12,6 +12,7 @@ from experiments.metrics.qa_f1 import (
 from experiments.metrics.evidence_f1 import (
     evidence_f1,
     evidence_f1_max,
+    gold_evidence_coverage,
 )
 from experiments.metrics.accuracy import (
     extract_choice,
@@ -34,6 +35,7 @@ __all__ = [
     # evidence_f1
     "evidence_f1",
     "evidence_f1_max",
+    "gold_evidence_coverage",
     # accuracy
     "extract_choice",
     "accuracy",

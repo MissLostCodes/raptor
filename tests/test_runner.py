@@ -57,6 +57,26 @@ def test_score_qasper_exact_match_f1_is_one():
     assert rec["evidence_f1"] is None
 
 
+def test_score_qasper_evidence_coverage_from_context():
+    ex = QAExample(
+        question_id="q1",
+        question="?",
+        gold_answers=["x"],
+        evidence=["alpha beta gamma"],
+    )
+    rec = runner.score_question(
+        "qasper", ex, "x", retrieved_context="prefix alpha beta gamma suffix"
+    )
+    assert rec["evidence_coverage"] == 1.0
+    assert rec["evidence_f1"] is None  # paragraph-set F1 inapplicable here
+
+
+def test_score_qasper_evidence_coverage_none_without_gold_evidence():
+    ex = QAExample(question_id="q1", question="?", gold_answers=["x"])
+    rec = runner.score_question("qasper", ex, "x", retrieved_context="anything")
+    assert rec["evidence_coverage"] is None
+
+
 def test_score_qasper_unanswerable_abstain():
     ex = QAExample(question_id="q1", question="?", gold_answers=[], is_unanswerable=True)
     rec = runner.score_question("qasper", ex, "Unanswerable")
@@ -224,6 +244,48 @@ def test_run_allow_unpinned_falls_back_to_limit(tmp_path):
     )
     # Explicit opt-out: falls back to first-N-by-load-order.
     assert loader.calls == [{"subset_ids": None, "limit": 1}]
+
+
+def test_run_threads_retrieved_context_into_qasper_evidence_coverage(tmp_path):
+    doc = Document(
+        doc_id="p1",
+        title="T",
+        text="body",
+        questions=[
+            QAExample(
+                question_id="q1",
+                question="?",
+                gold_answers=["x"],
+                evidence=["alpha beta gamma"],
+            )
+        ],
+    )
+
+    class CtxAnswerer:
+        def answer(self, q):
+            return "x", "prefix alpha beta gamma suffix"
+
+        def routing_info(self):
+            return {}
+
+    cfg = ExperimentConfig(
+        arms=["token"],
+        datasets=["qasper"],
+        subset_sizes={"qasper": 1},
+        results_dir=str(tmp_path),
+    )
+    result = runner.run(
+        cfg,
+        build_answerer_fn=lambda *a: CtxAnswerer(),
+        loaders={"qasper": FakeLoader(doc)},
+        seed=0,
+        progress=lambda *a, **k: None,
+        allow_unpinned=True,
+    )
+    rec = result["records"][0]
+    # The retrieved context surfaced all gold-evidence tokens -> coverage 1.0,
+    # proving the runner threads context into scoring.
+    assert rec["evidence_coverage"] == 1.0
 
 
 def test_run_produces_one_record_per_arm_dataset_question(tmp_path):

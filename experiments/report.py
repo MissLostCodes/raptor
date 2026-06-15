@@ -16,6 +16,7 @@ from typing import Dict, List, Optional, Tuple
 # Metric keys we know how to aggregate per dataset.
 _NUMERIC_METRICS = (
     "answer_f1",
+    "evidence_coverage",  # QASPER gold-evidence token-coverage proxy
     "rouge_l",
     "bleu_1",
     "bleu_4",

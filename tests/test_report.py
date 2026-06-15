@@ -5,6 +5,22 @@ from pytest import approx
 from experiments import report
 
 
+def test_aggregate_includes_evidence_coverage():
+    records = [
+        {"arm": "token", "dataset": "qasper", "doc_id": "p1", "question_id": "q1",
+         "answer_f1": 0.5, "evidence_coverage": 0.8, "blocked": False, "error": None},
+        {"arm": "token", "dataset": "qasper", "doc_id": "p1", "question_id": "q2",
+         "answer_f1": 0.5, "evidence_coverage": 0.6, "blocked": False, "error": None},
+        # A None coverage (no gold evidence) must be skipped, not crash.
+        {"arm": "token", "dataset": "qasper", "doc_id": "p2", "question_id": "q3",
+         "answer_f1": 1.0, "evidence_coverage": None, "blocked": False, "error": None},
+    ]
+    agg = report.aggregate(records)
+    cov = agg["token"]["qasper"]["evidence_coverage"]
+    assert cov["n"] == 2
+    assert cov["mean"] == approx(0.7)
+
+
 def test_bootstrap_ci_deterministic_and_bracketing():
     values = [0.0, 0.5, 1.0, 0.25, 0.75]
     lo1, hi1 = report.bootstrap_ci(values, seed=0)

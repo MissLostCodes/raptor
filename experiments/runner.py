@@ -17,6 +17,7 @@ from experiments.datasets import get_loader
 from experiments.datasets.base import Document, QAExample, load_subset_ids
 from experiments.metrics import (
     extract_choice,
+    gold_evidence_coverage,
     narrativeqa_metrics,
     qasper_answer_f1,
 )
@@ -97,14 +98,20 @@ def compose_query(dataset_name: str, example: QAExample) -> str:
 # ---------------------------------------------------------------------------
 # Dataset -> scorer mapping
 # ---------------------------------------------------------------------------
-def score_question(dataset_name: str, example: QAExample, prediction: str) -> dict:
+def score_question(
+    dataset_name: str,
+    example: QAExample,
+    prediction: str,
+    retrieved_context: str = "",
+) -> dict:
     """Return a per-question metric record for the dataset.
 
-    - qasper: {answer_f1} (+ evidence_f1 only if both gold evidence sets and a
-      retrieved-evidence list are available; here we have neither at scoring
-      time, so evidence is omitted and noted).
+    - qasper: {answer_f1, evidence_f1, evidence_coverage}.
     - quality: {choice, correct, is_hard}
     - narrativeqa: {rouge_l, bleu_1, bleu_4, meteor}
+
+    ``retrieved_context`` is the concatenated context the answerer retrieved; it
+    is used to compute the gold-evidence token-coverage proxy for QASPER.
     """
     if dataset_name == "qasper":
         rec = {
@@ -112,10 +119,15 @@ def score_question(dataset_name: str, example: QAExample, prediction: str) -> di
                 prediction, example.gold_answers, example.is_unanswerable
             )
         }
-        # Evidence F1 needs both gold evidence sets AND a retrieved-evidence
-        # list. We do not thread retrieved evidence through scoring, so we omit
-        # evidence_f1 here rather than report a misleading 0.
+        # Paragraph-set evidence-F1 needs discrete retrieved evidence paragraphs
+        # that string-match the gold paragraphs; a hierarchical-RAG answerer only
+        # exposes a concatenated chunk context, so set-overlap F1 is inapplicable
+        # (kept None). The computable, meaningful signal is token-coverage: what
+        # fraction of gold-evidence tokens the retrieval surfaced.
         rec["evidence_f1"] = None
+        rec["evidence_coverage"] = gold_evidence_coverage(
+            retrieved_context, example.evidence
+        )
         return rec
 
     if dataset_name == "quality":
@@ -280,7 +292,7 @@ def run(
                         "question_id": q.question_id,
                     }
                     try:
-                        pred, _context = answerer.answer(
+                        pred, retrieved_context = answerer.answer(
                             compose_query(dataset, q)
                         )
                     except ModerationBlocked as exc:
@@ -298,7 +310,7 @@ def run(
                         n_errored += 1
                         continue
 
-                    rec = score_question(dataset, q, pred)
+                    rec = score_question(dataset, q, pred, retrieved_context)
                     routing = {}
                     if hasattr(answerer, "routing_info"):
                         routing = answerer.routing_info() or {}
