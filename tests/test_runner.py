@@ -288,6 +288,40 @@ def test_run_threads_retrieved_context_into_qasper_evidence_coverage(tmp_path):
     assert rec["evidence_coverage"] == 1.0
 
 
+def test_run_records_build_and_answer_timings(tmp_path):
+    doc = Document(
+        doc_id="d1",
+        title="T",
+        text="body",
+        questions=[
+            QAExample(question_id="q1", question="?", options=["a", "b", "c", "d"], gold_index=2),
+            QAExample(question_id="q2", question="?", options=["a", "b", "c", "d"], gold_index=0),
+        ],
+    )
+    ticks = iter(range(1000))
+    clock = lambda: float(next(ticks))  # noqa: E731 - deterministic fake clock
+    cfg = ExperimentConfig(
+        arms=["token"],
+        datasets=["quality"],
+        subset_sizes={"quality": 1},
+        results_dir=str(tmp_path),
+    )
+    result = runner.run(
+        cfg,
+        build_answerer_fn=_fake_build_answerer,
+        loaders={"quality": FakeLoader(doc)},
+        seed=0,
+        progress=lambda *a, **k: None,
+        allow_unpinned=True,
+        clock=clock,
+    )
+    for r in result["records"]:
+        assert r["build_s"] >= 0.0
+        assert r["answer_s"] >= 0.0
+    # Both questions of the doc share the same build_s (the doc is built once).
+    assert len({r["build_s"] for r in result["records"]}) == 1
+
+
 def test_run_produces_one_record_per_arm_dataset_question(tmp_path):
     doc = Document(
         doc_id="d1",

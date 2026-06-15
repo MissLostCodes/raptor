@@ -60,6 +60,35 @@ def test_paired_arm_test_end_to_end():
     assert res["n"] == 4
 
 
+def test_cost_report_sums_per_arm_and_counts_parse_docs():
+    records = [
+        # structure arm: 1 doc, 2 questions, built once.
+        {"arm": "structure", "dataset": "qasper", "doc_id": "p1", "question_id": "q1",
+         "build_s": 2.0, "answer_s": 1.0, "routing": {}, "blocked": False, "error": None},
+        {"arm": "structure", "dataset": "qasper", "doc_id": "p1", "question_id": "q2",
+         "build_s": 2.0, "answer_s": 1.0, "routing": {}, "blocked": False, "error": None},
+        # ahc: p1 routed to structure (parses), p2 routed to token (no parse).
+        {"arm": "ahc", "dataset": "qasper", "doc_id": "p1", "question_id": "q1",
+         "build_s": 1.0, "answer_s": 0.5, "routing": {"route": "structure"}, "blocked": False, "error": None},
+        {"arm": "ahc", "dataset": "qasper", "doc_id": "p2", "question_id": "q1",
+         "build_s": 1.0, "answer_s": 0.5, "routing": {"route": "token"}, "blocked": False, "error": None},
+    ]
+    cost = report.cost_report(records)
+
+    struct = cost["qasper"]["structure"]
+    assert struct["n_docs"] == 1
+    assert struct["n_questions"] == 2
+    assert struct["build_s"] == approx(2.0)   # build counted once per doc
+    assert struct["answer_s"] == approx(2.0)  # 1.0 + 1.0
+    assert struct["wall_s"] == approx(4.0)
+    assert struct["parse_docs"] == 1          # structure arm always parses
+
+    ahc = cost["qasper"]["ahc"]
+    assert ahc["n_docs"] == 2
+    assert ahc["build_s"] == approx(2.0)      # two distinct docs, 1.0 each
+    assert ahc["parse_docs"] == 1             # only the structure-routed p1
+
+
 def test_aggregate_includes_evidence_coverage():
     records = [
         {"arm": "token", "dataset": "qasper", "doc_id": "p1", "question_id": "q1",

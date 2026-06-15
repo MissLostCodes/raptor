@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from typing import Callable, Dict, List, Optional, Tuple
 
 from experiments.datasets import get_loader
@@ -159,6 +160,7 @@ def run(
     show_progress: bool = True,
     subsets_dir: Optional[str] = None,
     allow_unpinned: bool = False,
+    clock: Callable[[], float] = time.perf_counter,
 ) -> dict:
     """Run the full experiment grid and write results to disk.
 
@@ -192,6 +194,10 @@ def run(
             a hard error -- a real run can never silently evaluate an
             unreproducible document set. Set True to fall back to the first
             ``subset_sizes[dataset]`` docs by load order (NOT reproducible).
+        clock: monotonic time source for cost accounting (injectable for tests).
+            Each record carries ``build_s`` (time to build the doc's answerer,
+            shared by the doc's questions) and ``answer_s`` (that question's
+            answer latency); ``report.cost_report`` aggregates them per arm.
 
     Returns ``{"config": cfg.to_dict(), "records": [...]}`` and writes it to
     ``cfg.results_dir/results_<seed>.json``.
@@ -270,6 +276,7 @@ def run(
                 if (dataset, arm, doc.doc_id) in done_docs:
                     continue
 
+                t_build = clock()
                 try:
                     answerer = build_answerer_fn(
                         arm, doc, cfg, summarization_model, qa_model
@@ -282,6 +289,7 @@ def run(
                         f"build failed: {exc!r}"
                     )
                     continue
+                build_s = clock() - t_build
 
                 doc_records: List[dict] = []
                 for q in doc.questions:
@@ -290,7 +298,9 @@ def run(
                         "dataset": dataset,
                         "doc_id": doc.doc_id,
                         "question_id": q.question_id,
+                        "build_s": build_s,
                     }
+                    t_answer = clock()
                     try:
                         pred, retrieved_context = answerer.answer(
                             compose_query(dataset, q)
@@ -298,17 +308,19 @@ def run(
                     except ModerationBlocked as exc:
                         doc_records.append(
                             {**base, "blocked": True, "error": "moderation",
-                             "routing": {}}
+                             "routing": {}, "answer_s": clock() - t_answer}
                         )
                         n_blocked += 1
                         continue
                     except Exception as exc:
                         doc_records.append(
                             {**base, "blocked": False,
-                             "error": type(exc).__name__, "routing": {}}
+                             "error": type(exc).__name__, "routing": {},
+                             "answer_s": clock() - t_answer}
                         )
                         n_errored += 1
                         continue
+                    answer_s = clock() - t_answer
 
                     rec = score_question(dataset, q, pred, retrieved_context)
                     routing = {}
@@ -316,7 +328,7 @@ def run(
                         routing = answerer.routing_info() or {}
                     doc_records.append(
                         {**base, **rec, "blocked": False, "error": None,
-                         "routing": routing}
+                         "routing": routing, "answer_s": answer_s}
                     )
                     n_ok += 1
 

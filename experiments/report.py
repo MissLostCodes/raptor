@@ -294,6 +294,59 @@ def routing_rate(records: List[dict]) -> dict:
     }
 
 
+def cost_report(records: List[dict]) -> dict:
+    """Per-(dataset, arm) compute accounting for the RQ2/H2 cost comparison.
+
+    Aggregates the runner's per-record timings into:
+
+    - ``n_docs`` / ``n_questions``
+    - ``build_s`` : total answerer-build time (counted ONCE per doc, since a
+      doc's questions share one build)
+    - ``answer_s`` : total answer latency over all questions
+    - ``wall_s`` : ``build_s + answer_s``
+    - ``parse_docs`` : docs that triggered an LLM structure parse -- every doc
+      for the ``structure`` arm, and only structure-routed docs for ``ahc``
+      (``token``/``semantic``/``flat`` never parse). This is the headline
+      "AHC parses fewer documents than always-Structure" number.
+
+    Returns ``{dataset: {arm: {...}}}``.
+    """
+    agg: Dict[Tuple[str, str], dict] = defaultdict(
+        lambda: {
+            "docs": set(),
+            "n_questions": 0,
+            "build_s": 0.0,
+            "answer_s": 0.0,
+            "parse_docs": set(),
+        }
+    )
+    counted_build: set = set()
+    for r in records:
+        ds, arm, doc = r.get("dataset"), r.get("arm"), r.get("doc_id")
+        cell = agg[(ds, arm)]
+        cell["docs"].add(doc)
+        cell["n_questions"] += 1
+        cell["answer_s"] += float(r.get("answer_s") or 0.0)
+        if (ds, arm, doc) not in counted_build:
+            counted_build.add((ds, arm, doc))
+            cell["build_s"] += float(r.get("build_s") or 0.0)
+            route = (r.get("routing") or {}).get("route")
+            if arm == "structure" or (arm == "ahc" and route == "structure"):
+                cell["parse_docs"].add(doc)
+
+    out: dict = defaultdict(dict)
+    for (ds, arm), cell in agg.items():
+        out[ds][arm] = {
+            "n_docs": len(cell["docs"]),
+            "n_questions": cell["n_questions"],
+            "build_s": cell["build_s"],
+            "answer_s": cell["answer_s"],
+            "wall_s": cell["build_s"] + cell["answer_s"],
+            "parse_docs": len(cell["parse_docs"]),
+        }
+    return {ds: dict(arms) for ds, arms in out.items()}
+
+
 def to_markdown(
     agg: dict, routing: Optional[dict] = None, dropped: Optional[dict] = None
 ) -> str:
