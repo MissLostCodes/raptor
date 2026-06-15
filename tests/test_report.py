@@ -5,6 +5,61 @@ from pytest import approx
 from experiments import report
 
 
+def _two_arm_records(metric, arm_a, vals_a, arm_b, vals_b, dataset="quality"):
+    recs = []
+    for i, (va, vb) in enumerate(zip(vals_a, vals_b)):
+        qid = f"q{i}"
+        recs.append({"arm": arm_a, "dataset": dataset, "doc_id": "d",
+                     "question_id": qid, metric: va, "blocked": False, "error": None})
+        recs.append({"arm": arm_b, "dataset": dataset, "doc_id": "d",
+                     "question_id": qid, metric: vb, "blocked": False, "error": None})
+    return recs
+
+
+def test_paired_diffs_aligns_on_common_questions():
+    recs = _two_arm_records("answer_f1", "ahc", [0.8, 0.6], "token", [0.5, 0.6], "qasper")
+    # add an extra question only present for token -> must be ignored (unpaired).
+    recs.append({"arm": "token", "dataset": "qasper", "doc_id": "d",
+                 "question_id": "qX", "answer_f1": 0.9, "blocked": False, "error": None})
+    diffs = report.paired_diffs(recs, "ahc", "token", "qasper", "answer_f1")
+    assert diffs == approx([0.3, 0.0])
+
+
+def test_paired_bootstrap_detects_clear_difference():
+    diffs = [0.5] * 30  # ahc beats token by 0.5 on every question
+    res = report.paired_bootstrap(diffs, n_boot=2000, seed=0)
+    assert res["mean_diff"] == approx(0.5)
+    assert res["n"] == 30
+    assert res["significant"] is True
+    assert res["p_value"] < 0.05
+    assert res["ci_low"] > 0.0  # CI excludes 0
+
+
+def test_paired_bootstrap_no_difference_is_not_significant():
+    diffs = [0.0] * 20
+    res = report.paired_bootstrap(diffs, n_boot=2000, seed=0)
+    assert res["mean_diff"] == approx(0.0)
+    assert res["significant"] is False
+    assert res["p_value"] > 0.05
+    assert res["ci_low"] <= 0.0 <= res["ci_high"]
+
+
+def test_paired_bootstrap_empty_is_safe():
+    res = report.paired_bootstrap([], n_boot=100, seed=0)
+    assert res["n"] == 0
+    assert res["significant"] is False
+
+
+def test_paired_arm_test_end_to_end():
+    recs = _two_arm_records("correct", "ahc", [1, 1, 1, 1], "token", [0, 0, 0, 1])
+    res = report.paired_arm_test(
+        recs, "ahc", "token", "quality", "correct", n_boot=2000, seed=0
+    )
+    # ahc correct on 4/4, token on 1/4 -> mean diff 0.75 in ahc's favor.
+    assert res["mean_diff"] == approx(0.75)
+    assert res["n"] == 4
+
+
 def test_aggregate_includes_evidence_coverage():
     records = [
         {"arm": "token", "dataset": "qasper", "doc_id": "p1", "question_id": "q1",

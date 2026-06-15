@@ -165,6 +165,100 @@ def aggregate(records: List[dict], seed: int = 0, drop_blocked: bool = True) -> 
     return {arm: {ds: dict(metrics) for ds, metrics in dss.items()} for arm, dss in out.items()}
 
 
+def paired_diffs(
+    records: List[dict], arm_a: str, arm_b: str, dataset: str, metric: str
+) -> List[float]:
+    """Per-question ``arm_a - arm_b`` metric differences over their COMMON
+    questions (paired by ``(doc_id, question_id)``).
+
+    Questions only one arm scored (e.g. blocked under the other) are dropped so
+    the comparison is genuinely paired. Ordered by ``(doc_id, question_id)`` for
+    determinism.
+    """
+
+    def by_question(arm: str) -> Dict[Tuple, float]:
+        out: Dict[Tuple, float] = {}
+        for r in records:
+            if r.get("arm") == arm and r.get("dataset") == dataset and r.get(metric) is not None:
+                out[(r.get("doc_id"), r.get("question_id"))] = float(r[metric])
+        return out
+
+    a = by_question(arm_a)
+    b = by_question(arm_b)
+    common = sorted(set(a) & set(b))
+    return [a[k] - b[k] for k in common]
+
+
+def paired_bootstrap(
+    diffs: List[float], n_boot: int = 10000, seed: int = 0, alpha: float = 0.05
+) -> dict:
+    """Two-sided paired bootstrap on per-question score differences.
+
+    Resamples the paired differences with replacement to get a percentile CI of
+    the mean difference, and a centered-bootstrap two-sided p-value for
+    H0: mean difference = 0 (the bootstrap distribution shifted to mean 0 is the
+    null; p is the share of null means at least as extreme as the observed,
+    with add-one smoothing so p is never exactly 0). Deterministic for a seed.
+
+    Returns ``{mean_diff, ci_low, ci_high, p_value, n, significant}``;
+    ``significant`` is True iff the CI excludes 0.
+    """
+    clean = [float(d) for d in diffs if d is not None]
+    n = len(clean)
+    if n == 0:
+        nan = float("nan")
+        return {"mean_diff": nan, "ci_low": nan, "ci_high": nan,
+                "p_value": nan, "n": 0, "significant": False}
+
+    mean_diff = sum(clean) / n
+    rng = random.Random(seed)
+    boot_means = []
+    for _ in range(n_boot):
+        total = 0.0
+        for _ in range(n):
+            total += clean[rng.randrange(n)]
+        boot_means.append(total / n)
+    boot_means.sort()
+
+    lo_idx = int((alpha / 2) * n_boot)
+    hi_idx = max(lo_idx, min(int((1 - alpha / 2) * n_boot) - 1, n_boot - 1))
+    ci_low, ci_high = boot_means[lo_idx], boot_means[hi_idx]
+
+    # Centered-bootstrap two-sided p-value (H0: mean diff = 0).
+    obs = abs(mean_diff)
+    extreme = sum(1 for b in boot_means if abs(b - mean_diff) >= obs)
+    p_value = min(1.0, (extreme + 1) / (n_boot + 1))
+
+    return {
+        "mean_diff": mean_diff,
+        "ci_low": ci_low,
+        "ci_high": ci_high,
+        "p_value": p_value,
+        "n": n,
+        "significant": not (ci_low <= 0.0 <= ci_high),
+    }
+
+
+def paired_arm_test(
+    records: List[dict],
+    arm_a: str,
+    arm_b: str,
+    dataset: str,
+    metric: str,
+    n_boot: int = 10000,
+    seed: int = 0,
+    alpha: float = 0.05,
+) -> dict:
+    """Convenience: paired bootstrap of ``arm_a`` vs ``arm_b`` on ``metric``."""
+    diffs = paired_diffs(records, arm_a, arm_b, dataset, metric)
+    result = paired_bootstrap(diffs, n_boot=n_boot, seed=seed, alpha=alpha)
+    result["arm_a"] = arm_a
+    result["arm_b"] = arm_b
+    result["dataset"] = dataset
+    result["metric"] = metric
+    return result
+
+
 def routing_rate(records: List[dict]) -> dict:
     """For arm 'ahc', fraction of docs routed to 'structure' per dataset.
 
