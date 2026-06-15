@@ -125,6 +125,107 @@ def _fake_build_answerer(arm, doc, cfg, summ_model, qa_model):
     return FakeAnswerer(arm)
 
 
+class RecordingLoader:
+    """Fake loader that records how it was called (subset_ids vs limit)."""
+
+    def __init__(self, doc):
+        self._doc = doc
+        self.calls = []
+
+    def load(self, subset_ids=None, limit=None):
+        self.calls.append({"subset_ids": subset_ids, "limit": limit})
+        return [self._doc]
+
+
+def _one_quality_doc():
+    return Document(
+        doc_id="d1",
+        title="T",
+        text="body",
+        questions=[
+            QAExample(
+                question_id="q1",
+                question="?",
+                options=["a", "b", "c", "d"],
+                gold_index=2,
+            )
+        ],
+    )
+
+
+def test_run_raises_on_unpinned_subset(tmp_path):
+    # No pin file in subsets_dir and allow_unpinned not set -> hard error, so a
+    # real run can never silently evaluate the wrong (unreproducible) documents.
+    cfg = ExperimentConfig(
+        arms=["token"],
+        datasets=["quality"],
+        subset_sizes={"quality": 1},
+        results_dir=str(tmp_path / "results"),
+    )
+    loader = RecordingLoader(_one_quality_doc())
+    try:
+        runner.run(
+            cfg,
+            build_answerer_fn=_fake_build_answerer,
+            loaders={"quality": loader},
+            seed=0,
+            progress=lambda *a, **k: None,
+            subsets_dir=str(tmp_path / "subsets"),
+        )
+        assert False, "expected RuntimeError for unpinned subset"
+    except RuntimeError as exc:
+        assert "quality" in str(exc)
+        assert "select_subsets" in str(exc)
+    # The loader must NOT have been asked to load anything.
+    assert loader.calls == []
+
+
+def test_run_uses_pinned_ids_when_present(tmp_path):
+    subsets_dir = tmp_path / "subsets"
+    subsets_dir.mkdir()
+    (subsets_dir / "quality_ids.json").write_text(
+        json.dumps({"seed": 0, "ids": ["d1"]})
+    )
+    cfg = ExperimentConfig(
+        arms=["token"],
+        datasets=["quality"],
+        subset_sizes={"quality": 1},
+        results_dir=str(tmp_path / "results"),
+    )
+    loader = RecordingLoader(_one_quality_doc())
+    runner.run(
+        cfg,
+        build_answerer_fn=_fake_build_answerer,
+        loaders={"quality": loader},
+        seed=0,
+        progress=lambda *a, **k: None,
+        subsets_dir=str(subsets_dir),
+    )
+    # Loaded by pinned ids, NOT by limit.
+    assert loader.calls == [{"subset_ids": ["d1"], "limit": None}]
+
+
+def test_run_allow_unpinned_falls_back_to_limit(tmp_path):
+    cfg = ExperimentConfig(
+        arms=["token"],
+        datasets=["quality"],
+        subset_sizes={"quality": 1},
+        results_dir=str(tmp_path / "results"),
+    )
+    loader = RecordingLoader(_one_quality_doc())
+    runner.run(
+        cfg,
+        build_answerer_fn=_fake_build_answerer,
+        loaders={"quality": loader},
+        seed=0,
+        progress=lambda *a, **k: None,
+        subsets_dir=str(tmp_path / "subsets"),
+        allow_unpinned=True,
+    )
+    # Explicit opt-out: falls back to first-N-by-load-order.
+    assert loader.calls == [{"subset_ids": None, "limit": 1}]
+
+
 def test_run_produces_one_record_per_arm_dataset_question(tmp_path):
     doc = Document(
         doc_id="d1",
@@ -158,6 +259,7 @@ def test_run_produces_one_record_per_arm_dataset_question(tmp_path):
         loaders={"quality": FakeLoader(doc)},
         seed=0,
         progress=lambda *a, **k: None,
+        allow_unpinned=True,  # orchestration test; pinning is covered separately
     )
     records = result["records"]
     # 2 arms * 1 dataset * 1 doc * 2 questions = 4 records.

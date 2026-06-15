@@ -12,11 +12,44 @@ Provides a dataset-agnostic representation:
 
 from __future__ import annotations
 
+import json
+import os
 import random
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Callable, List, Optional
+
+# Version-controlled pinned evaluation subsets live next to this module, in
+# ``experiments/datasets/subsets/<name>_ids.json``. ``select_subset`` (below)
+# selects the ids; ``select_subsets.py`` writes them; ``load_subset_ids`` reads
+# them back at run time so every run uses the same documents.
+SUBSETS_DIR = os.path.join(os.path.dirname(__file__), "subsets")
+
+
+def subset_ids_path(name: str, subsets_dir: Optional[str] = None) -> str:
+    """Path to the pinned-ids JSON for dataset ``name``."""
+    return os.path.join(subsets_dir or SUBSETS_DIR, f"{name}_ids.json")
+
+
+def load_subset_ids(name: str, subsets_dir: Optional[str] = None) -> List[str]:
+    """Return the pinned doc_ids for ``name``, or ``[]`` if unpinned.
+
+    "Unpinned" means the pin file is missing, malformed, or has an empty ``ids``
+    list. A corrupt pin is treated as unpinned (never crashes a run); the runner
+    decides whether an empty pin is a hard error.
+    """
+    path = subset_ids_path(name, subsets_dir)
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (json.JSONDecodeError, OSError):
+        return []
+    if not isinstance(data, dict):
+        return []
+    return list(data.get("ids") or [])
 
 
 @dataclass

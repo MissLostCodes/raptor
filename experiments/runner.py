@@ -14,7 +14,7 @@ import os
 from typing import Callable, Dict, List, Optional, Tuple
 
 from experiments.datasets import get_loader
-from experiments.datasets.base import Document, QAExample
+from experiments.datasets.base import Document, QAExample, load_subset_ids
 from experiments.metrics import (
     extract_choice,
     narrativeqa_metrics,
@@ -145,6 +145,8 @@ def run(
     qa_models: Optional[Dict] = None,
     resume: bool = True,
     show_progress: bool = True,
+    subsets_dir: Optional[str] = None,
+    allow_unpinned: bool = False,
 ) -> dict:
     """Run the full experiment grid and write results to disk.
 
@@ -172,6 +174,12 @@ def run(
         resume: when True, seed records from an existing results file and skip
             ``(dataset, arm, doc)`` that are already complete.
         show_progress: when True, wrap the per-doc loop in a tqdm bar.
+        subsets_dir: directory of pinned-subset JSONs (defaults to the
+            version-controlled ``experiments/datasets/subsets``).
+        allow_unpinned: when False (default), a dataset with no pinned subset is
+            a hard error -- a real run can never silently evaluate an
+            unreproducible document set. Set True to fall back to the first
+            ``subset_sizes[dataset]`` docs by load order (NOT reproducible).
 
     Returns ``{"config": cfg.to_dict(), "records": [...]}`` and writes it to
     ``cfg.results_dir/results_<seed>.json``.
@@ -213,7 +221,26 @@ def run(
         if loader is None:
             loader = get_loader(dataset)
         n = cfg.subset_sizes.get(dataset)
-        documents = loader.load(limit=n)
+
+        # Reproducibility guard: load the version-controlled pinned subset. An
+        # unpinned dataset is a hard error unless explicitly opted out of.
+        pinned = load_subset_ids(dataset, subsets_dir)
+        if pinned:
+            documents = loader.load(subset_ids=pinned)
+        elif allow_unpinned:
+            progress(
+                f"[WARN] {dataset}: no pinned subset; using the first {n} docs "
+                f"by load order (NOT reproducible)."
+            )
+            documents = loader.load(limit=n)
+        else:
+            raise RuntimeError(
+                f"No pinned subset for {dataset!r}: "
+                f"{os.path.join(subsets_dir or 'experiments/datasets/subsets', dataset + '_ids.json')} "
+                f"is missing or empty. Pin it with experiments/select_subsets.py "
+                f"(reproducible), or pass allow_unpinned=True to evaluate the "
+                f"first {n} docs by load order (NOT reproducible)."
+            )
 
         # QA model carries the dataset-specific prompt.
         if qa_models is not None and dataset in qa_models:

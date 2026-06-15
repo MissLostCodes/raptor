@@ -204,6 +204,7 @@ def test_blocked_question_is_recorded_and_run_continues(tmp_path):
         seed=0,
         progress=lambda *a, **k: None,
         show_progress=False,
+        allow_unpinned=True,
     )
     recs = result["records"]
     # 2 arms * 2 questions = 4 records, none lost despite the block.
@@ -246,6 +247,7 @@ def test_build_failure_skips_doc_and_continues(tmp_path):
         seed=0,
         progress=lambda *a, **k: None,
         show_progress=False,
+        allow_unpinned=True,
     )
     recs = result["records"]
     # token doc fully recorded (2 q); ahc doc skipped (build failed) => 2 records.
@@ -266,6 +268,7 @@ def test_run_is_resumable_skips_completed_docs(tmp_path):
         seed=0,
         progress=lambda *a, **k: None,
         show_progress=False,
+        allow_unpinned=True,
     )
     runner.run(cfg, build_answerer_fn=_make_build(counter=counter), **common)
     first_pass_builds = len(counter)
