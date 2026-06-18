@@ -72,6 +72,26 @@ replicates the 8-doc pilot and holds at scale.
 
 ---
 
+## 3b. "Can we just write a formula for optimal chunk size?" — yes, and it loses
+
+This is the most common question, so answer it head-on. The method *does* produce a
+document-level closed-form formula (selected feature = type–token ratio, TTR):
+
+```
+optimal_size ≈ 373 − 926 · type_token_ratio     (rounded, clipped to [50, 400])
+```
+
+But over 50 held-out splits it scores **0.704 vs 0.729** for a tuned constant and wins only
+**7/50** times. So the defensible "formula" is just **`size ≈ 200` (a tuned constant)**.
+
+**Why it fails — and we proved it's not a bug** (`docs/results/2026-06-18-signal-recovery-power.md`,
+fully offline positive control): we planted a *known* TTR→size signal and showed our exact
+calibration recipe recovers it (win-rate → **95%** as questions/doc grows). So the estimator
+works. But QASPER, at its measured correlation |ρ|=0.38, wins only 14% where a **clean**
+signal of the same strength would win **~50%** (robust across noise levels). Conclusion: the
+cheap density features don't carry a *clean, exploitable* granularity signal — and more
+questions/doc alone wouldn't fix it (you'd need a feature with |ρ| ≳ 0.6; our best is 0.38).
+
 ## 4. Result H2 — can cheap features capture that headroom? → **FAIL (n=50)** (our honest negative result)
 
 *Same source.* This is the scientifically important finding.

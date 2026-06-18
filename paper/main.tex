@@ -285,6 +285,39 @@ baseline is just stably weak, and because the learned ceiling fails too, no mode
 sophistication on these features converts the headroom into a win.
 
 % ----------------------------------------------------------------------------
+\section{Is the Estimator Broken? A Positive Control and Power Analysis}
+\label{sec:power}
+
+A negative result invites two objections: the calibration is buggy, or QASPER
+simply has too few questions per document ($\approx 3.4$) for the per-document
+optimal-size label to be estimable. We rule out both with a synthetic positive
+control (\texttt{experiments/signal\_recovery\_power.py}; fully offline). We
+\emph{plant} the signal $\hat S = 373 - 926\cdot\text{TTR}$ (the very line our
+method fits on QASPER), give each synthetic document a tent-shaped coverage curve
+peaking at its planted optimum, and sample it with $Q$ noisy per-question
+observations (per-question noise $\sigma_q$, so label noise shrinks as
+$\sigma_q/\sqrt{Q}$). We then run the \emph{same} calibration recipe and measure
+the recovered Spearman and the win-rate over fixed.
+
+\paragraph{The method is not broken.} With a planted signal present, recovery
+improves monotonically with evidence: at $\sigma_q{=}0.25$ the win-rate climbs from
+$34\%$ at $Q{=}3$ to $\mathbf{95\%}$ at $Q{=}100$ (recovered $|\rho|$ from $0.22$ to
+$0.71$). The estimator captures genuine density$\to$size signal when it exists.
+
+\paragraph{QASPER underperforms even a clean signal of equal strength.} The
+win-rate as a function of recovered $|\rho|$ is stable across $\sigma_q$. Interpolated
+to QASPER's observed $|\rho|{=}0.38$, a \emph{clean} linear signal of that strength
+wins about half the splits ($54\%/49\%/49\%$ at $\sigma_q{=}0.15/0.25/0.35$); QASPER
+wins only $14\%$. Since the synthetic model is perfectly specified, its win-rates
+\emph{upper-bound} what is achievable at a given correlation, so QASPER's
+$\approx 35$-point shortfall means its $-0.38$ correlation is \emph{not} a clean,
+monotone, exploitable relationship---it is noisier / non-linear / outlier-driven
+than the raw number suggests. The bottleneck is therefore the feature signal
+itself, not label noise: a reliable win ($\ge 80\%$) requires $|\rho|\gtrsim 0.6$,
+far beyond any of our six cheap features. This is corroborating, model-dependent
+evidence; the positive control is assumption-light.
+
+% ----------------------------------------------------------------------------
 \section{Structure-Axis Control: No Harm on Unstructured Text}
 \label{sec:control}
 
