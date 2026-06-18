@@ -1,215 +1,375 @@
-% Adaptive Hybrid Chunking for Hierarchical Retrieval -- preliminary draft.
-% Compile: pdflatex main.tex  (self-contained; no external .bib needed)
-% Or upload this single file to Overleaf.
+% ============================================================================
+%  Adaptive Leaf Granularity for Hierarchical Retrieval
+%  Working draft. Branch: ckraptor.  Status as of 2026-06-18:
+%    H1 (size matters & heterogeneous) PASS at n=50; H2 (cheap density features
+%    predict optimal size) FAIL at n=50 -> reported as an honest negative result.
+%  Self-contained (no external .bib) so it compiles with a plain pdflatex run.
+% ============================================================================
 \documentclass[11pt]{article}
 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{xcolor}
-\usepackage{hyperref}
-\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
 
-\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
-\newcommand{\tokenarm}{\textsc{Token}}
-\newcommand{\structarm}{\textsc{Structure}}
-\newcommand{\ahc}{\textsc{AHC}}
-\newcommand{\semarm}{\textsc{Semantic}}
-\newcommand{\flatarm}{\textsc{Flat}}
+\newcommand{\todo}[1]{{\color{red}\textbf{[TODO: #1]}}}
 
-\title{\textbf{Adaptive Hybrid Chunking for Hierarchical Retrieval-Augmented Generation}\\
-\large A Controlled Study of When Structure-Aware Leaf Chunking Helps RAPTOR}
-\author{TechPathX Research\\\texttt{admin@techpathx.com}}
-\date{\today \\[4pt] \emph{Preliminary draft --- experiments in progress}}
+\title{\textbf{When Does Adaptive Leaf Granularity Help Hierarchical
+Retrieval?}\\[2pt]
+\large A Training-Free Harness and a Negative Result for Cheap Density Features}
+
+\author{Shagun Gupta\\\small Working draft --- \today}
+\date{}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-RAPTOR builds a hierarchical retrieval tree by recursively clustering and summarizing
-leaf chunks, but it inherits a naive token-based leaf chunker that ignores document
-structure. Structure-aware chunking should help---but only when usable structure
-\emph{exists}; on unstructured text (stories, transcripts), forcing an LLM to extract
-sections is brittle. We (i) frame a controlled diagnostic of \emph{when and why}
-structure-aware leaf chunking helps \emph{hierarchical} retrieval, and (ii) propose
-\textbf{Adaptive Hybrid Chunking (\ahc{})}: a cheap, deterministic structure score routes
-each document between structure-aware and token chunking, followed by a per-section
-character-offset mapping and repair step that guarantees RAPTOR-sized leaves. We evaluate
-on QASPER (papers), QuALITY (mixed), and NarrativeQA (stories), isolating the chunker as
-the \emph{only} variable inside an otherwise-frozen RAPTOR pipeline, with the same
-open-weight reader (\texttt{gpt-oss-120b} via OpenRouter) used for summarization and QA
-across all arms. This draft reports the study design, the method, and a fully
-implemented, offline-tested evaluation harness; quantitative results are pending and the
-results tables are placeholders.
+RAPTOR-style hierarchical retrieval builds a tree by recursively clustering and
+summarizing \emph{leaf chunks}, but inherits a naive fixed-size leaf chunker that
+ignores how documents differ in information density. We ask whether per-document
+leaf granularity can be set \emph{cheaply} and \emph{without training a model},
+and whether doing so beats a single well-tuned fixed leaf size inside an
+otherwise-frozen pipeline. We make two contributions of method and one of
+result. (i) We build a reusable, \emph{no-LLM} evaluation harness for leaf
+granularity in hierarchical RAG: an oracle leaf-size sweep scored by a
+gold-evidence token-coverage proxy. (ii) We frame chunking control as two cheap
+deterministic axes---a \emph{structure score} that decides \emph{where} to cut
+and a \emph{density score} that decides \emph{how big} each leaf is. (iii) On
+QASPER (50 papers, 171 answerable questions) we find that per-document optimal
+leaf size is genuinely heterogeneous, leaving real headroom---a per-document
+oracle beats the best single fixed size by $+9.8\%$ relative gold-evidence
+coverage (\textbf{H1}). However, cheap deterministic density features
+\emph{fail} to capture that headroom: used to size leaves, the
+selected-feature map beats a tuned global fixed size in only $7/50$ random
+train/test splits (mean $0.704$ vs.\ $0.729$), and a learned regressor on the
+same features also loses (\textbf{H2}). We report this as an honest negative
+result: the common ``smaller chunks for denser text'' heuristic is
+\emph{not supported} at the hierarchical-leaf level; a single tuned global leaf
+size is a strong baseline. A QuALITY control confirms the structure axis does no
+harm on unstructured prose (structure-routing rate $0$).
 \end{abstract}
 
+% ----------------------------------------------------------------------------
 \section{Introduction}
-Retrieval-augmented generation (RAG) quality depends on how documents are split into
-retrievable units. RAPTOR~\cite{raptor} extends flat RAG by recursively clustering leaf
-chunks and summarizing each cluster, producing a multi-level tree that is queried by a
-\emph{collapsed-tree} search over all nodes. RAPTOR is agnostic to how leaves are formed
-and uses a simple sentence/token splitter. While chunking quality is a known lever for
-flat RAG, its interaction with \emph{hierarchical} retrieval is under-studied---that
-interaction is our niche.
+\label{sec:intro}
 
-A tempting claim is ``LLM-parsed structure chunks improve RAPTOR.'' We argue this is both
-incremental and, on unstructured corpora, likely invalid: an LLM asked to find sections in
-a short story will hallucinate or collapse them. The real questions are \emph{when}
-structure helps and whether a system can \emph{decide per document}. We make three claims,
-each falsifiable:
+Chunking is a known lever for retrieval-augmented generation (RAG), but its
+interaction with \emph{hierarchical} retrieval is under-studied. RAPTOR
+\cite{sarthi2024raptor} is agnostic to leaf chunking: it splits a document into
+fixed-size leaves ($\approx 100$ tokens), then recursively clusters and
+LLM-summarizes them into a tree that is queried by collapsed-tree retrieval. The
+leaf chunker is therefore a clean, isolatable variable inside an otherwise-frozen
+pipeline---and a fixed leaf size ignores that documents differ in information
+density.
 
-\begin{itemize}
-  \item \textbf{H1 (diagnostic).} Structure-aware leaf chunking improves RAPTOR on
-  strongly-structured documents (papers) but does not help, or hurts, on weakly-structured
-  documents (stories).
-  \item \textbf{H2 (method).} \ahc{} matches or beats both pure baselines (\tokenarm{},
-  \structarm{}) across document types while issuing LLM parses on substantially fewer
-  documents than always-\structarm{}.
-  \item \textbf{H3 (spectrum).} Within a mixed corpus (QuALITY), the structure score
-  separates documents in a way that correlates with where structure chunking helps.
-\end{itemize}
+The \emph{broad} idea ``adapt chunk size to content'' is not novel. Our specific
+question is narrower and, to our knowledge, unoccupied: can per-document leaf
+granularity be set by a \emph{cheap, closed-form, training-free} score, and does
+that beat a single tuned fixed size for hierarchical-RAG leaves? We answer it with
+a deliberately strong methodology---an oracle upper bound, a tuned fixed-size
+lower bound, and a learned regressor as a same-features ceiling---so that a
+negative answer is informative rather than an artifact of a weak method.
 
-A confirmed-H1-but-null-H2 outcome is still an honest, publishable result and will be
-reported as such.
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item A reusable \textbf{training-free, no-LLM harness} (Section~\ref{sec:harness})
+  to study leaf granularity in hierarchical RAG: an oracle leaf-size sweep scored
+  by a gold-evidence token-coverage proxy; resumable and free-tier-friendly.
+  \item A \textbf{two-axis decomposition} of chunking control
+  (Section~\ref{sec:method}): a structure score (\emph{where} to cut) and a
+  density score (\emph{how big}), each deterministic and LLM-free.
+  \item An empirical \textbf{characterization and refutation}
+  (Sections~\ref{sec:h1}--\ref{sec:h2}): per-document optimal leaf size is
+  heterogeneous with real oracle headroom (\textbf{H1}), but cheap density
+  features---and a learned regressor over them---fail to capture it (\textbf{H2}).
+  This is a first clean formalization and refutation of the common ``denser
+  $\Rightarrow$ smaller chunks'' heuristic for hierarchical-RAG leaves.
+\end{enumerate}
 
+% ----------------------------------------------------------------------------
 \section{Related Work}
-\textbf{Hierarchical retrieval.} RAPTOR~\cite{raptor} is our frozen backbone. \textbf{Chunking.}
-Semantic, proposition, late, and layout-aware chunkers are an active area; we treat
-structure-aware chunking as a \emph{baseline}, not a contribution, and study its
-\emph{interaction} with tree retrieval. \textbf{Benchmarks.} We use QASPER~\cite{qasper}
-(information-seeking QA over NLP papers), QuALITY~\cite{quality} (multiple-choice over
-medium articles, with a HARD subset), and NarrativeQA~\cite{narrativeqa} (abstractive QA
-over full stories). Embeddings use Sentence-BERT~\cite{sbert}.
+\label{sec:related}
 
-\section{Method: Adaptive Hybrid Chunking}
-\ahc{} has three deterministic stages; the only non-deterministic step is a single,
-cached LLM parse used in structure mode.
+\paragraph{Hierarchical retrieval.} RAPTOR \cite{sarthi2024raptor} is our frozen
+backbone; we vary only its leaf chunker.
 
-\paragraph{Stage 1 --- Structure score (no LLM).}
-We compute a score $s(d)\in[0,1]$ from surface signals over the non-empty lines of a
-document $d$: the fraction of lines matching heading patterns (numbered \texttt{1.},
-\texttt{2.1}; Markdown \texttt{\#}; short ALL-CAPS; \texttt{Chapter}/\texttt{Section}/%
-\texttt{Appendix} keywords), the presence of a table-of-contents-like region, and the
-regularity of inter-heading spacing. With $h$ the heading-line fraction, $t\in\{0,1\}$ the
-TOC indicator, and $r\in[0,1]$ the spacing regularity,
-\begin{equation}
-s(d) \;=\; \mathrm{clip}\!\left(0.70\cdot\min\!\Big(1,\tfrac{h}{0.15}\Big) + 0.15\,t + 0.15\,r,\; 0,\; 1\right).
-\end{equation}
-The score and its raw feature vector are cached and logged for a feature ablation.
+\paragraph{Adaptive / learned chunk granularity.} Mix-of-Granularity
+\cite{mog2024} \emph{learns} a soft router over granularities (a trained model)---
+the closest prior art and exactly the ``use a model'' route we avoid as a
+contribution. HiChunk \cite{hichunk2025} performs hierarchical structuring with a
+\emph{fine-tuned} LLM and query-adaptive granularity. ``Rethinking Chunk Size for
+Long-Document Retrieval'' \cite{rethink2025} analyzes chunk size but proposes no
+per-document policy. Ekimetrics Adaptive Chunking \cite{ekimetrics} selects a
+discrete chunking \emph{method} per document with a classifier over flat
+retrieval; it does not set a continuous \emph{granularity} and trains a selector.
 
-\paragraph{Stage 2 --- Route.}
-If $s(d)\ge\tau$, attempt structure-aware chunking (one LLM parse); otherwise use token
-chunking. The threshold $\tau$ is tuned on a \emph{dev} split and reported on a held-out
-\emph{test} split (no test-set tuning).
+\paragraph{Our niche.} A \emph{cheap, closed-form, training-free} score that sets
+\emph{per-section leaf granularity} in a \emph{hierarchical tree}, validated
+against an oracle. ``Training-free'' separates us from the learned MoG/HiChunk;
+the continuous size, the hierarchical-leaf target, and oracle calibration
+separate us from Ekimetrics. The two-axis decomposition (structure$\to$boundary,
+density$\to$size) is, to our knowledge, not stated cleanly in prior work.
+\emph{This paper reports that the density axis, in its cheap training-free form,
+does not pay off}---which is itself the result.
 
-\paragraph{Stage 3 --- Per-section validate and repair (structure mode).}
-Parsed section titles are located in the raw text by \emph{character offset} (fixing the
-page-collapse failure of the legacy chunker); unlocatable sections are marked, and any
-section that is unmappable or exceeds the leaf-token budget is token-split. This makes
-\ahc{} a true within-document hybrid and guarantees non-empty, RAPTOR-sized leaves.
+% ----------------------------------------------------------------------------
+\section{A Training-Free Harness for Leaf Granularity}
+\label{sec:harness}
 
+Measuring ``which leaf size is best for this document'' end-to-end requires an
+LLM per (document, size) cell---prohibitive on a free-tier budget. We instead
+use a cheap retrieval proxy that needs \emph{no} LLM.
+
+\paragraph{Oracle leaf-size sweep.} For each document $d$ and each candidate leaf
+size $S \in \{50,100,150,200,300,400\}$ tokens, we split $d$ into $S$-token
+leaves, embed them with a fixed SBERT model
+(\texttt{multi-qa-mpnet-base-cos-v1}), index with FAISS, and retrieve under a
+fixed $2000$-token budget for every question of $d$.
+
+\paragraph{Gold-evidence coverage proxy.} We score retrieval by
+\emph{gold-evidence coverage}: the fraction of a question's gold-evidence
+paragraphs whose tokens are recalled (token-recall $\ge 0.8$) within the
+retrieved context. This replaces exact-paragraph evidence-$F_1$, which is
+ill-defined when chunk boundaries differ from gold-paragraph boundaries. We
+define the per-document optimal size as
+$\hat S(d) = \arg\max_S \mathrm{cov}(d,S)$.
+
+The sweep is deterministic, resumable, and Drive-cached; the QASPER run produces
+$50 \times 6 = 300$ \texttt{(doc,size)} records with no LLM call. This is what
+makes a rigorous negative result affordable.
+
+% ----------------------------------------------------------------------------
+\section{Method: Two-Axis Chunking Control}
+\label{sec:method}
+
+We decompose leaf chunking into two cheap deterministic axes; everything below is
+LLM-free at inference.
+
+\paragraph{Axis 1 --- structure score (where to cut).} A deterministic
+$\texttt{structure\_score}(d)\in[0,1]$ from surface features (numbered / markdown
+/ ALL-CAPS / keyword headings, a generic Title-Case heading detector, TOC-like
+regions, inter-heading spacing regularity). A document scoring above a threshold
+$\tau$ is routed to a structure-aware chunker (boundaries at headings); otherwise
+it falls back to token chunking. This is the Adaptive Hybrid Chunking (AHC) route.
+
+\paragraph{Axis 2 --- density score (how big).} A deterministic
+$\texttt{density\_score}(d) = (\rho \in [0,1], \mathbf{f})$ from six surface
+features $\mathbf{f}$: mean sentence length, type--token ratio, numeral/symbol
+density, mean word length, list-marker density, and non-stopword ratio. A
+calibrated map $S = a + b\,f$ turns one chosen feature into a leaf-token budget.
+
+\paragraph{Calibration, not learning.} Rather than assume a direction (``denser
+$\Rightarrow$ smaller''), we \emph{calibrate} the density$\to$size map against the
+oracle sweep of Section~\ref{sec:harness}. On a training split we rank features by
+$|\text{Spearman}|$ against $\hat S(d)$, select the single strongest feature, and
+fit a two-parameter closed form $S = a + b\,f$ (no test-set tuning). We compare
+this training-free map against (a) the best global fixed size, (b) a learned
+$6$-feature linear regressor (same features, a ceiling for ``what these features
+can do''), and (c) the per-document oracle (an upper bound).
+
+% ----------------------------------------------------------------------------
 \section{Experimental Setup}
+\label{sec:setup}
 
-\paragraph{Arms (only the chunker changes).}
-\tokenarm{} (original RAPTOR splitter, primary baseline), \structarm{} (always-LLM
-structure), \textbf{\ahc{}} (ours), \semarm{} (embedding-boundary chunking), and \flatarm{}
-(FAISS over token chunks, no tree, to contextualize the value of the tree).
+\textbf{Data.} QASPER (scientific papers); $50$ papers / $171$ answerable
+(gold-evidence) questions. \textbf{Embedder/reader.}
+\texttt{multi-qa-mpnet-base-cos-v1} SBERT; \texttt{gpt-oss-120b} (free tier) where
+an LLM is used. \textbf{Proxy metric.} gold-evidence token-coverage
+($\ge 0.8$ recall). \textbf{Protocol.} $50$ random $70/30$ train/test splits;
+we report mean$\pm$std TEST coverage per policy, the win-rate of the selected
+feature over the best global fixed size, and feature-selection stability.
+\textbf{Controls.} Only the chunker varies; embeddings, clustering, retrieval
+budget, and reader are frozen across arms. Results are within-pipeline
+(arm-vs-arm), not leaderboard numbers.
 
-\paragraph{Frozen controls.}
-All arms share identical SBERT \texttt{multi-qa-mpnet-base-cos-v1} embeddings, identical
-seeded UMAP$+$GMM clustering, identical summarizer, identical reader, and identical
-collapsed-tree retrieval with a 2000-token budget---RAPTOR's main setting. The
-\emph{same} open-weight model, \texttt{gpt-oss-120b} served via OpenRouter, performs both
-summarization and QA for every arm, so differences are attributable to the chunker alone.
-All LLM calls are cached on disk (temperature $0$) for reproducibility under free-tier
-nondeterminism.
+% ----------------------------------------------------------------------------
+\section{H1: Leaf Size Matters and the Optimum is Heterogeneous (PASS)}
+\label{sec:h1}
 
-\paragraph{Datasets, subsets, and metrics.}
-Table~\ref{tab:datasets} lists the curated, stratified, version-controlled subsets and the
-metric reported for each dataset, following RAPTOR~\cite{raptor}. NarrativeQA generation
-metrics use the modified AllenNLP script (BLEU smoothing; BLEU-4 weights
-$(.25,.25,.25,.25)$; tokenize-before-METEOR-map).
+The best single fixed size is $200$ tokens at coverage $0.7362$; the per-document
+oracle reaches $0.8080$---an absolute gap of $0.0718$, or $\mathbf{+9.8\%}$
+\textbf{relative} gold-evidence coverage left on the table by any fixed size. The
+per-document optimum is spread across the whole grid
+(Table~\ref{tab:hetero}), with mass at every size. There \emph{is} adaptive
+headroom; H1 is the premise, not the contribution.
 
 \begin{table}[t]
 \centering
-\begin{tabular}{llll}
+\caption{H1: distribution of per-document optimal leaf size over 50 QASPER papers.
+The optimum spans the full grid---adaptive headroom exists.}
+\label{tab:hetero}
+\begin{tabular}{lcccccc}
 \toprule
-Dataset & Structure & Subset & Metric \\
+optimal size (tok) & 50 & 100 & 150 & 200 & 300 & 400 \\
 \midrule
-QASPER      & papers (strong) & $\sim$50 papers   & Answer token-F1 (+ Evidence-F1) \\
-QuALITY     & mixed           & $\sim$50 docs     & Accuracy (full + HARD) \\
-NarrativeQA & stories (weak)  & $\sim$25 docs     & ROUGE-L, BLEU-1/4, METEOR \\
+\# documents & 17 & 11 & 6 & 8 & 3 & 5 \\
 \bottomrule
 \end{tabular}
-\caption{Evaluation datasets, curated subsets, and metrics.}
-\label{tab:datasets}
 \end{table}
 
-\paragraph{Implementation status.}
-The full harness is implemented and committed: a pluggable \texttt{Chunker} layer
-(\tokenarm{}/\structarm{}/\semarm{}/\ahc{}), the dataset loaders, the metric
-implementations, the cached/back-off OpenRouter models, and an orchestration runner that
-isolates the chunker inside the frozen RAPTOR pipeline. The logic is covered by an offline
-test suite (163 tests, no network or model downloads); the heavy tree-build/retrieval path
-runs from a one-click Colab notebook. Quantitative runs are pending.
+% ----------------------------------------------------------------------------
+\section{H2: Cheap Density Features Do Not Capture the Headroom (FAIL)}
+\label{sec:h2}
 
-\section{Results}
-\todo{Populate after the Colab runs; numbers below are placeholders.}
+\paragraph{Feature signal is weak.} Table~\ref{tab:spearman} shows the per-feature
+Spearman correlation against $\hat S(d)$ at $n{=}50$. The strongest single feature
+is \texttt{type\_token\_ratio} at only $-0.379$; every other feature has
+$|\rho|\le 0.16$, and the equal-weight composite $\rho$ is $-0.147$ (the features
+are oppositely signed, so a uniform mean cancels them). The features that looked
+strong on an 8-document preview ($\texttt{mean\_word\_len}\;{+}0.79$,
+$\texttt{nonstopword\_ratio}\;{+}0.66$) collapsed at scale---small-$N$
+overfitting.
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
-\begin{tabular}{lcccc}
+\caption{H2 feature ablation: Spearman of each density signal vs.\ per-document
+optimal size ($n{=}50$), with the $n{=}8$ preview for contrast. The preview's
+strong features collapse at scale.}
+\label{tab:spearman}
+\begin{tabular}{lrr}
 \toprule
- & QASPER & QuALITY & QuALITY-HARD & NarrativeQA \\
-Arm & (Ans-F1) & (Acc) & (Acc) & (ROUGE-L) \\
+signal & $n{=}50$ & ($n{=}8$ preview) \\
 \midrule
-\tokenarm{} (baseline) & -- & -- & -- & -- \\
-\structarm{}           & -- & -- & -- & -- \\
-\semarm{}              & -- & -- & -- & -- \\
-\flatarm{}             & -- & -- & -- & -- \\
-\textbf{\ahc{} (ours)} & -- & -- & -- & -- \\
+\texttt{type\_token\_ratio}          & $-0.379$ & $-0.602$ \\
+\texttt{nonstopword\_ratio}          & $+0.158$ & $+0.663$ \\
+\texttt{numeral\_symbol\_density}    & $+0.153$ & $-0.258$ \\
+\texttt{mean\_word\_len\_chars\_norm}& $+0.108$ & $+0.786$ \\
+\texttt{mean\_sentence\_len\_norm}   & $-0.080$ & $+0.025$ \\
+\texttt{list\_marker\_density}       & $+0.061$ & $\;\;0.000$ \\
+$\rho$ (equal-weight composite)      & $-0.147$ & $+0.037$ \\
 \bottomrule
 \end{tabular}
-\caption{Main results (mean over seeds; bootstrap 95\% CIs to be added).
-\todo{fill in}}
-\label{tab:main}
 \end{table}
 
-We will additionally report, per dataset: the \ahc{} \emph{routing rate} (fraction of
-documents sent to structure mode), the LLM parse-call count versus always-\structarm{}
-(compute, since the API is free-tier), and the QuALITY \emph{structure-spectrum}
-correlation between per-document score and the per-document gain of \structarm{} over
-\tokenarm{} (H3).
+\paragraph{Every adaptive policy loses to a tuned fixed size.}
+Table~\ref{tab:robust} reports the headline statistic: held-out coverage over
+$50$ random $70/30$ splits. The selected-feature map beats the best global fixed
+size in only $7/50$ splits ($14\%$) and is below it on average
+($0.704$ vs.\ $0.729$). The selected feature \emph{is} stable
+(\texttt{type\_token\_ratio} chosen in $47/50$ splits)---so this is a
+\emph{stably weak} predictor, not noise. Crucially, the \emph{learned} regressor
+also loses ($0.707$): the bottleneck is the feature set, not the closed-form map.
+None of the predictors approaches the oracle ($0.806$); essentially all of the
+H1 headroom is left unrealized.
 
+\begin{table}[t]
+\centering
+\caption{H2 held-out robustness over 50 random $70/30$ splits (QASPER, $n{=}50$).
+Every adaptive/learned policy lands below the tuned global fixed size, and far
+below the oracle.}
+\label{tab:robust}
+\begin{tabular}{lrr}
+\toprule
+policy (TEST docs) & mean & std \\
+\midrule
+\textbf{best global fixed (200 tok)}       & \textbf{0.7291} & 0.0433 \\
+training-free: composite $\rho \to$ size    & 0.7212 & 0.0447 \\
+training-free: selected feature $\to$ size  & 0.7037 & 0.0494 \\
+learned regressor (6 features)              & 0.7071 & 0.0415 \\
+per-document oracle (ceiling)               & 0.8061 & 0.0347 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Verdict.} Against a pre-registered gate---(i) high win-rate over fixed,
+(ii) stable selected feature, (iii) approaches learned \emph{and} oracle---only
+(ii) is met. \textbf{H2 fails.} A stable predictor that reliably loses to a fixed
+baseline is just stably weak, and because the learned ceiling fails too, no model
+sophistication on these features converts the headroom into a win.
+
+% ----------------------------------------------------------------------------
+\section{Structure-Axis Control: No Harm on Unstructured Text}
+\label{sec:control}
+
+On QuALITY (plain narrative prose; multiple-choice), AHC and the token baseline
+are a statistical tie ($0.400$ vs.\ $0.381$ accuracy over $105$ paired questions;
+overlapping $95\%$ CIs). The cause is mechanical and intended: the
+structure-routing rate is $0.0000$---no document has exploitable structure, so AHC
+falls back to token chunking everywhere and runs the same chunker as the baseline.
+QuALITY thus serves as an \emph{unstructured control}: the structure axis does no
+harm when there is nothing to exploit. The structure path is genuinely exercised
+only on structured corpora (QASPER); that end-to-end run is in progress.
+
+% ----------------------------------------------------------------------------
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{What we refute.} On QASPER, per-document leaf-size heterogeneity
+creates real oracle headroom ($+9.8\%$ rel.), but cheap, training-free density
+features---and a learned regressor on them---do not predict per-document optimal
+leaf size well enough to beat a single tuned global fixed size. The popular
+``smaller chunks for denser text'' heuristic is not supported at this granularity
+for hierarchical-RAG leaves.
+
+\paragraph{Practical takeaway.} Tune \emph{one} global leaf size ($\approx 200$
+tokens here); it is a strong, hard-to-beat baseline. Per-document density-based
+leaf sizing is not worth its complexity without a better signal than closed-form
+surface density.
+
+\paragraph{Where a win could still live.} The headroom is real and unclaimed: the
+oracle leaves $\approx 0.10$ coverage above every predictor we tried. A richer,
+\emph{query-aware} or learned multi-signal predictor (in the spirit of
+\cite{mog2024,hichunk2025}) could still capture it. We refute only the cheap,
+closed-form, training-free density route---the project's intended contribution.
+
+% ----------------------------------------------------------------------------
 \section{Threats to Validity}
-Free-model nondeterminism and rate limits are mitigated by temperature $0$, on-disk
-caching, and reporting variance across seeds. Small curated subsets motivate bootstrap CIs
-and stratified sampling. The reader is held identical across arms to remove a QA-model
-confound. Pretraining contamination (papers/stories may be in the model's training data)
-is acknowledged. $\tau$ is tuned only on dev and reported, not cherry-picked. Claims are
-scoped to RAPTOR-style hierarchical pipelines.
+\label{sec:threats}
 
+\textbf{Proxy gap.} Gold-evidence token-coverage (retrieval) is not end-task QA;
+results are arm-vs-arm. \textbf{Scale / corpus.} $N{=}50$, single corpus (QASPER);
+CIs are wide (std $\approx 0.04$). The negative conclusion is robust \emph{for the
+cheap-density route} precisely because the learned ceiling on the same features
+also fails, but it does not generalize to other document types or to richer
+signals. \textbf{Free-tier nondeterminism.} Clustering and LLM steps are not
+bit-exact; we report variance and cache all LLM calls. \textbf{Fixed
+embedder/reader.} Within-pipeline numbers only.
+
+% ----------------------------------------------------------------------------
 \section{Conclusion}
-We presented the design and a working, reproducible harness for a controlled study of
-leaf chunking in hierarchical RAG, and \ahc{}, a deterministic per-document router with
-per-section repair. The contribution is a characterization of \emph{when} structure helps
-plus an adaptive method that aims to match or beat both pure baselines at lower parse cost.
-Empirical validation is the immediate next step.
+\label{sec:conclusion}
 
+We built a training-free, no-LLM harness for studying leaf granularity in
+hierarchical RAG and used it to show that, while per-document optimal leaf size is
+heterogeneous and leaves real oracle headroom (H1), cheap deterministic density
+features cannot capture it (H2)---a tuned global fixed size wins, and a learned
+regressor on the same features does not change that. We report this as an honest,
+reproducible refutation of a common-but-unvalidated chunking heuristic, and we
+release the harness so that richer per-document granularity predictors can be
+evaluated against the same oracle.
+
+% ----------------------------------------------------------------------------
 \begin{thebibliography}{9}
-\bibitem{raptor} P.~Sarthi, S.~Abdullah, A.~Tuli, S.~Khanna, A.~Goldie, C.~D.~Manning.
-\emph{RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval}. ICLR 2024.
-arXiv:2401.18059.
-\bibitem{qasper} P.~Dasigi, K.~Lo, I.~Beltagy, A.~Cohan, N.~A.~Smith, M.~Gardner.
-\emph{A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers
-(QASPER)}. NAACL 2021.
-\bibitem{quality} R.~Y.~Pang et al. \emph{QuALITY: Question Answering with Long Input Texts,
-Yes!}. NAACL 2022.
-\bibitem{narrativeqa} T.~Ko\v{c}isk\'y et al. \emph{The NarrativeQA Reading Comprehension
-Challenge}. TACL 2018.
-\bibitem{sbert} N.~Reimers, I.~Gurevych. \emph{Sentence-BERT: Sentence Embeddings using
-Siamese BERT-Networks}. EMNLP 2019.
+\bibitem{sarthi2024raptor}
+P.~Sarthi, S.~Abdullah, A.~Tuli, S.~Khanna, A.~Goldie, and C.~D.~Manning.
+\newblock RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval.
+\newblock \emph{ICLR}, 2024. arXiv:2401.18059.
+
+\bibitem{mog2024}
+Z.~Zhong et al.
+\newblock Mix-of-Granularity: Optimize the Chunking Granularity for
+Retrieval-Augmented Generation.
+\newblock arXiv:2406.00456, 2024.
+
+\bibitem{hichunk2025}
+HiChunk: Hierarchical Document Chunking with Auto-Merge.
+\newblock arXiv:2509.11552, 2025.
+
+\bibitem{rethink2025}
+Rethinking Chunk Size for Long-Document Retrieval.
+\newblock arXiv:2505.21700, 2025.
+
+\bibitem{ekimetrics}
+Ekimetrics.
+\newblock Adaptive Chunking (chunking-method selection).
+\newblock \url{https://github.com/ekimetrics/adaptive-chunking}.
 \end{thebibliography}
 
 \end{document}
