@@ -85,6 +85,27 @@ The causally-motivated features correlate **less**, not more.
   `mean_adjacent_cosine` 2, `var_adjacent_cosine` 1 — i.e. the selector keeps reaching for redundancy
   / dispersion signals, and they keep losing. A stably-weak predictor, exactly like TTR before it.
 
+## 4b. Stratified hedge — dead even where leaf size demonstrably matters
+
+E1 flagged 22% of docs as size-insensitive (flat oracle curve), a confound that
+depresses correlations. Restricting to the **39 size-sensitive docs** (the most
+favorable possible stratum) does not rescue the route:
+
+| | all 50 docs | size-sensitive only (n=39) |
+|---|---:|---:|
+| E2 (gold-span length) ρ vs optimal size | +0.005 | **−0.032** |
+| best single feature \|ρ\| | 0.249 (gzip) | **0.258** (`paragraph_len_cv`) |
+| held-out: fixed | 0.7291 | 0.7164 |
+| held-out: NEW selected feature | 0.7098 | 0.7095 |
+| held-out: oracle | 0.8061 | 0.8112 |
+| new-feature win-rate vs fixed | 20% | **36%** |
+
+Win-rate rises from 20% → 36% on the favorable stratum, but the new-feature map
+**still loses** (mean 0.7095 < fixed 0.7164, and < 50% of splits), and E2 is still
+≈ 0. **Conclusion: even where size matters most, no cheap feature predicts the
+optimum.** This makes the negative result bulletproof against the flat-curve
+objection.
+
 ## 5. Verdict (pre-registered)
 
 **❌ DEAD on the cheap, document-intrinsic, training-free route.** Against the plan's gate:

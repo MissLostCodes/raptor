@@ -1,8 +1,13 @@
 % ============================================================================
 %  Adaptive Leaf Granularity for Hierarchical Retrieval
-%  Working draft. Branch: ckraptor.  Status as of 2026-06-18:
+%  Working draft. Branch: ckraptor.  Status as of 2026-06-27:
 %    H1 (size matters & heterogeneous) PASS at n=50; H2 (cheap density features
 %    predict optimal size) FAIL at n=50 -> reported as an honest negative result.
+%    H2 extended (2026-06-27): causally-motivated semantic-locality features
+%    (A1-A5, B1, C4) ALSO fail, and a label-derived target diagnostic (E2,
+%    gold-evidence span length) is uncorrelated with optimal size -> the negative
+%    result is strengthened: optimal leaf size is not an exploitable function of
+%    any document-intrinsic property tested.
 %  Self-contained (no external .bib) so it compiles with a plain pdflatex run.
 % ============================================================================
 \documentclass[11pt]{article}
@@ -52,8 +57,14 @@ train/test splits (mean $0.704$ vs.\ $0.729$), and a learned regressor on the
 same features also loses (\textbf{H2}). We report this as an honest negative
 result: the common ``smaller chunks for denser text'' heuristic is
 \emph{not supported} at the hierarchical-leaf level; a single tuned global leaf
-size is a strong baseline. A QuALITY control confirms the structure axis does no
-harm on unstructured prose (structure-routing rate $0$).
+size is a strong baseline. We then ask whether \emph{causally-motivated}
+locality features---semantic-segment size, paragraph length, compressibility---do
+better, and find they do not (best $|\rho|=0.25$, all below the surface best);
+strikingly, even a \emph{label-derived} diagnostic (the gold-evidence span length)
+is uncorrelated with optimal size ($\rho\approx0$), so the optimum is not an
+exploitable function of \emph{any} document-intrinsic property we measured. A
+QuALITY control confirms the structure axis does no harm on unstructured prose
+(structure-routing rate $0$).
 \end{abstract}
 
 % ----------------------------------------------------------------------------
@@ -89,8 +100,12 @@ negative answer is informative rather than an artifact of a weak method.
   (Sections~\ref{sec:h1}--\ref{sec:h2}): per-document optimal leaf size is
   heterogeneous with real oracle headroom (\textbf{H1}), but cheap density
   features---and a learned regressor over them---fail to capture it (\textbf{H2}).
-  This is a first clean formalization and refutation of the common ``denser
-  $\Rightarrow$ smaller chunks'' heuristic for hierarchical-RAG leaves.
+  We further test \emph{causally-motivated} semantic-locality features and a
+  \emph{label-derived} target diagnostic, both of which also fail
+  (Section~\ref{sec:locality}), strengthening the refutation from ``these surface
+  features are weak'' to ``no cheap document-intrinsic property predicts the
+  optimum.'' This is a first clean formalization and refutation of the common
+  ``denser $\Rightarrow$ smaller chunks'' heuristic for hierarchical-RAG leaves.
 \end{enumerate}
 
 % ----------------------------------------------------------------------------
@@ -318,6 +333,85 @@ far beyond any of our six cheap features. This is corroborating, model-dependent
 evidence; the positive control is assumption-light.
 
 % ----------------------------------------------------------------------------
+\section{Beyond Surface Density: Locality Features and a Target Diagnostic}
+\label{sec:locality}
+
+The power analysis sets a clear bar---a reliable win needs $|\rho|\gtrsim 0.6$, far
+above the surface features' $0.38$. A natural rescue is that we simply used the
+\emph{wrong} features: perhaps optimal leaf size is set not by surface lexical
+density but by a document's intrinsic \emph{semantic-segment size / evidence
+locality}. We test this directly, staying within the same cheap, no-LLM,
+document-intrinsic envelope (SBERT sentence embeddings are already computed by the
+harness).
+
+\paragraph{Causally-motivated features.} We add three families: \emph{(A)
+semantic-coherence} features from adjacent-sentence cosine similarities---mean and
+variance of adjacent cosine, topic-shift rate (TextTiling-style boundaries per
+$1$k tokens), \emph{mean semantic-segment length} (a direct training-free estimate
+of the document's natural chunk size), and segment-length CV; \emph{(B) paragraph-
+length distribution} (author-intended units); and \emph{(C) gzip compressibility}
+(a model-free redundancy proxy). The mean semantic-segment length is the headline
+candidate: it is, almost by definition, an estimate of the right scale for a leaf.
+
+\paragraph{They also fail---and by more than surface density.}
+Table~\ref{tab:locality} reports the per-feature Spearman against $\hat S(d)$. The
+strongest is gzip compressibility at $|\rho|=0.249$; the headline semantic-segment
+length is essentially zero ($-0.067$). \emph{Every} locality feature correlates
+\emph{less} with optimal size than the surface \texttt{type\_token\_ratio}
+($0.379$) did, and all are far below the $0.6$ bar. Used to size leaves over the
+same $50$ held-out splits, the selected locality feature scores $0.7098$ vs.\
+$0.7291$ for the tuned fixed size and wins only $10/50$ splits ($20\%$)---the same
+loss pattern as H2.
+
+\begin{table}[t]
+\centering
+\caption{Locality features (Section~\ref{sec:locality}) vs.\ per-document optimal
+size and vs.\ the label-derived driver E2 ($n{=}50$). The headline
+semantic-segment length is near zero against optimal size; paragraph length tracks
+E2 ($0.452$) yet E2 itself is uncorrelated with optimal size---the causal chain
+breaks at the target, not the features.}
+\label{tab:locality}
+\begin{tabular}{lrr}
+\toprule
+feature & $\rho$ vs.\ optimal size & $\rho$ vs.\ E2 \\
+\midrule
+gzip compressibility (C)              & $-0.249$ & $+0.074$ \\
+paragraph-length CV (B)               & $+0.218$ & $-0.111$ \\
+segment-length CV (A)                 & $+0.218$ & $-0.174$ \\
+topic-shift rate (A)                  & $+0.089$ & $+0.036$ \\
+mean adjacent cosine (A)              & $-0.080$ & $+0.059$ \\
+adjacent-cosine variance (A)          & $-0.093$ & $-0.011$ \\
+\textbf{mean segment length (A)}      & $\mathbf{-0.067}$ & $-0.028$ \\
+mean paragraph length (B)             & $+0.016$ & $\mathbf{+0.452}$ \\
+\midrule
+\emph{E2: gold-evidence span length}  & $\mathbf{+0.005}$ & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The target diagnostic: the chain breaks at the optimum, not the
+features.} The decisive evidence is the last row of Table~\ref{tab:locality}. We
+compute a \emph{label-derived} feature---the mean token length of a question's
+gold-evidence paragraphs (E2), the quantity we hypothesized \emph{is} the optimal
+leaf size---and correlate it with $\hat S(d)$. It is essentially zero
+($\rho=0.005$). This is stronger than ``we lack a good cheap feature'': it shows
+the \emph{target itself does not respond} to the mechanism we theorized. Note the
+chain: paragraph length \emph{does} predict E2 ($\rho=0.452$), so the features
+\emph{can} see evidence geometry---but E2 does not predict optimal size, so
+document structure simply does not determine the best leaf size in this pipeline.
+Because even a near-oracle, label-derived signal is uncorrelated with the optimum,
+no document-intrinsic feature can succeed, and \emph{scaling $N$ cannot help}
+(more samples cannot recover a correlation the mechanism does not produce).
+
+\paragraph{Robust to the flat-curve confound.} E1 finds $22\%$ of documents are
+size-insensitive (a near-flat oracle curve), which could dilute correlations.
+Restricting to the $39$ size-sensitive documents---the most favorable stratum---does
+not rescue the route: E2 is still $-0.032$, the best feature reaches only $0.258$,
+and the selected-feature map still loses ($0.7095$ vs.\ $0.7164$ fixed; win-rate
+$36\%$). Even where leaf size demonstrably matters, no cheap feature predicts the
+optimum.
+
+% ----------------------------------------------------------------------------
 \section{Structure-Axis Control: No Harm on Unstructured Text}
 \label{sec:control}
 
@@ -339,7 +433,12 @@ creates real oracle headroom ($+9.8\%$ rel.), but cheap, training-free density
 features---and a learned regressor on them---do not predict per-document optimal
 leaf size well enough to beat a single tuned global fixed size. The popular
 ``smaller chunks for denser text'' heuristic is not supported at this granularity
-for hierarchical-RAG leaves.
+for hierarchical-RAG leaves. The refutation is broader than the surface features:
+\emph{causally-motivated} semantic-locality features fail too
+(Section~\ref{sec:locality}), and a label-derived diagnostic shows the optimum is
+uncorrelated with gold-evidence span length. The honest conclusion is therefore
+not ``these features are weak'' but ``per-document optimal leaf size is not an
+exploitable function of any document-intrinsic property we measured.''
 
 \paragraph{Practical takeaway.} Tune \emph{one} global leaf size ($\approx 200$
 tokens here); it is a strong, hard-to-beat baseline. Per-document density-based
@@ -347,10 +446,16 @@ leaf sizing is not worth its complexity without a better signal than closed-form
 surface density.
 
 \paragraph{Where a win could still live.} The headroom is real and unclaimed: the
-oracle leaves $\approx 0.10$ coverage above every predictor we tried. A richer,
-\emph{query-aware} or learned multi-signal predictor (in the spirit of
-\cite{mog2024,hichunk2025}) could still capture it. We refute only the cheap,
-closed-form, training-free density route---the project's intended contribution.
+oracle leaves $\approx 0.10$ coverage above every predictor we tried. Our
+diagnostic narrows where it could come from: since the optimum is uncorrelated
+with \emph{document-intrinsic} evidence geometry (E2), the residual signal is most
+likely \emph{query-aware / retrieval-dependent}---set by the question
+distribution and retrieval dynamics rather than the document alone. That is the
+\emph{learned, query-aware} territory of \cite{mog2024,hichunk2025}, which abandons
+the cheap training-free, document-intrinsic differentiator we set out to test and
+is a substantially larger project. We refute exactly that intended
+contribution---cheap, closed-form, training-free, document-intrinsic leaf
+sizing---and point future work at the query-aware route.
 
 % ----------------------------------------------------------------------------
 \section{Threats to Validity}
@@ -359,9 +464,12 @@ closed-form, training-free density route---the project's intended contribution.
 \textbf{Proxy gap.} Gold-evidence token-coverage (retrieval) is not end-task QA;
 results are arm-vs-arm. \textbf{Scale / corpus.} $N{=}50$, single corpus (QASPER);
 CIs are wide (std $\approx 0.04$). The negative conclusion is robust \emph{for the
-cheap-density route} precisely because the learned ceiling on the same features
-also fails, but it does not generalize to other document types or to richer
-signals. \textbf{Free-tier nondeterminism.} Clustering and LLM steps are not
+cheap, document-intrinsic route} on three independent grounds: the learned ceiling
+on the surface features fails, the causally-motivated locality features fail, and
+even a label-derived (near-oracle) target diagnostic is uncorrelated with the
+optimum---so the failure is pinned to the target, not to a particular feature or
+to label noise. It does not generalize to other corpora or to \emph{query-aware /
+learned multi-signal} predictors, which we did not test. \textbf{Free-tier nondeterminism.} Clustering and LLM steps are not
 bit-exact; we report variance and cache all LLM calls. \textbf{Fixed
 embedder/reader.} Within-pipeline numbers only.
 
@@ -373,10 +481,15 @@ We built a training-free, no-LLM harness for studying leaf granularity in
 hierarchical RAG and used it to show that, while per-document optimal leaf size is
 heterogeneous and leaves real oracle headroom (H1), cheap deterministic density
 features cannot capture it (H2)---a tuned global fixed size wins, and a learned
-regressor on the same features does not change that. We report this as an honest,
-reproducible refutation of a common-but-unvalidated chunking heuristic, and we
-release the harness so that richer per-document granularity predictors can be
-evaluated against the same oracle.
+regressor on the same features does not change that. Pushing further, neither
+causally-motivated semantic-locality features nor a label-derived target
+diagnostic predict the optimum, so the negative result is not about a particular
+feature set: per-document optimal leaf size is simply not an exploitable function
+of any document-intrinsic property we measured, which redirects the search toward
+query-aware signals. We report this as an honest, reproducible refutation of a
+common-but-unvalidated chunking heuristic, and we release the harness so that
+richer per-document granularity predictors can be evaluated against the same
+oracle.
 
 % ----------------------------------------------------------------------------
 \begin{thebibliography}{9}
