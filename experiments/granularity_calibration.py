@@ -366,6 +366,92 @@ def select_and_fit(
     return {"feature": feature, "corr": corr, "fit": fit}
 
 
+# ---------------------------------------------------------------------------
+# Phase-0 target diagnostics (E1/E2/E3): what does optimal size respond to?
+# Pure; no models / network. These do NOT predict size — they tell us whether a
+# predictable signal even exists, before we spend effort on features.
+# ---------------------------------------------------------------------------
+def coverage_curve_shape(records: List[dict], flat_eps: float = 0.05) -> Dict[str, dict]:
+    """E1 -- per-document oracle coverage-curve shape.
+
+    For each document, summarize how coverage varies with leaf size::
+
+        {doc_id: {"peak_size": int, "peak_cov": float, "min_cov": float,
+                  "flatness": float, "is_flat": bool}}
+
+    ``flatness`` is ``peak_cov - min_cov`` over the sizes swept for that doc, and
+    ``is_flat`` is ``flatness < flat_eps`` — a size-INSENSITIVE document whose
+    optimal size is essentially arbitrary. Flat docs are a confound: they dilute
+    any feature/optimal-size correlation, and the weighted model's Stage-1 regime
+    gate exists to route them to the fixed default. ``peak_size`` ties break
+    toward the smaller size (consistent with :func:`oracle_per_doc`). ``None``
+    coverage records are ignored; documents with no scored size are omitted.
+    """
+    matrix = coverage_matrix(records)
+    out: Dict[str, dict] = {}
+    for doc_id, sizes in matrix.items():
+        if not sizes:
+            continue
+        peak_size, peak_cov = max(sizes.items(), key=lambda kv: (kv[1], -kv[0]))
+        min_cov = min(sizes.values())
+        flatness = peak_cov - min_cov
+        out[doc_id] = {
+            "peak_size": peak_size,
+            "peak_cov": peak_cov,
+            "min_cov": min_cov,
+            "flatness": flatness,
+            "is_flat": flatness < flat_eps,
+        }
+    return out
+
+
+def gold_evidence_span_lengths(
+    evidence_by_doc: Dict[str, List[str]],
+) -> Dict[str, float]:
+    """E2 -- mean tokens per gold-evidence paragraph, per document.
+
+    ``evidence_by_doc`` maps ``doc_id -> [gold_paragraph_str, ...]`` (pooled
+    across the document's answerable questions; the caller extracts these from the
+    dataset). Returns ``{doc_id: mean_tokens_per_gold_paragraph}`` using
+    whitespace token counts; empty / whitespace-only paragraphs count as length 0,
+    and a document with no usable paragraphs maps to ``0.0``.
+
+    This is the hypothesized *latent driver* of optimal leaf size: if a cheap A/B/C
+    feature can predict E2, it can plausibly predict optimal size. Feed the result
+    straight into :func:`rank_corr` / :func:`feature_target_correlations` against
+    the per-doc optimal size.
+    """
+    out: Dict[str, float] = {}
+    for doc_id, paras in evidence_by_doc.items():
+        lens = [float(len(p.split())) for p in (paras or [])]
+        out[doc_id] = (sum(lens) / len(lens)) if lens else 0.0
+    return out
+
+
+def evidence_dispersion(
+    indices_by_doc: Dict[str, List[List[int]]],
+) -> Dict[str, float]:
+    """E3 -- how scattered each document's gold spans are.
+
+    ``indices_by_doc`` maps ``doc_id -> [[para_idx, ...], ...]`` (one inner list
+    per answerable question, holding the document-paragraph indices of that
+    question's gold spans; the caller derives these by locating gold paragraphs in
+    the document). For each question, dispersion is ``max(idx) - min(idx)`` (0 for
+    a single span); the per-document value is the mean over its questions.
+    Contiguous evidence -> small dispersion (small leaves can capture it); scattered
+    evidence -> large dispersion. A document with no questions maps to ``0.0``.
+    """
+    out: Dict[str, float] = {}
+    for doc_id, questions in indices_by_doc.items():
+        spans: List[float] = []
+        for idxs in (questions or []):
+            if not idxs:
+                continue
+            spans.append(float(max(idxs) - min(idxs)))
+        out[doc_id] = (sum(spans) / len(spans)) if spans else 0.0
+    return out
+
+
 def train_test_split_docs(
     doc_ids: List[str], frac_train: float = 0.7, seed: int = 0
 ) -> Tuple[List[str], List[str]]:
