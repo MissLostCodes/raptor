@@ -55,37 +55,59 @@ def normalize(s: str) -> List[str]:
     return out
 
 
-def paragraph_covered(gold_para: str, context: str, threshold: float = 0.8) -> bool:
-    """Is ``gold_para`` "covered" by ``context`` at >= ``threshold`` token recall?
+def _token_recall(gold: str, context: str) -> float:
+    """Multiset token recall of ``gold`` within ``context``, in [0, 1].
 
-    Token recall = (count of gold tokens that also appear in the context,
-    bounded by the multiplicity available in the context) / (number of gold
-    tokens). Concretely we take the multiset intersection
-    ``Counter(gold) & Counter(context)`` and divide its size by ``len(gold)``.
-
-    Why NOT ``evidence_f1``: ``evidence_f1`` is a *set overlap of whole
-    paragraph strings* — it only scores 1.0 when the retriever returns the gold
-    paragraph as a byte-identical element. Here the retriever returns
-    *token-chunked* text (paragraph boundaries are gone; a gold paragraph may be
-    split across chunks or padded with neighbours), so exact-string set overlap
-    would be ~0 even when the gold content is fully present. Token-recall of the
-    gold paragraph *within* the concatenated context is the right notion of
-    "did we retrieve the evidence" under token chunking.
-
-    An empty gold paragraph (no content tokens) is treated as trivially covered
-    (recall defined as 1.0).
+    Token recall = (count of gold tokens also present in the context, bounded by
+    their multiplicity in the context) / (number of gold tokens), via the multiset
+    intersection ``Counter(gold) & Counter(context)``. An empty gold string (no
+    content tokens) recalls trivially (``1.0``). Shared by ``paragraph_covered``
+    (gold-evidence proxy) and ``answer_coverage`` (answer-recall proxy).
     """
     from collections import Counter
 
-    gold_tokens = normalize(gold_para)
+    gold_tokens = normalize(gold)
     if not gold_tokens:
-        return True  # nothing to cover
-
+        return 1.0  # nothing to recall
     ctx_counts = Counter(normalize(context))
     gold_counts = Counter(gold_tokens)
     overlap = sum((gold_counts & ctx_counts).values())
-    recall = overlap / len(gold_tokens)
-    return recall >= threshold
+    return overlap / len(gold_tokens)
+
+
+def paragraph_covered(gold_para: str, context: str, threshold: float = 0.8) -> bool:
+    """Is ``gold_para`` "covered" by ``context`` at >= ``threshold`` token recall?
+
+    Thin wrapper over :func:`_token_recall`. Why token-recall and not
+    ``evidence_f1``: ``evidence_f1`` is a *set overlap of whole paragraph strings*
+    — it only scores 1.0 when the retriever returns the gold paragraph as a
+    byte-identical element. Here the retriever returns *token-chunked* text
+    (paragraph boundaries are gone; a gold paragraph may be split across chunks or
+    padded with neighbours), so exact-string set overlap would be ~0 even when the
+    gold content is fully present. An empty gold paragraph is trivially covered.
+    """
+    return _token_recall(gold_para, context) >= threshold
+
+
+def answer_coverage(
+    gold_answers: List[str], context: str, threshold: float = 0.8
+) -> Optional[float]:
+    """Answer-recall proxy: best token-recall of any gold answer within ``context``.
+
+    Generalizes :func:`evidence_coverage` to corpora that ship gold *answers*
+    rather than gold *evidence paragraphs* (QuALITY's correct option text,
+    NarrativeQA's reference answers). Returns the maximum :func:`_token_recall`
+    over the (non-empty) reference answers — any reference counts — as a
+    continuous score in [0, 1], or ``None`` when there is no usable gold answer
+    (so the caller skips the question, mirroring ``evidence_coverage``). The
+    ``threshold`` argument is accepted for signature parity with the evidence
+    proxy but is not applied (the score is continuous, giving a smoother
+    optimal-size target).
+    """
+    answers = [a for a in (gold_answers or []) if a and a.strip()]
+    if not answers:
+        return None
+    return max(_token_recall(a, context) for a in answers)
 
 
 def evidence_coverage(
@@ -103,6 +125,16 @@ def evidence_coverage(
         return None
     covered = sum(1 for p in paras if paragraph_covered(p, context, threshold))
     return covered / len(paras)
+
+
+def _evidence_coverage_q(q, context: str, threshold: float) -> Optional[float]:
+    """Per-question adapter: gold-evidence coverage (the QASPER default path)."""
+    return evidence_coverage(getattr(q, "evidence", []) or [], context, threshold)
+
+
+def _answer_coverage_q(q, context: str, threshold: float) -> Optional[float]:
+    """Per-question adapter: answer-recall coverage (QuALITY / NarrativeQA path)."""
+    return answer_coverage(getattr(q, "gold_answers", []) or [], context, threshold)
 
 
 def best_size_per_doc(records: List[dict]) -> Dict[str, int]:
@@ -192,20 +224,27 @@ def sweep_document(
     sizes: List[int],
     budget: int = 2000,
     cover_threshold: float = 0.8,
+    coverage_fn=_evidence_coverage_q,
 ) -> List[dict]:
     """Sweep one document across leaf ``sizes`` (HEAVY).
 
     For each size S: token-chunk ``doc.text`` at ``max_tokens=S``, build a flat
-    SBERT+FAISS retriever, and for every *answerable* question (non-empty
-    ``q.evidence``) retrieve the context and compute
-    ``evidence_coverage(q.evidence, ctx, cover_threshold)``. Returns one dict per
+    SBERT+FAISS retriever, and for every *scored* question retrieve the context
+    and compute ``coverage_fn(q, ctx, cover_threshold)``. Returns one dict per
     size::
 
         {doc_id, size, n_chunks, n_questions, mean_evidence_coverage}
 
-    where ``n_questions`` counts only the answerable (scored) questions and
-    ``mean_evidence_coverage`` is the mean over them (``None`` if the document
-    has no answerable questions, or no chunks).
+    where ``n_questions`` counts only the questions ``coverage_fn`` scored (those
+    for which it returned non-``None``) and ``mean_evidence_coverage`` is the mean
+    over them (``None`` if none, or no chunks).
+
+    ``coverage_fn(question, context, threshold) -> Optional[float]`` selects the
+    retrieval-quality proxy. The default :func:`_evidence_coverage_q` is the
+    QASPER gold-evidence proxy (unchanged behavior); pass
+    :func:`_answer_coverage_q` for the answer-recall proxy used on QuALITY /
+    NarrativeQA. The record key stays ``mean_evidence_coverage`` regardless of
+    proxy so all downstream calibration is unchanged.
     """
     from raptor.chunking.token_chunker import TokenChunker
 
@@ -231,8 +270,8 @@ def sweep_document(
         coverages: List[float] = []
         for q in doc.questions:
             ctx = retriever.retrieve(q.question)
-            cov = evidence_coverage(q.evidence, ctx, cover_threshold)
-            if cov is None:  # unanswerable / no gold evidence -> skip
+            cov = coverage_fn(q, ctx, cover_threshold)
+            if cov is None:  # unscored (no gold evidence / no gold answer) -> skip
                 continue
             coverages.append(cov)
 
@@ -270,6 +309,7 @@ def run_sweep(
     cover_threshold: float = 0.8,
     out_path: Optional[str] = None,
     progress=print,
+    coverage_fn=_evidence_coverage_q,
 ) -> List[dict]:
     """Run the granularity sweep over ``docs`` (HEAVY).
 
@@ -300,7 +340,7 @@ def run_sweep(
                 f"sweeping sizes {pending}"
             )
 
-        new_recs = sweep_document(doc, pending, budget, cover_threshold)
+        new_recs = sweep_document(doc, pending, budget, cover_threshold, coverage_fn)
         for r in new_recs:
             done.add((r["doc_id"], r["size"]))
         records.extend(new_recs)
