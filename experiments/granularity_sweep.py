@@ -165,17 +165,52 @@ def best_size_per_doc(records: List[dict]) -> Dict[str, int]:
 # HEAVY sweep driver (SBERT + FAISS; NOT unit-tested). Heavy imports are guarded
 # inside the functions, exactly like experiments.pipeline.build_answerer.
 # ---------------------------------------------------------------------------
-def build_flat_retriever(chunks: List[str], budget: int):
-    """Build a flat ``FaissRetriever`` over ``chunks`` (HEAVY: loads SBERT + FAISS).
+# A single shared embedding model is reused across every (doc, size) so the
+# 438 MB SBERT weights are loaded ONCE, not per retriever. Building a fresh
+# SBertEmbeddingModel() per call leaks GPU memory (each lazily loads its own
+# SentenceTransformer) and OOMs a free-tier T4 after a dozen documents.
+_SHARED_EMBEDDER = None
+
+
+def get_shared_embedder():
+    """Return a process-wide singleton ``SBertEmbeddingModel`` (HEAVY, lazy).
+
+    The first call constructs it (the model itself loads on its first embedding);
+    later calls return the same instance, so the whole sweep shares one model on
+    the GPU instead of one per (doc, size). Call :func:`reset_shared_embedder` to
+    drop it (e.g. to free the GPU between corpora).
+    """
+    global _SHARED_EMBEDDER
+    if _SHARED_EMBEDDER is None:
+        from raptor.EmbeddingModels import SBertEmbeddingModel
+
+        _SHARED_EMBEDDER = SBertEmbeddingModel()
+    return _SHARED_EMBEDDER
+
+
+def reset_shared_embedder() -> None:
+    """Drop the shared embedder singleton (next call rebuilds it)."""
+    global _SHARED_EMBEDDER
+    _SHARED_EMBEDDER = None
+
+
+def build_flat_retriever(chunks: List[str], budget: int, embedding_model=None):
+    """Build a flat ``FaissRetriever`` over ``chunks`` (HEAVY: SBERT + FAISS).
 
     Reuses ``experiments.pipeline._build_faiss_from_chunks`` (the project's
     canonical "populate a FaissRetriever from pre-computed chunks" helper) when
     importable, else replicates it. ``max_tokens`` in the config is the chunk
     size proxy used by ``retrieve`` to size its candidate pool; we set it from
     the chunks themselves. ``max_context_tokens`` is the retrieval ``budget``.
+
+    ``embedding_model`` defaults to the shared singleton
+    (:func:`get_shared_embedder`) so the SBERT weights are loaded once for the
+    whole sweep; pass an explicit model to override.
     """
     from raptor.FaissRetriever import FaissRetriever, FaissRetrieverConfig
-    from raptor.EmbeddingModels import SBertEmbeddingModel
+
+    if embedding_model is None:
+        embedding_model = get_shared_embedder()
 
     try:
         from experiments.pipeline import _build_faiss_from_chunks
@@ -199,7 +234,7 @@ def build_flat_retriever(chunks: List[str], budget: int):
     config = FaissRetrieverConfig(
         max_tokens=max(1, _estimate_chunk_tokens(chunks)),
         max_context_tokens=budget,
-        embedding_model=SBertEmbeddingModel(),
+        embedding_model=embedding_model,
     )
     retriever = FaissRetriever(config)
     _build_faiss_from_chunks(retriever, chunks)
@@ -225,6 +260,7 @@ def sweep_document(
     budget: int = 2000,
     cover_threshold: float = 0.8,
     coverage_fn=_evidence_coverage_q,
+    embedding_model=None,
 ) -> List[dict]:
     """Sweep one document across leaf ``sizes`` (HEAVY).
 
@@ -265,7 +301,7 @@ def sweep_document(
             )
             continue
 
-        retriever = build_flat_retriever(chunks, budget)
+        retriever = build_flat_retriever(chunks, budget, embedding_model)
 
         coverages: List[float] = []
         for q in doc.questions:
@@ -310,6 +346,7 @@ def run_sweep(
     out_path: Optional[str] = None,
     progress=print,
     coverage_fn=_evidence_coverage_q,
+    embedding_model=None,
 ) -> List[dict]:
     """Run the granularity sweep over ``docs`` (HEAVY).
 
@@ -322,6 +359,11 @@ def run_sweep(
     """
     records: List[dict] = _load_existing(out_path)
     done = {(r["doc_id"], r["size"]) for r in records}
+
+    # Load the embedding model ONCE for the whole sweep (avoids per-(doc,size)
+    # GPU leaks). Reused by every build_flat_retriever call below.
+    if embedding_model is None:
+        embedding_model = get_shared_embedder()
 
     sizes = list(sizes)
     for di, doc in enumerate(docs):
@@ -340,7 +382,9 @@ def run_sweep(
                 f"sweeping sizes {pending}"
             )
 
-        new_recs = sweep_document(doc, pending, budget, cover_threshold, coverage_fn)
+        new_recs = sweep_document(
+            doc, pending, budget, cover_threshold, coverage_fn, embedding_model
+        )
         for r in new_recs:
             done.add((r["doc_id"], r["size"]))
         records.extend(new_recs)

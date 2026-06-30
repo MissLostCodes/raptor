@@ -9,6 +9,7 @@ the heavy SBERT sweep is unchanged and not exercised here.
 
 import math
 
+from experiments import granularity_sweep as gs
 from experiments.granularity_sweep import (
     answer_coverage,
     paragraph_covered,
@@ -72,3 +73,19 @@ def test_evidence_coverage_q_default_path_unchanged():
     assert _evidence_coverage_q(q, "alpha beta gamma", 0.8) == 1.0
     q2 = QAExample(question_id="q", question="?", evidence=[])
     assert _evidence_coverage_q(q2, "ctx", 0.8) is None
+
+
+# ---------------------------------------------------------------------------
+# shared embedder singleton (the OOM fix: one SBERT model for the whole sweep)
+# ---------------------------------------------------------------------------
+def test_shared_embedder_is_singleton():
+    # Constructing SBertEmbeddingModel is cheap (weights load lazily), so this is
+    # offline-safe. The point is identity: the same instance is reused.
+    gs.reset_shared_embedder()
+    a = gs.get_shared_embedder()
+    b = gs.get_shared_embedder()
+    assert a is b  # reused, not rebuilt per call
+    gs.reset_shared_embedder()
+    c = gs.get_shared_embedder()
+    assert c is not a  # reset forces a fresh one
+    gs.reset_shared_embedder()  # leave clean for other tests
