@@ -8,6 +8,8 @@
 %    gold-evidence span length) is uncorrelated with optimal size -> the negative
 %    result is strengthened: optimal leaf size is not an exploitable function of
 %    any document-intrinsic property tested.
+%    Generality (2026-06-30): replicates on a 2nd corpus (QuALITY, answer-recall
+%    proxy) -> near-parity, no win; the refutation is not QASPER-specific.
 %  Self-contained (no external .bib) so it compiles with a plain pdflatex run.
 % ============================================================================
 \documentclass[11pt]{article}
@@ -62,9 +64,13 @@ locality features---semantic-segment size, paragraph length, compressibility---d
 better, and find they do not (best $|\rho|=0.25$, all below the surface best);
 strikingly, even a \emph{label-derived} diagnostic (the gold-evidence span length)
 is uncorrelated with optimal size ($\rho\approx0$), so the optimum is not an
-exploitable function of \emph{any} document-intrinsic property we measured. A
-QuALITY control confirms the structure axis does no harm on unstructured prose
-(structure-routing rate $0$).
+exploitable function of \emph{any} document-intrinsic property we measured. The
+refutation generalizes: on a second corpus (QuALITY, $30$ articles, an
+answer-recall proxy) the best cheap feature reaches only $|\rho|=0.40$ and a
+selected-feature size map ties---but does not beat---a tuned fixed size
+(win-rate $52\%$), so it is not QASPER-specific. A QuALITY control further
+confirms the structure axis does no harm on unstructured prose (structure-routing
+rate $0$).
 \end{abstract}
 
 % ----------------------------------------------------------------------------
@@ -425,6 +431,39 @@ harm when there is nothing to exploit. The structure path is genuinely exercised
 only on structured corpora (QASPER); that end-to-end run is in progress.
 
 % ----------------------------------------------------------------------------
+\section{Generality: A Second Corpus}
+\label{sec:generality}
+
+A single-corpus refutation invites the objection that QASPER scientific papers are
+special. We therefore repeat the analysis on \textbf{QuALITY} (long narrative
+passages, multiple-choice), a deliberately different genre. QuALITY ships no
+gold-evidence spans, so we generalize the proxy to \emph{answer recall}: the best
+token-recall of the gold answer (the correct option text) within the retrieved
+context, with the per-document optimal size defined as before. The proxy is
+non-degenerate (mean answer-recall $0.620$; median document length $4685$ tokens,
+so leaf size is a real choice).
+
+\paragraph{Headroom is smaller, and the negative replicates.} On $30$ QuALITY
+articles ($448$ scored questions) the best fixed size is $400$ tokens at coverage
+$0.6227$; the per-document oracle reaches $0.6414$---only $+3.0\%$ relative
+headroom (vs.\ $+9.8\%$ on QASPER). The strongest single feature reaches
+$|\rho|=0.40$ (\texttt{nonstopword\_ratio} $+0.396$,
+\texttt{mean\_segment\_len\_tokens} $-0.396$, \texttt{topic\_shift\_rate}
+$+0.379$), still below the $0.5$ bar. Over $50$ held-out splits the selected
+feature scores $0.6260$ vs.\ $0.6268$ for the tuned fixed size and wins $26/50$
+($52\%$)---a coin flip. The cheap-feature policy is therefore \emph{non-inferior
+but not better}: it does not beat a tuned global size on either corpus.
+
+\paragraph{A cross-corpus nuance.} The semantic-locality features carry
+\emph{more} signal on narrative prose than on scientific papers
+(\texttt{mean\_segment\_len\_tokens} $-0.396$ on QuALITY vs.\ $-0.067$ on QASPER;
+\texttt{topic\_shift\_rate} $+0.379$ vs.\ $+0.089$), consistent with semantic
+segments being a more meaningful unit in narrative text---yet the correlation
+still tops out near $0.40$, and the small headroom means even the oracle barely
+beats fixed. The qualitative conclusion is unchanged across two very different
+corpora.
+
+% ----------------------------------------------------------------------------
 \section{Discussion}
 \label{sec:discussion}
 
@@ -462,14 +501,20 @@ sizing---and point future work at the query-aware route.
 \label{sec:threats}
 
 \textbf{Proxy gap.} Gold-evidence token-coverage (retrieval) is not end-task QA;
-results are arm-vs-arm. \textbf{Scale / corpus.} $N{=}50$, single corpus (QASPER);
-CIs are wide (std $\approx 0.04$). The negative conclusion is robust \emph{for the
-cheap, document-intrinsic route} on three independent grounds: the learned ceiling
-on the surface features fails, the causally-motivated locality features fail, and
-even a label-derived (near-oracle) target diagnostic is uncorrelated with the
-optimum---so the failure is pinned to the target, not to a particular feature or
-to label noise. It does not generalize to other corpora or to \emph{query-aware /
-learned multi-signal} predictors, which we did not test. \textbf{Free-tier nondeterminism.} Clustering and LLM steps are not
+results are arm-vs-arm. \textbf{Scale / corpus.} The primary results are $N{=}50$ on QASPER; CIs are wide
+(std $\approx 0.04$). The negative conclusion is robust \emph{for the cheap,
+document-intrinsic route} on three independent grounds: the learned ceiling on the
+surface features fails, the causally-motivated locality features fail, and even a
+label-derived (near-oracle) target diagnostic is uncorrelated with the optimum---so
+the failure is pinned to the target, not to a particular feature or to label
+noise. The single-corpus concern is addressed by the QuALITY replication
+(Section~\ref{sec:generality}), though that rests on a weaker answer-recall proxy
+and a near-parity margin, so it is a \emph{non-inferiority} generalization rather
+than a second decisive refutation. \textbf{Proxy on the second corpus.} QuALITY's
+answer-recall (correct-option text recalled in context) is noisier than QASPER's
+gold-evidence coverage, since options are often paraphrases; we report it as
+directional. \textbf{Untested.} We do not test \emph{query-aware / learned
+multi-signal} predictors, where a win may still live. \textbf{Free-tier nondeterminism.} Clustering and LLM steps are not
 bit-exact; we report variance and cache all LLM calls. \textbf{Fixed
 embedder/reader.} Within-pipeline numbers only.
 
