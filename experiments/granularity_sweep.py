@@ -254,6 +254,21 @@ def _estimate_chunk_tokens(chunks: List[str]) -> int:
     return max(1, max(len(c.split()) for c in chunks))
 
 
+def question_meta(q) -> dict:
+    """Per-question identity + metadata for the headroom decomposition.
+
+    Returns ``{"qid": question_id, "m": evidence_multiplicity}`` where ``m`` is the
+    number of gold-evidence paragraphs (the SLIDERS "aggregation" axis: 1 = lookup,
+    higher = multi-hop / aggregation). Corpora without gold evidence (answer-recall
+    proxy on QuALITY) simply carry ``m = 0``. Tolerant of missing attributes so it
+    works across loaders.
+    """
+    return {
+        "qid": getattr(q, "question_id", None),
+        "m": len(getattr(q, "evidence", []) or []),
+    }
+
+
 def sweep_document(
     doc,
     sizes: List[int],
@@ -269,11 +284,14 @@ def sweep_document(
     and compute ``coverage_fn(q, ctx, cover_threshold)``. Returns one dict per
     size::
 
-        {doc_id, size, n_chunks, n_questions, mean_evidence_coverage}
+        {doc_id, size, n_chunks, n_questions, mean_evidence_coverage, per_question}
 
     where ``n_questions`` counts only the questions ``coverage_fn`` scored (those
     for which it returned non-``None``) and ``mean_evidence_coverage`` is the mean
-    over them (``None`` if none, or no chunks).
+    over them (``None`` if none, or no chunks). ``per_question`` is a list of
+    ``{qid, m, coverage}`` (one per scored question) feeding the nested-oracle
+    headroom decomposition; it is additive metadata and leaves the existing
+    ``mean_evidence_coverage`` calibration path unchanged.
 
     ``coverage_fn(question, context, threshold) -> Optional[float]`` selects the
     retrieval-quality proxy. The default :func:`_evidence_coverage_q` is the
@@ -304,12 +322,14 @@ def sweep_document(
         retriever = build_flat_retriever(chunks, budget, embedding_model)
 
         coverages: List[float] = []
+        per_question: List[dict] = []
         for q in doc.questions:
             ctx = retriever.retrieve(q.question)
             cov = coverage_fn(q, ctx, cover_threshold)
             if cov is None:  # unscored (no gold evidence / no gold answer) -> skip
                 continue
             coverages.append(cov)
+            per_question.append({**question_meta(q), "coverage": cov})
 
         mean_cov = (sum(coverages) / len(coverages)) if coverages else None
         records.append(
@@ -319,6 +339,10 @@ def sweep_document(
                 "n_chunks": n_chunks,
                 "n_questions": len(coverages),
                 "mean_evidence_coverage": mean_cov,
+                # Per-question scores power the nested-oracle headroom decomposition
+                # (experiments.headroom_decomposition); mean_evidence_coverage above
+                # is unchanged, so all existing calibration keeps working verbatim.
+                "per_question": per_question,
             }
         )
     return records

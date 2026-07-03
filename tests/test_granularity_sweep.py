@@ -8,11 +8,14 @@ network).
 
 import math
 
+from types import SimpleNamespace
+
 from experiments.granularity_sweep import (
     normalize,
     paragraph_covered,
     evidence_coverage,
     best_size_per_doc,
+    question_meta,
 )
 
 
@@ -135,3 +138,27 @@ def test_best_size_per_doc_ignores_none_coverage():
     best = best_size_per_doc(records)
     # B has only None records -> omitted entirely.
     assert best == {"A": 100}
+
+
+# --------------------------------------------------------------------------- #
+# question_meta — per-question identity + metadata for the headroom decomposition
+# --------------------------------------------------------------------------- #
+def test_question_meta_extracts_qid_and_evidence_multiplicity():
+    q = SimpleNamespace(
+        question_id="q7",
+        evidence=["para one", "para two", "para three"],
+    )
+    meta = question_meta(q)
+    assert meta["qid"] == "q7"
+    assert meta["m"] == 3  # evidence multiplicity = number of gold paragraphs
+
+
+def test_question_meta_zero_evidence_is_multiplicity_zero():
+    q = SimpleNamespace(question_id="q0", evidence=[])
+    assert question_meta(q)["m"] == 0
+
+
+def test_question_meta_tolerates_missing_evidence_attr():
+    """Answer-recall corpora (QuALITY) carry no evidence -> m defaults to 0."""
+    q = SimpleNamespace(question_id="qX")
+    assert question_meta(q) == {"qid": "qX", "m": 0}
