@@ -10,6 +10,11 @@
 %    any document-intrinsic property tested.
 %    Generality (2026-06-30): replicates on a 2nd corpus (QuALITY, answer-recall
 %    proxy) -> near-parity, no win; the refutation is not QASPER-specific.
+%    Headroom decomposition (2026-07-12): full QASPER test split (416 papers,
+%    1352 question units), held-out nested oracles. De-biased, the per-document
+%    oracle UNDERPERFORMS a global size (document component -0.045); ~all headroom
+%    is within-document/per-question (O4-O1=+0.135), concentrated in high-m
+%    aggregation questions -> negative result is structural. See sec:headroom.
 %  Self-contained (no external .bib) so it compiles with a plain pdflatex run.
 % ============================================================================
 \documentclass[11pt]{article}
@@ -70,7 +75,14 @@ answer-recall proxy) the best cheap feature reaches only $|\rho|=0.40$ and a
 selected-feature size map ties---but does not beat---a tuned fixed size
 (win-rate $52\%$), so it is not QASPER-specific. A QuALITY control further
 confirms the structure axis does no harm on unstructured prose (structure-routing
-rate $0$).
+rate $0$). Finally, scaling to the \emph{full} QASPER test split ($416$ papers,
+$1{,}352$ questions), a held-out nested-oracle decomposition localizes the residual
+headroom: a per-document leaf-size oracle \emph{underperforms} a single global size
+out-of-sample ($-0.045$ coverage, $95\%$ band $[-0.060,-0.028]$), and essentially
+all exploitable headroom is \emph{within-document}---it varies question-to-question
+($O_4{-}O_1={+}0.135$) and concentrates in multi-evidence aggregation questions. The
+negative result is therefore structural: the signal a leaf-size policy would need
+lives below the document level, where no document-intrinsic feature can reach it.
 \end{abstract}
 
 % ----------------------------------------------------------------------------
@@ -464,6 +476,94 @@ beats fixed. The qualitative conclusion is unchanged across two very different
 corpora.
 
 % ----------------------------------------------------------------------------
+\section{Where the Headroom Lives: A Nested-Oracle Decomposition}
+\label{sec:headroom}
+
+H2 shows that no \emph{document-intrinsic} feature predicts the optimal leaf size,
+but leaves open \emph{where} the oracle headroom actually resides. We answer this
+directly with a nested-oracle decomposition run at \textbf{full scale}---the entire
+QASPER \texttt{test} split ($416$ papers, $1{,}451$ answerable questions, $1{,}352$
+scored question units, $8\times$ the $N{=}50$ H1/H2 cohort). We define five oracles,
+each allowed to choose one leaf size per \emph{group}, from coarsest to finest:
+$O_0$ one global size; $O_1$ one size per document; $O_2$ one per query type
+(evidence multiplicity $m$, the number of gold-evidence paragraphs); $O_3$ one per
+(document $\times$ type); and $O_4$ one per individual question (the absolute
+ceiling). To remove the optimism of an oracle that tunes and scores on the same
+data, we reuse \emph{the H2 held-out protocol}: fit each oracle's per-group argmax
+size on a random $70\%$ of questions and score on the disjoint $30\%$, over $50$
+splits (mean and $95\%$ band). All rungs are scored on the same held-out set, so the
+gaps telescope into additive, separately-named components:
+$\mathrm{document}=O_1-O_0$, $\mathrm{query\text{-}type}=O_2-O_0$,
+$\mathrm{interaction}=O_3-O_1-O_2+O_0$, and $\mathrm{within\text{-}doc}=O_4-O_3$,
+which sum to $\mathrm{total}=O_4-O_0$. ($O_4$ is a per-question ceiling---a held-out
+question was never fit, so it is scored as the in-sample best-of-sizes, making
+$\mathrm{within\text{-}doc}$ a conservative \emph{upper bound}.)
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+oracle rung / component & held-out coverage & $95\%$ band \\
+\midrule
+$O_0$ global fixed              & $0.756$ & $[0.735,\ 0.783]$ \\
+$O_1$ per-document              & $0.712$ & $[0.692,\ 0.739]$ \\
+$O_2$ per query-type            & $0.755$ & $[0.731,\ 0.784]$ \\
+$O_3$ per (doc $\times$ type)   & $0.732$ & $[0.712,\ 0.762]$ \\
+$O_4$ per-question (ceiling)    & $0.847$ & $[0.830,\ 0.867]$ \\
+\midrule
+$\mathrm{document}=O_1-O_0$     & $-0.045$ & $[-0.060,\ -0.028]$ \\
+$\mathrm{query\text{-}type}=O_2-O_0$ & $-0.002$ & $[-0.014,\ \phantom{+}0.007]$ \\
+$\mathrm{interaction}$         & $+0.022$ & $[\phantom{+}0.004,\ 0.045]$ \\
+$\mathrm{within\text{-}doc}=O_4-O_3$ & $+0.115$ & $[\phantom{+}0.097,\ 0.131]$ \\
+\midrule
+$\mathrm{total}=O_4-O_0$        & $+0.090$ & $[\phantom{+}0.073,\ 0.105]$ \\
+(reference) $O_4-O_1$           & $+0.135$ & $[\phantom{+}0.116,\ 0.152]$ \\
+\bottomrule
+\end{tabular}
+\caption{Nested-oracle headroom decomposition on the full QASPER \texttt{test}
+split ($416$ papers, $1{,}352$ scored question units), held out over $50$
+question-splits. The de-biased $\mathrm{document}$ component is \emph{negative}: a
+per-document leaf-size oracle underperforms one global size out-of-sample. The
+headroom that exists is \emph{within-document}. Components are additive:
+$-0.045-0.002+0.022+0.115=0.090$.}
+\label{tab:headroom}
+\end{table}
+
+\paragraph{Held-out, the document component is negative.} In-sample the
+per-document oracle looks strong ($O_1=0.824$, a $+0.065$ document component), but
+that is overfitting: with only $\approx 3.3$ questions per QASPER paper, a size fit
+on a document's train questions and applied to its held-out questions gives
+$O_1=0.712$---\emph{below} the global $O_0=0.756$ ($-5.8\%$ rel.; the gap's $95\%$
+band $[-0.060,-0.028]$ excludes $0$). The $0.11$-point swing between in-sample and
+held-out \emph{is} the optimism removed. Because $O_1$ is the ceiling of any
+per-document-\emph{feature} policy, this is stronger than H2: not only does no
+document feature predict the optimum, the entire per-document adaptation family is
+\emph{dominated} by a single tuned size out-of-sample. The query-type component is
+flat ($-0.002$, band spans $0$).
+
+\paragraph{The headroom is within-question.} The per-question ceiling clears the
+global size by $+0.090$ absolute ($+12\%$ rel.), and essentially all of it is
+\emph{within-document}: $O_4-O_3=+0.115$ and $O_4-O_1=+0.135$, both with bands well
+clear of $0$. A per-document feature emits one number per document and therefore
+\emph{cannot} produce different sizes for different questions of the same document;
+$\mathrm{within\text{-}doc}$ is a hard ceiling it can never reach. The H2 negative
+result is thus \emph{structural}, not incidental: the exploitable signal lives at a
+granularity---the individual question---that document-intrinsic features cannot
+address by construction.
+
+\paragraph{The aggregation axis.} Stratifying by evidence multiplicity $m$ (a
+lookup-vs-aggregation axis)\todo{cite SLIDERS, arXiv:2604.22294 --- verify id}
+sharpens the picture. Global-size coverage falls monotonically as questions demand
+more evidence---$0.83 \to 0.75 \to 0.70$ from single-paragraph ($m{=}1$) to
+aggregation ($m{\ge}3$) questions, a direct measurement (not an oracle)---so
+aggregation is retrieval-hard independent of any tuning. Meanwhile the
+within-document headroom grows with $m$ ($0.004 \to 0.010 \to 0.019$, in-sample and
+hence conservative). The headroom concentrates precisely where retrieval is hardest
+and a single leaf size is least adequate, pointing past leaf-size tuning toward
+query-aware, structured-extraction approaches for aggregation questions.
+
+% ----------------------------------------------------------------------------
 \section{Discussion}
 \label{sec:discussion}
 
@@ -485,24 +585,34 @@ leaf sizing is not worth its complexity without a better signal than closed-form
 surface density.
 
 \paragraph{Where a win could still live.} The headroom is real and unclaimed: the
-oracle leaves $\approx 0.10$ coverage above every predictor we tried. Our
-diagnostic narrows where it could come from: since the optimum is uncorrelated
-with \emph{document-intrinsic} evidence geometry (E2), the residual signal is most
-likely \emph{query-aware / retrieval-dependent}---set by the question
-distribution and retrieval dynamics rather than the document alone. That is the
-\emph{learned, query-aware} territory of \cite{mog2024,hichunk2025}, which abandons
-the cheap training-free, document-intrinsic differentiator we set out to test and
-is a substantially larger project. We refute exactly that intended
-contribution---cheap, closed-form, training-free, document-intrinsic leaf
-sizing---and point future work at the query-aware route.
+oracle leaves $\approx 0.10$ coverage above every predictor we tried. The
+nested-oracle decomposition (Section~\ref{sec:headroom},
+Table~\ref{tab:headroom}) now localizes it \emph{directly}, no longer by
+inference: held out at full scale, a per-document oracle actually
+\emph{underperforms} one global size ($\mathrm{document}=-0.045$), while almost all
+the headroom is \emph{within-document / per-question} ($O_4-O_1=+0.135$)---a
+granularity a one-number-per-document feature cannot reach by construction, and one
+that concentrates in multi-evidence aggregation questions. This is exactly the
+\emph{query-aware / retrieval-dependent} signal we anticipated: the residual is set
+by the question, not the document alone. It is the \emph{learned, query-aware}
+territory of \cite{mog2024,hichunk2025}, which abandons the cheap training-free,
+document-intrinsic differentiator we set out to test and is a substantially larger
+project. We refute exactly that intended contribution---cheap, closed-form,
+training-free, document-intrinsic leaf sizing---and point future work at the
+query-aware route.
 
 % ----------------------------------------------------------------------------
 \section{Threats to Validity}
 \label{sec:threats}
 
 \textbf{Proxy gap.} Gold-evidence token-coverage (retrieval) is not end-task QA;
-results are arm-vs-arm. \textbf{Scale / corpus.} The primary results are $N{=}50$ on QASPER; CIs are wide
-(std $\approx 0.04$). The negative conclusion is robust \emph{for the cheap,
+results are arm-vs-arm. \textbf{Scale / corpus.} The H1/H2 correlation results are $N{=}50$ on QASPER; CIs
+are wide (std $\approx 0.04$). The headroom decomposition
+(Section~\ref{sec:headroom}), however, is run on the \emph{full} QASPER
+\texttt{test} split ($416$ papers, $1{,}352$ question units) with held-out $95\%$
+bands, so the central where-does-the-headroom-live conclusion---and the sharper
+finding that a per-document oracle loses to a global size out-of-sample---does not
+rest on the small cohort. The negative conclusion is robust \emph{for the cheap,
 document-intrinsic route} on three independent grounds: the learned ceiling on the
 surface features fails, the causally-motivated locality features fail, and even a
 label-derived (near-oracle) target diagnostic is uncorrelated with the optimum---so
