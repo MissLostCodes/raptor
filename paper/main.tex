@@ -15,6 +15,8 @@
 %    oracle UNDERPERFORMS a global size (document component -0.045); ~all headroom
 %    is within-document/per-question (O4-O1=+0.135), concentrated in high-m
 %    aggregation questions -> negative result is structural. See sec:headroom.
+%    Decomposition replicates on QuALITY (115 arts, 2086 q): document -0.003
+%    (spans 0), within-doc O4-O1=+0.046 = whole total -> shape not corpus-specific.
 %  Self-contained (no external .bib) so it compiles with a plain pdflatex run.
 % ============================================================================
 \documentclass[11pt]{article}
@@ -83,6 +85,8 @@ all exploitable headroom is \emph{within-document}---it varies question-to-quest
 ($O_4{-}O_1={+}0.135$) and concentrates in multi-evidence aggregation questions. The
 negative result is therefore structural: the signal a leaf-size policy would need
 lives below the document level, where no document-intrinsic feature can reach it.
+This decomposition's shape replicates on QuALITY ($\mathrm{document}\le 0$, headroom
+within-question), confirming it is not corpus-specific.
 \end{abstract}
 
 % ----------------------------------------------------------------------------
@@ -562,6 +566,25 @@ within-document headroom grows with $m$ ($0.004 \to 0.010 \to 0.019$, in-sample 
 hence conservative). The headroom concentrates precisely where retrieval is hardest
 and a single leaf size is least adequate, pointing past leaf-size tuning toward
 query-aware, structured-extraction approaches for aggregation questions.
+
+\paragraph{The shape replicates on a second corpus.} We re-run the identical
+decomposition on QuALITY ($115$ articles, $2{,}086$ questions; the answer-recall
+proxy leaves $m$ undefined, so the query-type axis is inert). Two things carry
+over. First, held out, the \emph{document} component is again not positive:
+$-0.003$ ($95\%$ band $[-0.010,+0.005]$, spanning $0$)---a per-document size does
+not beat a global one. Second, essentially all the headroom is again
+\emph{within-document}: $O_4-O_1=+0.046$ ($[0.040,0.052]$), the whole of the
+$+0.043$ total. The magnitude differs---QuALITY's document component sits at $0$
+rather than QASPER's $-0.045$---and the difference is explained by data per
+document, not corpus idiosyncrasy: QuALITY supplies $\approx 18$ questions per
+article against QASPER's $\approx 3.3$, enough to fit a per-document size
+\emph{without} the overfitting penalty that made QASPER's $O_1$ actively hurt. Even
+so, the extra data buys only parity, never a win. Across both corpora the ledger's
+shape is identical---$\mathrm{document}\le 0$, headroom concentrated within the
+question---so the structural negative result is not QASPER-specific. (QuALITY's best
+fixed size lands at the top of our sweep grid, $400$ tokens, so its absolute
+coverage may be mildly under-resolved; the decomposition compares oracles on the
+same grid and is unaffected.)
 
 % ----------------------------------------------------------------------------
 \section{Discussion}

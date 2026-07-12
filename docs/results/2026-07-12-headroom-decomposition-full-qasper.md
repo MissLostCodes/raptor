@@ -74,7 +74,25 @@ Stratified by `m` (in-sample; magnitudes are conservative, the trend is the sign
 - Per-`m` magnitudes are in-sample (cell 6 is not held-out); only the O0-fall (direct) and the growth trend are load-bearing.
 - Still a retrieval-coverage proxy, not end-task QA (same threat as the rest of the paper).
 
+## Cross-corpus replication: QuALITY
+
+Same notebook, `CORPUS='quality'`, full validation split — **115 articles, 2,086 questions** (answer-recall proxy, so `m≡0` and the query-type/aggregation axes are inert). Raw: [`2026-07-12-quality-headroom-summary.json`](./2026-07-12-quality-headroom-summary.json).
+
+| component (held-out) | QASPER | QuALITY |
+|---|---|---|
+| `document` (O1−O0) | −0.045 [−0.060, −0.028] | **−0.003 [−0.010, +0.005]** (spans 0) |
+| `within_doc` (≈ O4−O1) | +0.115 / +0.135 | **+0.046 [0.040, 0.052]** |
+| `total` (O4−O0) | +0.090 | +0.043 |
+| questions / doc | ~3.3 | ~18 |
+
+**The shape replicates.** On both corpora, held-out per-document adaptation does **not** beat a global size (`document ≤ 0`), and essentially **all** headroom is within-document (`within_doc` ≈ the entire `total`).
+
+**The magnitude difference is explained by data-per-doc, not corpus.** QASPER's `document` is *firmly negative* (−0.045) because ~3.3 questions/paper starves the per-doc fit → it overfits and actively hurts. QuALITY's ~18 questions/article give enough data to fit a per-doc size *without* that penalty, so it lands at parity (−0.003) — but the extra data buys parity, never a win. Either way, no exploitable per-document signal exists.
+
+Caveat: QuALITY's best fixed size hits the grid ceiling (400 tokens), so its absolute coverage may be mildly under-resolved; the decomposition compares oracles on the same grid and is unaffected.
+
 ## Next
 
-- Cross-corpus replication on QuALITY (`CORPUS='quality'`; `m≡0` so the aggregation axis is degenerate, but the document/within-doc ledger is the generality check).
-- Fold into `paper/main.tex` (done 2026-07-12: new §"Where the Headroom Lives", abstract + Discussion + Threats updates).
+- **Paper integration: done** (2026-07-12) — new §"Where the Headroom Lives" (QASPER ledger + QuALITY replication paragraph), abstract, Discussion, and Threats updated.
+- Open: verify the SLIDERS arXiv id (`\todo` in `sec:headroom`) and add its `\bibitem`.
+- Optional Phase C: one budgeted LLM end-task confirmation on the high-`m` aggregation stratum (QASPER only), to close the retrieval-proxy vs end-task gap.
