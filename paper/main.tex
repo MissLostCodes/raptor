@@ -321,6 +321,18 @@ per-document oracle (ceiling)               & 0.8061 & 0.0347 \\
 baseline is just stably weak, and because the learned ceiling fails too, no model
 sophistication on these features converts the headroom into a win.
 
+\paragraph{The load-bearing claim is full-scale, not $n{=}50$.} The tables above are
+the $n{=}50$ cohort, but the refutation does not rest on it. The per-document oracle
+$O_1$ is the ceiling of \emph{every} policy in this section---each maps a document to
+a single size, so none can beat the best that one-size-per-document can do. That
+oracle is re-evaluated on the \emph{entire} $416$-paper QASPER \texttt{test} split
+under the same held-out protocol in Section~\ref{sec:headroom}, and there it
+\emph{loses} to a single global size out-of-sample ($O_1{=}0.712$ vs.\ $O_0{=}0.756$,
+$95\%$ band on the gap $[-0.060,-0.028]$). A feature map can at best reach $O_1$; when
+$O_1$ itself is dominated at $8\times$ the documents, no document-intrinsic feature can
+win at full scale either. The $n{=}50$ tables show \emph{which} signals are weak and by
+how much; Section~\ref{sec:headroom} shows the negative result survives the full split.
+
 % ----------------------------------------------------------------------------
 \section{Is the Estimator Broken? A Positive Control and Power Analysis}
 \label{sec:power}
@@ -557,7 +569,7 @@ granularity---the individual question---that document-intrinsic features cannot
 address by construction.
 
 \paragraph{The aggregation axis.} Stratifying by evidence multiplicity $m$ (a
-lookup-vs-aggregation axis)\todo{cite SLIDERS, arXiv:2604.22294 --- verify id}
+lookup-vs-aggregation axis, the ``aggregation bottleneck'' of \cite{sliders2026})
 sharpens the picture. Global-size coverage falls monotonically as questions demand
 more evidence---$0.83 \to 0.75 \to 0.70$ from single-paragraph ($m{=}1$) to
 aggregation ($m{\ge}3$) questions, a direct measurement (not an oracle)---so
@@ -689,6 +701,12 @@ HiChunk: Hierarchical Document Chunking with Auto-Merge.
 \bibitem{rethink2025}
 Rethinking Chunk Size for Long-Document Retrieval.
 \newblock arXiv:2505.21700, 2025.
+
+\bibitem{sliders2026}
+H.~Joshi, P.~Shethia, J.~Dao, and M.~S.~Lam.
+\newblock Contexts are Never Long Enough: Structured Reasoning for Scalable
+Question Answering over Long Document Sets.
+\newblock arXiv:2604.22294, 2026.
 
 \bibitem{ekimetrics}
 Ekimetrics.
