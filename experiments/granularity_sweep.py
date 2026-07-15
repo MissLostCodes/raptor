@@ -254,6 +254,71 @@ def _estimate_chunk_tokens(chunks: List[str]) -> int:
     return max(1, max(len(c.split()) for c in chunks))
 
 
+def null_qa_model():
+    """A ``BaseQAModel`` that must never be called (tiny object, HEAVY import).
+
+    The sweep scores RETRIEVAL with a token-overlap proxy and never answers, but
+    ``RetrievalAugmentationConfig`` defaults a missing ``qa_model`` to
+    ``GPT3TurboQAModel()``, which would demand an OpenAI key. This satisfies the
+    isinstance check and raises loudly if anything ever tries to answer -- which
+    also proves the "no QA calls" cost claim rather than assuming it.
+    """
+    from raptor.QAModels import BaseQAModel
+
+    class _NullQAModel(BaseQAModel):
+        def answer_question(self, context, question, *args, **kwargs):
+            raise AssertionError("QA model called during a retrieval-only sweep")
+
+    return _NullQAModel()
+
+
+def build_tree_retriever(
+    doc, size: int, budget: int, summarization_model, embedding_model=None
+):
+    """Build a REAL RAPTOR tree over ``doc`` at leaf ``size`` (HEAVY, LLM calls).
+
+    Returns ``(retrieve, n_leaves, n_layers)`` where ``retrieve(question) -> str``
+    runs collapsed-tree retrieval under ``budget`` tokens -- the same signature as
+    ``build_flat_retriever(...).retrieve``, so :func:`sweep_document` can swap
+    between the flat proxy and the real hierarchy with no other change.
+
+    ``n_layers`` is the tree's depth AFTER construction: ``construct_tree`` breaks
+    out once a layer is down to ``reduction_dimension + 1`` (11) nodes and writes
+    the achieved depth back. It can be **0** -- a short document at a coarse leaf
+    size never clusters at all, so "RAPTOR" degenerates to a flat pile of leaves.
+    Recording it per cell is the point: leaf size co-determines tree depth, so the
+    two cannot be varied independently.
+    """
+    import dataclasses
+
+    from experiments.config import ExperimentConfig
+    from experiments.pipeline import build_answerer
+
+    cfg = dataclasses.replace(
+        ExperimentConfig(), leaf_max_tokens=size, retrieval_max_tokens=budget
+    )
+    answerer = build_answerer(
+        "token",
+        doc,
+        cfg,
+        summarization_model,
+        null_qa_model(),
+        embedding_model=embedding_model or get_shared_embedder(),
+    )
+    ra = answerer._ra
+    tree = ra.tree
+
+    def retrieve(question: str) -> str:
+        return ra.retrieve(
+            question,
+            max_tokens=budget,
+            collapse_tree=True,
+            return_layer_information=False,
+        )
+
+    return retrieve, len(getattr(tree, "leaf_nodes", None) or {}), tree.num_layers
+
+
 def question_meta(q) -> dict:
     """Per-question identity + metadata for the headroom decomposition.
 
@@ -276,15 +341,27 @@ def sweep_document(
     cover_threshold: float = 0.8,
     coverage_fn=_evidence_coverage_q,
     embedding_model=None,
+    summarization_model=None,
 ) -> List[dict]:
     """Sweep one document across leaf ``sizes`` (HEAVY).
 
-    For each size S: token-chunk ``doc.text`` at ``max_tokens=S``, build a flat
-    SBERT+FAISS retriever, and for every *scored* question retrieve the context
-    and compute ``coverage_fn(q, ctx, cover_threshold)``. Returns one dict per
-    size::
+    For each size S: token-chunk ``doc.text`` at ``max_tokens=S``, build a
+    retriever, and for every *scored* question retrieve the context and compute
+    ``coverage_fn(q, ctx, cover_threshold)``. Returns one dict per size::
 
-        {doc_id, size, n_chunks, n_questions, mean_evidence_coverage, per_question}
+        {doc_id, size, n_chunks, n_questions, mean_evidence_coverage, per_question,
+         n_layers}
+
+    ``summarization_model`` selects the retriever, and it is the whole
+    flat-vs-hierarchical question:
+
+    * ``None`` (default) -- a flat SBERT+FAISS index over the chunks. No LLM, no
+      tree. Every result in the paper to date is this path.
+    * set -- a REAL RAPTOR tree (clusters + LLM summaries + collapsed-tree
+      retrieval). Costs summarization calls at build time; scoring stays LLM-free.
+
+    ``n_layers`` is the achieved tree depth (``None`` in flat mode, and possibly
+    ``0`` in tree mode when a document never clusters at the given leaf size)
 
     where ``n_questions`` counts only the questions ``coverage_fn`` scored (those
     for which it returned non-``None``) and ``mean_evidence_coverage`` is the mean
@@ -304,8 +381,17 @@ def sweep_document(
 
     records: List[dict] = []
     for size in sizes:
-        chunks = TokenChunker(max_tokens=size).chunk(doc.text)
-        n_chunks = len(chunks)
+        n_layers = None
+        if summarization_model is None:
+            chunks = TokenChunker(max_tokens=size).chunk(doc.text)
+            n_chunks = len(chunks)
+            retrieve = None
+            if n_chunks:
+                retrieve = build_flat_retriever(chunks, budget, embedding_model).retrieve
+        else:
+            retrieve, n_chunks, n_layers = build_tree_retriever(
+                doc, size, budget, summarization_model, embedding_model
+            )
 
         if n_chunks == 0:
             records.append(
@@ -315,16 +401,15 @@ def sweep_document(
                     "n_chunks": 0,
                     "n_questions": 0,
                     "mean_evidence_coverage": None,
+                    "n_layers": n_layers,
                 }
             )
             continue
 
-        retriever = build_flat_retriever(chunks, budget, embedding_model)
-
         coverages: List[float] = []
         per_question: List[dict] = []
         for q in doc.questions:
-            ctx = retriever.retrieve(q.question)
+            ctx = retrieve(q.question)
             cov = coverage_fn(q, ctx, cover_threshold)
             if cov is None:  # unscored (no gold evidence / no gold answer) -> skip
                 continue
@@ -343,6 +428,9 @@ def sweep_document(
                 # (experiments.headroom_decomposition); mean_evidence_coverage above
                 # is unchanged, so all existing calibration keeps working verbatim.
                 "per_question": per_question,
+                # Achieved tree depth (None in flat mode). 0 means the document never
+                # clustered at this leaf size -> not actually hierarchical.
+                "n_layers": n_layers,
             }
         )
     return records
@@ -371,6 +459,7 @@ def run_sweep(
     progress=print,
     coverage_fn=_evidence_coverage_q,
     embedding_model=None,
+    summarization_model=None,
 ) -> List[dict]:
     """Run the granularity sweep over ``docs`` (HEAVY).
 
@@ -380,12 +469,27 @@ def run_sweep(
     costs at most one document. ``progress`` (default ``print``) is called with a
     short status string per document — pass ``tqdm.write`` or a custom logger to
     integrate with a progress bar.
+
+    ``summarization_model=None`` keeps the flat proxy; set it to build REAL RAPTOR
+    trees (see :func:`sweep_document`). Give each mode its OWN ``out_path``: the
+    resume key is ``(doc_id, size)`` and carries no mode, so a tree run pointed at
+    a flat cache would skip every document and hand back flat records labelled as
+    tree results. Mixing is refused below rather than silently blended.
     """
     records: List[dict] = _load_existing(out_path)
+    wants_tree = summarization_model is not None
+    # Tree records carry an int n_layers (0 included); flat and legacy ones do not.
+    cache_is_tree = any(r.get("n_layers") is not None for r in records)
+    if records and cache_is_tree != wants_tree:
+        raise ValueError(
+            f"{out_path!r} holds {'tree' if cache_is_tree else 'flat'} records but this "
+            f"is a {'tree' if wants_tree else 'flat'} sweep. Resuming would silently mix "
+            f"retrieval modes. Use a separate out_path per mode."
+        )
     done = {(r["doc_id"], r["size"]) for r in records}
 
     # Load the embedding model ONCE for the whole sweep (avoids per-(doc,size)
-    # GPU leaks). Reused by every build_flat_retriever call below.
+    # GPU leaks). Reused by every retriever built below, flat or tree.
     if embedding_model is None:
         embedding_model = get_shared_embedder()
 
@@ -407,7 +511,13 @@ def run_sweep(
             )
 
         new_recs = sweep_document(
-            doc, pending, budget, cover_threshold, coverage_fn, embedding_model
+            doc,
+            pending,
+            budget,
+            cover_threshold,
+            coverage_fn,
+            embedding_model,
+            summarization_model,
         )
         for r in new_recs:
             done.add((r["doc_id"], r["size"]))
