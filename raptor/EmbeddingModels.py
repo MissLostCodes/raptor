@@ -1,5 +1,6 @@
 import logging
 from abc import ABC, abstractmethod
+from threading import Lock
 
 from openai import OpenAI
 from tenacity import retry, stop_after_attempt, wait_random_exponential
@@ -37,12 +38,19 @@ class SBertEmbeddingModel(BaseEmbeddingModel):
         # and lets the library import in a CPU-only / offline environment.
         self.model_name = model_name
         self.model = None
+        # TreeBuilder.multithreaded_create_leaf_nodes fans every chunk out through a
+        # ThreadPoolExecutor, so without this lock every worker sees `model is None`
+        # at once and each loads its OWN 438 MB SentenceTransformer (8 copies on a
+        # 4-CPU box) -- the T4 OOM that granularity_sweep._SHARED_EMBEDDER works around.
+        self._load_lock = Lock()
 
     def _ensure_model(self):
-        if self.model is None:
-            from sentence_transformers import SentenceTransformer
+        if self.model is None:  # fast path: no lock once loaded
+            with self._load_lock:
+                if self.model is None:  # double-checked: another thread may have won
+                    from sentence_transformers import SentenceTransformer
 
-            self.model = SentenceTransformer(self.model_name)
+                    self.model = SentenceTransformer(self.model_name)
         return self.model
 
     def create_embedding(self, text):

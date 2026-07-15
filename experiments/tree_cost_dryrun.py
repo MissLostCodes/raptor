@@ -116,15 +116,23 @@ def probe_document(doc, sizes, summarizer, cfg, qa_model=None) -> List[dict]:
     the cost ones -- leaf size drives tree depth (``construct_tree`` stops at
     <= 11 nodes), so at coarse sizes a short document may build barely any tree
     at all, which is exactly the interaction the flat proxy cannot see.
+
+    Shares ONE SBERT across every build via ``granularity_sweep.get_shared_embedder``
+    -- the same singleton the flat sweep uses. Without it each of the ~30 builds
+    constructs its own 438 MB model and the T4 OOMs partway through.
     """
+    from experiments.granularity_sweep import get_shared_embedder
     from experiments.pipeline import build_answerer
 
     qa_model = qa_model or _null_qa_model()
+    embedder = get_shared_embedder()
     rows: List[dict] = []
     for size in sizes:
         before = (summarizer.calls, summarizer.in_tokens, summarizer.out_tokens)
         cfg_size = dataclasses.replace(cfg, leaf_max_tokens=size)
-        answerer = build_answerer("token", doc, cfg_size, summarizer, qa_model)
+        answerer = build_answerer(
+            "token", doc, cfg_size, summarizer, qa_model, embedding_model=embedder
+        )
         tree = getattr(getattr(answerer, "_ra", None), "tree", None)
         rows.append(
             {

@@ -30,11 +30,19 @@ def make_ra_config(
     qa_model,
     parse_fn=None,
     embed_fn=None,
+    embedding_model=None,
 ) -> RetrievalAugmentationConfig:
     """Build a ``RetrievalAugmentationConfig`` wired with the arm's chunker.
 
     Offline-testable: pass a fake ``qa_model`` (subclassing ``BaseQAModel``) and
     fake ``parse_fn`` / ``embed_fn`` to avoid any network or model load.
+
+    ``embedding_model`` (a ``BaseEmbeddingModel``) is shared by the tree builder
+    and the retriever. Leave it ``None`` for RAPTOR's default, which constructs a
+    FRESH SBERT per config -- fine for one tree, expensive when building many in a
+    loop (each reloads 438 MB). Pass ``granularity_sweep.get_shared_embedder()``
+    to load the weights once for a whole sweep. Distinct from ``embed_fn``, which
+    only feeds the semantic chunker.
 
     Raises ``ValueError`` for the 'flat' arm (handled by FAISS, not a tree) and
     for any unknown arm.
@@ -78,6 +86,7 @@ def make_ra_config(
         tb_summarization_model=summarization_model,
         tb_max_tokens=cfg.leaf_max_tokens,
         tb_chunker=chunker,
+        embedding_model=embedding_model,  # None -> RAPTOR builds its own SBERT
     )
 
 
@@ -149,11 +158,22 @@ def build_answerer(
     qa_model,
     parse_fn=None,
     embed_fn=None,
+    embedding_model=None,
 ) -> Answerer:
-    """Build the per-document Answerer for ``arm`` (HEAVY)."""
+    """Build the per-document Answerer for ``arm`` (HEAVY).
+
+    Pass ``embedding_model`` to reuse one SBERT across many builds; see
+    :func:`make_ra_config`.
+    """
     if arm in TREE_ARMS:
         ra_config = make_ra_config(
-            arm, cfg, summarization_model, qa_model, parse_fn=parse_fn, embed_fn=embed_fn
+            arm,
+            cfg,
+            summarization_model,
+            qa_model,
+            parse_fn=parse_fn,
+            embed_fn=embed_fn,
+            embedding_model=embedding_model,
         )
         # Fresh RetrievalAugmentation each time => tree is None => no overwrite
         # prompt on add_documents.
