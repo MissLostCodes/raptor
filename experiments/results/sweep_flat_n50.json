@@ -1,0 +1,8132 @@
+[
+  {
+    "doc_id": "1911.10742",
+    "size": 50,
+    "n_chunks": 197,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7055555555555555,
+    "per_question": [
+      {
+        "qid": "397a1e851aab41c455c2b284f5e4947500d797f0",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "cc8b4ed3985f9bfbe1b5d7761b31d9bd6a965444",
+        "m": 9,
+        "coverage": 0.5555555555555556
+      },
+      {
+        "qid": "f7662b11e87c1e051e13799413f3db459ac3e19c",
+        "m": 5,
+        "coverage": 0.6
+      },
+      {
+        "qid": "b584739622d0c53830e60430b13fd3ae6ff43669",
+        "m": 12,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.10742",
+    "size": 100,
+    "n_chunks": 87,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7402777777777778,
+    "per_question": [
+      {
+        "qid": "397a1e851aab41c455c2b284f5e4947500d797f0",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "cc8b4ed3985f9bfbe1b5d7761b31d9bd6a965444",
+        "m": 9,
+        "coverage": 0.4444444444444444
+      },
+      {
+        "qid": "f7662b11e87c1e051e13799413f3db459ac3e19c",
+        "m": 5,
+        "coverage": 0.6
+      },
+      {
+        "qid": "b584739622d0c53830e60430b13fd3ae6ff43669",
+        "m": 12,
+        "coverage": 0.9166666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.10742",
+    "size": 150,
+    "n_chunks": 54,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7680555555555555,
+    "per_question": [
+      {
+        "qid": "397a1e851aab41c455c2b284f5e4947500d797f0",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "cc8b4ed3985f9bfbe1b5d7761b31d9bd6a965444",
+        "m": 9,
+        "coverage": 0.5555555555555556
+      },
+      {
+        "qid": "f7662b11e87c1e051e13799413f3db459ac3e19c",
+        "m": 5,
+        "coverage": 0.6
+      },
+      {
+        "qid": "b584739622d0c53830e60430b13fd3ae6ff43669",
+        "m": 12,
+        "coverage": 0.9166666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.10742",
+    "size": 200,
+    "n_chunks": 40,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6902777777777778,
+    "per_question": [
+      {
+        "qid": "397a1e851aab41c455c2b284f5e4947500d797f0",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "cc8b4ed3985f9bfbe1b5d7761b31d9bd6a965444",
+        "m": 9,
+        "coverage": 0.4444444444444444
+      },
+      {
+        "qid": "f7662b11e87c1e051e13799413f3db459ac3e19c",
+        "m": 5,
+        "coverage": 0.4
+      },
+      {
+        "qid": "b584739622d0c53830e60430b13fd3ae6ff43669",
+        "m": 12,
+        "coverage": 0.9166666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.10742",
+    "size": 300,
+    "n_chunks": 26,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6458333333333333,
+    "per_question": [
+      {
+        "qid": "397a1e851aab41c455c2b284f5e4947500d797f0",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "cc8b4ed3985f9bfbe1b5d7761b31d9bd6a965444",
+        "m": 9,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "f7662b11e87c1e051e13799413f3db459ac3e19c",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b584739622d0c53830e60430b13fd3ae6ff43669",
+        "m": 12,
+        "coverage": 0.9166666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.10742",
+    "size": 400,
+    "n_chunks": 19,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5958333333333333,
+    "per_question": [
+      {
+        "qid": "397a1e851aab41c455c2b284f5e4947500d797f0",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "cc8b4ed3985f9bfbe1b5d7761b31d9bd6a965444",
+        "m": 9,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "f7662b11e87c1e051e13799413f3db459ac3e19c",
+        "m": 5,
+        "coverage": 0.8
+      },
+      {
+        "qid": "b584739622d0c53830e60430b13fd3ae6ff43669",
+        "m": 12,
+        "coverage": 0.9166666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1904.09131",
+    "size": 50,
+    "n_chunks": 105,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "2849c2944c47cf1de62b539c5d3c396a3e8d283a",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1904.09131",
+    "size": 100,
+    "n_chunks": 48,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "2849c2944c47cf1de62b539c5d3c396a3e8d283a",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1904.09131",
+    "size": 150,
+    "n_chunks": 30,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "2849c2944c47cf1de62b539c5d3c396a3e8d283a",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1904.09131",
+    "size": 200,
+    "n_chunks": 22,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "2849c2944c47cf1de62b539c5d3c396a3e8d283a",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1904.09131",
+    "size": 300,
+    "n_chunks": 15,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "2849c2944c47cf1de62b539c5d3c396a3e8d283a",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1904.09131",
+    "size": 400,
+    "n_chunks": 11,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "2849c2944c47cf1de62b539c5d3c396a3e8d283a",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.06322",
+    "size": 50,
+    "n_chunks": 141,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.5674603174603174,
+    "per_question": [
+      {
+        "qid": "1a6156189297b2fe17f174ef55cbd20341bb7dbf",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3319d56556ae1597a86384057db0831e32774b90",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "8cbe3fa4ec0f66071e3d6b829b09b6395b631c44",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "85e417231a4bbb6691f7a89bd81710525f8fec4c",
+        "m": 7,
+        "coverage": 0.5714285714285714
+      },
+      {
+        "qid": "57ee20f494d8ce3fae46028c3f3551d180dba3e0",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "2974237446d04da33b78ce6d22a477cdf80877b7",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.06322",
+    "size": 100,
+    "n_chunks": 61,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.4880952380952381,
+    "per_question": [
+      {
+        "qid": "1a6156189297b2fe17f174ef55cbd20341bb7dbf",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3319d56556ae1597a86384057db0831e32774b90",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "8cbe3fa4ec0f66071e3d6b829b09b6395b631c44",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "85e417231a4bbb6691f7a89bd81710525f8fec4c",
+        "m": 7,
+        "coverage": 0.42857142857142855
+      },
+      {
+        "qid": "57ee20f494d8ce3fae46028c3f3551d180dba3e0",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "2974237446d04da33b78ce6d22a477cdf80877b7",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.06322",
+    "size": 150,
+    "n_chunks": 41,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.638888888888889,
+    "per_question": [
+      {
+        "qid": "1a6156189297b2fe17f174ef55cbd20341bb7dbf",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "3319d56556ae1597a86384057db0831e32774b90",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "8cbe3fa4ec0f66071e3d6b829b09b6395b631c44",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "85e417231a4bbb6691f7a89bd81710525f8fec4c",
+        "m": 7,
+        "coverage": 1.0
+      },
+      {
+        "qid": "57ee20f494d8ce3fae46028c3f3551d180dba3e0",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "2974237446d04da33b78ce6d22a477cdf80877b7",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.06322",
+    "size": 200,
+    "n_chunks": 30,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.615079365079365,
+    "per_question": [
+      {
+        "qid": "1a6156189297b2fe17f174ef55cbd20341bb7dbf",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3319d56556ae1597a86384057db0831e32774b90",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "8cbe3fa4ec0f66071e3d6b829b09b6395b631c44",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "85e417231a4bbb6691f7a89bd81710525f8fec4c",
+        "m": 7,
+        "coverage": 0.8571428571428571
+      },
+      {
+        "qid": "57ee20f494d8ce3fae46028c3f3551d180dba3e0",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "2974237446d04da33b78ce6d22a477cdf80877b7",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.06322",
+    "size": 300,
+    "n_chunks": 20,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.8055555555555555,
+    "per_question": [
+      {
+        "qid": "1a6156189297b2fe17f174ef55cbd20341bb7dbf",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3319d56556ae1597a86384057db0831e32774b90",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "8cbe3fa4ec0f66071e3d6b829b09b6395b631c44",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "85e417231a4bbb6691f7a89bd81710525f8fec4c",
+        "m": 7,
+        "coverage": 1.0
+      },
+      {
+        "qid": "57ee20f494d8ce3fae46028c3f3551d180dba3e0",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "2974237446d04da33b78ce6d22a477cdf80877b7",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.06322",
+    "size": 400,
+    "n_chunks": 15,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.611111111111111,
+    "per_question": [
+      {
+        "qid": "1a6156189297b2fe17f174ef55cbd20341bb7dbf",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3319d56556ae1597a86384057db0831e32774b90",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "8cbe3fa4ec0f66071e3d6b829b09b6395b631c44",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "85e417231a4bbb6691f7a89bd81710525f8fec4c",
+        "m": 7,
+        "coverage": 1.0
+      },
+      {
+        "qid": "57ee20f494d8ce3fae46028c3f3551d180dba3e0",
+        "m": 3,
+        "coverage": 0.0
+      },
+      {
+        "qid": "2974237446d04da33b78ce6d22a477cdf80877b7",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1604.02038",
+    "size": 50,
+    "n_chunks": 129,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "bc8526d4805e2554adb2e9c01736d3f3a3b19895",
+        "m": 6,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "a0fd0c0fe042ad045b8d5095c81643ef3a352b81",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1604.02038",
+    "size": 100,
+    "n_chunks": 55,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "bc8526d4805e2554adb2e9c01736d3f3a3b19895",
+        "m": 6,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "a0fd0c0fe042ad045b8d5095c81643ef3a352b81",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1604.02038",
+    "size": 150,
+    "n_chunks": 36,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "bc8526d4805e2554adb2e9c01736d3f3a3b19895",
+        "m": 6,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "a0fd0c0fe042ad045b8d5095c81643ef3a352b81",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1604.02038",
+    "size": 200,
+    "n_chunks": 27,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.9166666666666667,
+    "per_question": [
+      {
+        "qid": "bc8526d4805e2554adb2e9c01736d3f3a3b19895",
+        "m": 6,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "a0fd0c0fe042ad045b8d5095c81643ef3a352b81",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1604.02038",
+    "size": 300,
+    "n_chunks": 17,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.9166666666666667,
+    "per_question": [
+      {
+        "qid": "bc8526d4805e2554adb2e9c01736d3f3a3b19895",
+        "m": 6,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "a0fd0c0fe042ad045b8d5095c81643ef3a352b81",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1604.02038",
+    "size": 400,
+    "n_chunks": 13,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "bc8526d4805e2554adb2e9c01736d3f3a3b19895",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "a0fd0c0fe042ad045b8d5095c81643ef3a352b81",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04474",
+    "size": 50,
+    "n_chunks": 158,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6592592592592593,
+    "per_question": [
+      {
+        "qid": "6e040e80f2da69d50386a90a38ed6d2fa4f77bbd",
+        "m": 9,
+        "coverage": 0.8888888888888888
+      },
+      {
+        "qid": "aebd1f0d728d0de5f76238844da044a44109f76f",
+        "m": 9,
+        "coverage": 0.5555555555555556
+      },
+      {
+        "qid": "cb4086ad022197da79f28dc609d0de90108c4543",
+        "m": 15,
+        "coverage": 0.5333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04474",
+    "size": 100,
+    "n_chunks": 70,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.674074074074074,
+    "per_question": [
+      {
+        "qid": "6e040e80f2da69d50386a90a38ed6d2fa4f77bbd",
+        "m": 9,
+        "coverage": 0.8888888888888888
+      },
+      {
+        "qid": "aebd1f0d728d0de5f76238844da044a44109f76f",
+        "m": 9,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "cb4086ad022197da79f28dc609d0de90108c4543",
+        "m": 15,
+        "coverage": 0.4666666666666667
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04474",
+    "size": 150,
+    "n_chunks": 43,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.674074074074074,
+    "per_question": [
+      {
+        "qid": "6e040e80f2da69d50386a90a38ed6d2fa4f77bbd",
+        "m": 9,
+        "coverage": 0.7777777777777778
+      },
+      {
+        "qid": "aebd1f0d728d0de5f76238844da044a44109f76f",
+        "m": 9,
+        "coverage": 0.7777777777777778
+      },
+      {
+        "qid": "cb4086ad022197da79f28dc609d0de90108c4543",
+        "m": 15,
+        "coverage": 0.4666666666666667
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04474",
+    "size": 200,
+    "n_chunks": 32,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "6e040e80f2da69d50386a90a38ed6d2fa4f77bbd",
+        "m": 9,
+        "coverage": 0.8888888888888888
+      },
+      {
+        "qid": "aebd1f0d728d0de5f76238844da044a44109f76f",
+        "m": 9,
+        "coverage": 0.7777777777777778
+      },
+      {
+        "qid": "cb4086ad022197da79f28dc609d0de90108c4543",
+        "m": 15,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04474",
+    "size": 300,
+    "n_chunks": 21,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6,
+    "per_question": [
+      {
+        "qid": "6e040e80f2da69d50386a90a38ed6d2fa4f77bbd",
+        "m": 9,
+        "coverage": 0.7777777777777778
+      },
+      {
+        "qid": "aebd1f0d728d0de5f76238844da044a44109f76f",
+        "m": 9,
+        "coverage": 0.5555555555555556
+      },
+      {
+        "qid": "cb4086ad022197da79f28dc609d0de90108c4543",
+        "m": 15,
+        "coverage": 0.4666666666666667
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04474",
+    "size": 400,
+    "n_chunks": 16,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.674074074074074,
+    "per_question": [
+      {
+        "qid": "6e040e80f2da69d50386a90a38ed6d2fa4f77bbd",
+        "m": 9,
+        "coverage": 0.8888888888888888
+      },
+      {
+        "qid": "aebd1f0d728d0de5f76238844da044a44109f76f",
+        "m": 9,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "cb4086ad022197da79f28dc609d0de90108c4543",
+        "m": 15,
+        "coverage": 0.4666666666666667
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00840",
+    "size": 50,
+    "n_chunks": 73,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "756a8a9125e6984e0ca768b653c6c760efa3db66",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fe52b093735bb456d7e699aa9a2b806d2b498ba0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "7748c072e07d6c6db5a34be38b4a5e97ac6d7999",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00840",
+    "size": 100,
+    "n_chunks": 33,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "756a8a9125e6984e0ca768b653c6c760efa3db66",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fe52b093735bb456d7e699aa9a2b806d2b498ba0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "7748c072e07d6c6db5a34be38b4a5e97ac6d7999",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00840",
+    "size": 150,
+    "n_chunks": 20,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "756a8a9125e6984e0ca768b653c6c760efa3db66",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fe52b093735bb456d7e699aa9a2b806d2b498ba0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "7748c072e07d6c6db5a34be38b4a5e97ac6d7999",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00840",
+    "size": 200,
+    "n_chunks": 15,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "756a8a9125e6984e0ca768b653c6c760efa3db66",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fe52b093735bb456d7e699aa9a2b806d2b498ba0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "7748c072e07d6c6db5a34be38b4a5e97ac6d7999",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00840",
+    "size": 300,
+    "n_chunks": 10,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "756a8a9125e6984e0ca768b653c6c760efa3db66",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fe52b093735bb456d7e699aa9a2b806d2b498ba0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "7748c072e07d6c6db5a34be38b4a5e97ac6d7999",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00840",
+    "size": 400,
+    "n_chunks": 8,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "756a8a9125e6984e0ca768b653c6c760efa3db66",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fe52b093735bb456d7e699aa9a2b806d2b498ba0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "7748c072e07d6c6db5a34be38b4a5e97ac6d7999",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02229",
+    "size": 50,
+    "n_chunks": 88,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "c97306c1be5d59cf27b1054adfa8f1da47d292ce",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e42916924b69cab1df25d3b4e6072feaa0ba8084",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02229",
+    "size": 100,
+    "n_chunks": 41,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "c97306c1be5d59cf27b1054adfa8f1da47d292ce",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e42916924b69cab1df25d3b4e6072feaa0ba8084",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02229",
+    "size": 150,
+    "n_chunks": 27,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "c97306c1be5d59cf27b1054adfa8f1da47d292ce",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e42916924b69cab1df25d3b4e6072feaa0ba8084",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02229",
+    "size": 200,
+    "n_chunks": 19,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "c97306c1be5d59cf27b1054adfa8f1da47d292ce",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e42916924b69cab1df25d3b4e6072feaa0ba8084",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02229",
+    "size": 300,
+    "n_chunks": 13,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "c97306c1be5d59cf27b1054adfa8f1da47d292ce",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e42916924b69cab1df25d3b4e6072feaa0ba8084",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02229",
+    "size": 400,
+    "n_chunks": 9,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "c97306c1be5d59cf27b1054adfa8f1da47d292ce",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "e42916924b69cab1df25d3b4e6072feaa0ba8084",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00091",
+    "size": 50,
+    "n_chunks": 103,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "a3e7d7389228a197c8c44e0c504a791b60f2c80d",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "8b4bd0a962241ea548752212ebac145e2ced7452",
+        "m": 9,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "d39059340a79bdc0ebab80ad3308e3037d7d5773",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "31d4b0204702907dc0cd0f394cf9c984649e1fbf",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00091",
+    "size": 100,
+    "n_chunks": 46,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "a3e7d7389228a197c8c44e0c504a791b60f2c80d",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "8b4bd0a962241ea548752212ebac145e2ced7452",
+        "m": 9,
+        "coverage": 0.7777777777777778
+      },
+      {
+        "qid": "d39059340a79bdc0ebab80ad3308e3037d7d5773",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "31d4b0204702907dc0cd0f394cf9c984649e1fbf",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00091",
+    "size": 150,
+    "n_chunks": 28,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "a3e7d7389228a197c8c44e0c504a791b60f2c80d",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "8b4bd0a962241ea548752212ebac145e2ced7452",
+        "m": 9,
+        "coverage": 0.7777777777777778
+      },
+      {
+        "qid": "d39059340a79bdc0ebab80ad3308e3037d7d5773",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "31d4b0204702907dc0cd0f394cf9c984649e1fbf",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00091",
+    "size": 200,
+    "n_chunks": 21,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "a3e7d7389228a197c8c44e0c504a791b60f2c80d",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "8b4bd0a962241ea548752212ebac145e2ced7452",
+        "m": 9,
+        "coverage": 0.7777777777777778
+      },
+      {
+        "qid": "d39059340a79bdc0ebab80ad3308e3037d7d5773",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "31d4b0204702907dc0cd0f394cf9c984649e1fbf",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00091",
+    "size": 300,
+    "n_chunks": 14,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "a3e7d7389228a197c8c44e0c504a791b60f2c80d",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "8b4bd0a962241ea548752212ebac145e2ced7452",
+        "m": 9,
+        "coverage": 0.7777777777777778
+      },
+      {
+        "qid": "d39059340a79bdc0ebab80ad3308e3037d7d5773",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "31d4b0204702907dc0cd0f394cf9c984649e1fbf",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00091",
+    "size": 400,
+    "n_chunks": 11,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "a3e7d7389228a197c8c44e0c504a791b60f2c80d",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "8b4bd0a962241ea548752212ebac145e2ced7452",
+        "m": 9,
+        "coverage": 0.7777777777777778
+      },
+      {
+        "qid": "d39059340a79bdc0ebab80ad3308e3037d7d5773",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "31d4b0204702907dc0cd0f394cf9c984649e1fbf",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.04387",
+    "size": 50,
+    "n_chunks": 67,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5555555555555556,
+    "per_question": [
+      {
+        "qid": "371433bd3fb5042bacec4dfad3cfff66147c14f0",
+        "m": 6,
+        "coverage": 0.16666666666666666
+      },
+      {
+        "qid": "f64449a21c452bc5395a0f0a49fb49825e6385f4",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3aeb25e334c8129b376f11c7077bcb2dd54f7e0e",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.04387",
+    "size": 100,
+    "n_chunks": 30,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "371433bd3fb5042bacec4dfad3cfff66147c14f0",
+        "m": 6,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f64449a21c452bc5395a0f0a49fb49825e6385f4",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3aeb25e334c8129b376f11c7077bcb2dd54f7e0e",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.04387",
+    "size": 150,
+    "n_chunks": 19,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5555555555555556,
+    "per_question": [
+      {
+        "qid": "371433bd3fb5042bacec4dfad3cfff66147c14f0",
+        "m": 6,
+        "coverage": 0.16666666666666666
+      },
+      {
+        "qid": "f64449a21c452bc5395a0f0a49fb49825e6385f4",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3aeb25e334c8129b376f11c7077bcb2dd54f7e0e",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.04387",
+    "size": 200,
+    "n_chunks": 14,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "371433bd3fb5042bacec4dfad3cfff66147c14f0",
+        "m": 6,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "f64449a21c452bc5395a0f0a49fb49825e6385f4",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3aeb25e334c8129b376f11c7077bcb2dd54f7e0e",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.04387",
+    "size": 300,
+    "n_chunks": 10,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8333333333333334,
+    "per_question": [
+      {
+        "qid": "371433bd3fb5042bacec4dfad3cfff66147c14f0",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "f64449a21c452bc5395a0f0a49fb49825e6385f4",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3aeb25e334c8129b376f11c7077bcb2dd54f7e0e",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.04387",
+    "size": 400,
+    "n_chunks": 7,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8333333333333334,
+    "per_question": [
+      {
+        "qid": "371433bd3fb5042bacec4dfad3cfff66147c14f0",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "f64449a21c452bc5395a0f0a49fb49825e6385f4",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3aeb25e334c8129b376f11c7077bcb2dd54f7e0e",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.13016",
+    "size": 50,
+    "n_chunks": 178,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.0,
+    "per_question": [
+      {
+        "qid": "c19e9fd2f1c969e023fb99b74e78eb1f3db8e162",
+        "m": 4,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.13016",
+    "size": 100,
+    "n_chunks": 83,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.0,
+    "per_question": [
+      {
+        "qid": "c19e9fd2f1c969e023fb99b74e78eb1f3db8e162",
+        "m": 4,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.13016",
+    "size": 150,
+    "n_chunks": 52,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.25,
+    "per_question": [
+      {
+        "qid": "c19e9fd2f1c969e023fb99b74e78eb1f3db8e162",
+        "m": 4,
+        "coverage": 0.25
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.13016",
+    "size": 200,
+    "n_chunks": 38,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.25,
+    "per_question": [
+      {
+        "qid": "c19e9fd2f1c969e023fb99b74e78eb1f3db8e162",
+        "m": 4,
+        "coverage": 0.25
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.13016",
+    "size": 300,
+    "n_chunks": 25,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "c19e9fd2f1c969e023fb99b74e78eb1f3db8e162",
+        "m": 4,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.13016",
+    "size": 400,
+    "n_chunks": 19,
+    "n_questions": 1,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "c19e9fd2f1c969e023fb99b74e78eb1f3db8e162",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.11937",
+    "size": 50,
+    "n_chunks": 112,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7777777777777777,
+    "per_question": [
+      {
+        "qid": "230ff86b7b90b87c33c53014bb1e9c582dfc107f",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "dc23006d67f20f430f1483398de4a89c0be4efe2",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "887d7f3edf37ccc6bf2e755dae418b04d2309686",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.11937",
+    "size": 100,
+    "n_chunks": 50,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "230ff86b7b90b87c33c53014bb1e9c582dfc107f",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "dc23006d67f20f430f1483398de4a89c0be4efe2",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "887d7f3edf37ccc6bf2e755dae418b04d2309686",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.11937",
+    "size": 150,
+    "n_chunks": 32,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8888888888888888,
+    "per_question": [
+      {
+        "qid": "230ff86b7b90b87c33c53014bb1e9c582dfc107f",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "dc23006d67f20f430f1483398de4a89c0be4efe2",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "887d7f3edf37ccc6bf2e755dae418b04d2309686",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.11937",
+    "size": 200,
+    "n_chunks": 23,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8888888888888888,
+    "per_question": [
+      {
+        "qid": "230ff86b7b90b87c33c53014bb1e9c582dfc107f",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "dc23006d67f20f430f1483398de4a89c0be4efe2",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "887d7f3edf37ccc6bf2e755dae418b04d2309686",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.11937",
+    "size": 300,
+    "n_chunks": 15,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5555555555555555,
+    "per_question": [
+      {
+        "qid": "230ff86b7b90b87c33c53014bb1e9c582dfc107f",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "dc23006d67f20f430f1483398de4a89c0be4efe2",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "887d7f3edf37ccc6bf2e755dae418b04d2309686",
+        "m": 3,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.11937",
+    "size": 400,
+    "n_chunks": 12,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8888888888888888,
+    "per_question": [
+      {
+        "qid": "230ff86b7b90b87c33c53014bb1e9c582dfc107f",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "dc23006d67f20f430f1483398de4a89c0be4efe2",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "887d7f3edf37ccc6bf2e755dae418b04d2309686",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.09070",
+    "size": 50,
+    "n_chunks": 199,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.4238095238095238,
+    "per_question": [
+      {
+        "qid": "b8a3ab219be6c1e6893fe80e1fbf14f0c0c3c97c",
+        "m": 7,
+        "coverage": 0.8571428571428571
+      },
+      {
+        "qid": "780c7993d446cd63907bb38992a60bbac9cb42b1",
+        "m": 4,
+        "coverage": 0.0
+      },
+      {
+        "qid": "3da4606a884593f7702d098277b9a6ce207c080b",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "91336f12ab94a844b66b607f8621eb8bbd209f32",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "c5221bb28e58a4f13cf2eccce0e1b1bec7dd3c13",
+        "m": 7,
+        "coverage": 0.2857142857142857
+      },
+      {
+        "qid": "42a4ab4607a9eec42c427a817b7e898230d26444",
+        "m": 5,
+        "coverage": 0.4
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.09070",
+    "size": 100,
+    "n_chunks": 89,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.48095238095238096,
+    "per_question": [
+      {
+        "qid": "b8a3ab219be6c1e6893fe80e1fbf14f0c0c3c97c",
+        "m": 7,
+        "coverage": 0.8571428571428571
+      },
+      {
+        "qid": "780c7993d446cd63907bb38992a60bbac9cb42b1",
+        "m": 4,
+        "coverage": 0.0
+      },
+      {
+        "qid": "3da4606a884593f7702d098277b9a6ce207c080b",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "91336f12ab94a844b66b607f8621eb8bbd209f32",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "c5221bb28e58a4f13cf2eccce0e1b1bec7dd3c13",
+        "m": 7,
+        "coverage": 0.42857142857142855
+      },
+      {
+        "qid": "42a4ab4607a9eec42c427a817b7e898230d26444",
+        "m": 5,
+        "coverage": 0.6
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.09070",
+    "size": 150,
+    "n_chunks": 55,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.47142857142857136,
+    "per_question": [
+      {
+        "qid": "b8a3ab219be6c1e6893fe80e1fbf14f0c0c3c97c",
+        "m": 7,
+        "coverage": 0.8571428571428571
+      },
+      {
+        "qid": "780c7993d446cd63907bb38992a60bbac9cb42b1",
+        "m": 4,
+        "coverage": 0.0
+      },
+      {
+        "qid": "3da4606a884593f7702d098277b9a6ce207c080b",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "91336f12ab94a844b66b607f8621eb8bbd209f32",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "c5221bb28e58a4f13cf2eccce0e1b1bec7dd3c13",
+        "m": 7,
+        "coverage": 0.5714285714285714
+      },
+      {
+        "qid": "42a4ab4607a9eec42c427a817b7e898230d26444",
+        "m": 5,
+        "coverage": 0.4
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.09070",
+    "size": 200,
+    "n_chunks": 40,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.4892857142857143,
+    "per_question": [
+      {
+        "qid": "b8a3ab219be6c1e6893fe80e1fbf14f0c0c3c97c",
+        "m": 7,
+        "coverage": 1.0
+      },
+      {
+        "qid": "780c7993d446cd63907bb38992a60bbac9cb42b1",
+        "m": 4,
+        "coverage": 0.25
+      },
+      {
+        "qid": "3da4606a884593f7702d098277b9a6ce207c080b",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "91336f12ab94a844b66b607f8621eb8bbd209f32",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "c5221bb28e58a4f13cf2eccce0e1b1bec7dd3c13",
+        "m": 7,
+        "coverage": 0.2857142857142857
+      },
+      {
+        "qid": "42a4ab4607a9eec42c427a817b7e898230d26444",
+        "m": 5,
+        "coverage": 0.4
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.09070",
+    "size": 300,
+    "n_chunks": 27,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.3642857142857143,
+    "per_question": [
+      {
+        "qid": "b8a3ab219be6c1e6893fe80e1fbf14f0c0c3c97c",
+        "m": 7,
+        "coverage": 0.7142857142857143
+      },
+      {
+        "qid": "780c7993d446cd63907bb38992a60bbac9cb42b1",
+        "m": 4,
+        "coverage": 0.0
+      },
+      {
+        "qid": "3da4606a884593f7702d098277b9a6ce207c080b",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "91336f12ab94a844b66b607f8621eb8bbd209f32",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "c5221bb28e58a4f13cf2eccce0e1b1bec7dd3c13",
+        "m": 7,
+        "coverage": 0.5714285714285714
+      },
+      {
+        "qid": "42a4ab4607a9eec42c427a817b7e898230d26444",
+        "m": 5,
+        "coverage": 0.4
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.09070",
+    "size": 400,
+    "n_chunks": 19,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.41785714285714287,
+    "per_question": [
+      {
+        "qid": "b8a3ab219be6c1e6893fe80e1fbf14f0c0c3c97c",
+        "m": 7,
+        "coverage": 0.7142857142857143
+      },
+      {
+        "qid": "780c7993d446cd63907bb38992a60bbac9cb42b1",
+        "m": 4,
+        "coverage": 0.25
+      },
+      {
+        "qid": "3da4606a884593f7702d098277b9a6ce207c080b",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "91336f12ab94a844b66b607f8621eb8bbd209f32",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "c5221bb28e58a4f13cf2eccce0e1b1bec7dd3c13",
+        "m": 7,
+        "coverage": 0.14285714285714285
+      },
+      {
+        "qid": "42a4ab4607a9eec42c427a817b7e898230d26444",
+        "m": 5,
+        "coverage": 0.4
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.05521",
+    "size": 50,
+    "n_chunks": 73,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.9772727272727273,
+    "per_question": [
+      {
+        "qid": "f54e19f7ecece1bb0ef3171403ae322ad572ff00",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4137a82d7752be7a6c142ceb48ce784fd475fb06",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6c50871294562e4886ede804574e6acfa8d1a5f9",
+        "m": 11,
+        "coverage": 0.9090909090909091
+      },
+      {
+        "qid": "0ac6fbd81e2dd95b800283dc7e59ce969d45fc02",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.05521",
+    "size": 100,
+    "n_chunks": 31,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.9772727272727273,
+    "per_question": [
+      {
+        "qid": "f54e19f7ecece1bb0ef3171403ae322ad572ff00",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4137a82d7752be7a6c142ceb48ce784fd475fb06",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6c50871294562e4886ede804574e6acfa8d1a5f9",
+        "m": 11,
+        "coverage": 0.9090909090909091
+      },
+      {
+        "qid": "0ac6fbd81e2dd95b800283dc7e59ce969d45fc02",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.05521",
+    "size": 150,
+    "n_chunks": 20,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.9772727272727273,
+    "per_question": [
+      {
+        "qid": "f54e19f7ecece1bb0ef3171403ae322ad572ff00",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4137a82d7752be7a6c142ceb48ce784fd475fb06",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6c50871294562e4886ede804574e6acfa8d1a5f9",
+        "m": 11,
+        "coverage": 0.9090909090909091
+      },
+      {
+        "qid": "0ac6fbd81e2dd95b800283dc7e59ce969d45fc02",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.05521",
+    "size": 200,
+    "n_chunks": 14,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.9772727272727273,
+    "per_question": [
+      {
+        "qid": "f54e19f7ecece1bb0ef3171403ae322ad572ff00",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4137a82d7752be7a6c142ceb48ce784fd475fb06",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6c50871294562e4886ede804574e6acfa8d1a5f9",
+        "m": 11,
+        "coverage": 0.9090909090909091
+      },
+      {
+        "qid": "0ac6fbd81e2dd95b800283dc7e59ce969d45fc02",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.05521",
+    "size": 300,
+    "n_chunks": 9,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.9772727272727273,
+    "per_question": [
+      {
+        "qid": "f54e19f7ecece1bb0ef3171403ae322ad572ff00",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4137a82d7752be7a6c142ceb48ce784fd475fb06",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6c50871294562e4886ede804574e6acfa8d1a5f9",
+        "m": 11,
+        "coverage": 0.9090909090909091
+      },
+      {
+        "qid": "0ac6fbd81e2dd95b800283dc7e59ce969d45fc02",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.05521",
+    "size": 400,
+    "n_chunks": 7,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6439393939393939,
+    "per_question": [
+      {
+        "qid": "f54e19f7ecece1bb0ef3171403ae322ad572ff00",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "4137a82d7752be7a6c142ceb48ce784fd475fb06",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "6c50871294562e4886ede804574e6acfa8d1a5f9",
+        "m": 11,
+        "coverage": 0.9090909090909091
+      },
+      {
+        "qid": "0ac6fbd81e2dd95b800283dc7e59ce969d45fc02",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1908.11049",
+    "size": 50,
+    "n_chunks": 152,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.4375,
+    "per_question": [
+      {
+        "qid": "ed44f7e698d6124cb86791841d02fc6f8b4d862a",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "d9e7633004ed1bc1ee45be58409bcc1fa6db59b2",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "c58ef13abe5fa91a761362ca962d7290312c74e4",
+        "m": 12,
+        "coverage": 0.5833333333333334
+      },
+      {
+        "qid": "9ef0d2365bde0d18054511fbb53cec5fa2cda5ee",
+        "m": 2,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1908.11049",
+    "size": 100,
+    "n_chunks": 67,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.875,
+    "per_question": [
+      {
+        "qid": "ed44f7e698d6124cb86791841d02fc6f8b4d862a",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d9e7633004ed1bc1ee45be58409bcc1fa6db59b2",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "c58ef13abe5fa91a761362ca962d7290312c74e4",
+        "m": 12,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "9ef0d2365bde0d18054511fbb53cec5fa2cda5ee",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1908.11049",
+    "size": 150,
+    "n_chunks": 40,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "ed44f7e698d6124cb86791841d02fc6f8b4d862a",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d9e7633004ed1bc1ee45be58409bcc1fa6db59b2",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "c58ef13abe5fa91a761362ca962d7290312c74e4",
+        "m": 12,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "9ef0d2365bde0d18054511fbb53cec5fa2cda5ee",
+        "m": 2,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1908.11049",
+    "size": 200,
+    "n_chunks": 31,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7916666666666666,
+    "per_question": [
+      {
+        "qid": "ed44f7e698d6124cb86791841d02fc6f8b4d862a",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d9e7633004ed1bc1ee45be58409bcc1fa6db59b2",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "c58ef13abe5fa91a761362ca962d7290312c74e4",
+        "m": 12,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "9ef0d2365bde0d18054511fbb53cec5fa2cda5ee",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1908.11049",
+    "size": 300,
+    "n_chunks": 20,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7708333333333333,
+    "per_question": [
+      {
+        "qid": "ed44f7e698d6124cb86791841d02fc6f8b4d862a",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "d9e7633004ed1bc1ee45be58409bcc1fa6db59b2",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "c58ef13abe5fa91a761362ca962d7290312c74e4",
+        "m": 12,
+        "coverage": 0.9166666666666666
+      },
+      {
+        "qid": "9ef0d2365bde0d18054511fbb53cec5fa2cda5ee",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1908.11049",
+    "size": 400,
+    "n_chunks": 15,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6458333333333333,
+    "per_question": [
+      {
+        "qid": "ed44f7e698d6124cb86791841d02fc6f8b4d862a",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d9e7633004ed1bc1ee45be58409bcc1fa6db59b2",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "c58ef13abe5fa91a761362ca962d7290312c74e4",
+        "m": 12,
+        "coverage": 0.9166666666666666
+      },
+      {
+        "qid": "9ef0d2365bde0d18054511fbb53cec5fa2cda5ee",
+        "m": 2,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.10676",
+    "size": 50,
+    "n_chunks": 105,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5777777777777778,
+    "per_question": [
+      {
+        "qid": "cbb3c1c1e6e1818b6480f929f1c299eaa5ffd07a",
+        "m": 6,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "9f74f3991b8681619d95ab93a7c8733a843ddffe",
+        "m": 5,
+        "coverage": 0.4
+      },
+      {
+        "qid": "7c2c15ea3f1b1375b8aaef1103a001069d9915bb",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.10676",
+    "size": 100,
+    "n_chunks": 47,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.45555555555555555,
+    "per_question": [
+      {
+        "qid": "cbb3c1c1e6e1818b6480f929f1c299eaa5ffd07a",
+        "m": 6,
+        "coverage": 0.16666666666666666
+      },
+      {
+        "qid": "9f74f3991b8681619d95ab93a7c8733a843ddffe",
+        "m": 5,
+        "coverage": 0.2
+      },
+      {
+        "qid": "7c2c15ea3f1b1375b8aaef1103a001069d9915bb",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.10676",
+    "size": 150,
+    "n_chunks": 30,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6333333333333333,
+    "per_question": [
+      {
+        "qid": "cbb3c1c1e6e1818b6480f929f1c299eaa5ffd07a",
+        "m": 6,
+        "coverage": 0.5
+      },
+      {
+        "qid": "9f74f3991b8681619d95ab93a7c8733a843ddffe",
+        "m": 5,
+        "coverage": 0.4
+      },
+      {
+        "qid": "7c2c15ea3f1b1375b8aaef1103a001069d9915bb",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.10676",
+    "size": 200,
+    "n_chunks": 23,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6444444444444445,
+    "per_question": [
+      {
+        "qid": "cbb3c1c1e6e1818b6480f929f1c299eaa5ffd07a",
+        "m": 6,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "9f74f3991b8681619d95ab93a7c8733a843ddffe",
+        "m": 5,
+        "coverage": 0.6
+      },
+      {
+        "qid": "7c2c15ea3f1b1375b8aaef1103a001069d9915bb",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.10676",
+    "size": 300,
+    "n_chunks": 15,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6444444444444445,
+    "per_question": [
+      {
+        "qid": "cbb3c1c1e6e1818b6480f929f1c299eaa5ffd07a",
+        "m": 6,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "9f74f3991b8681619d95ab93a7c8733a843ddffe",
+        "m": 5,
+        "coverage": 0.6
+      },
+      {
+        "qid": "7c2c15ea3f1b1375b8aaef1103a001069d9915bb",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.10676",
+    "size": 400,
+    "n_chunks": 11,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.45555555555555555,
+    "per_question": [
+      {
+        "qid": "cbb3c1c1e6e1818b6480f929f1c299eaa5ffd07a",
+        "m": 6,
+        "coverage": 0.16666666666666666
+      },
+      {
+        "qid": "9f74f3991b8681619d95ab93a7c8733a843ddffe",
+        "m": 5,
+        "coverage": 0.2
+      },
+      {
+        "qid": "7c2c15ea3f1b1375b8aaef1103a001069d9915bb",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1906.08871",
+    "size": 50,
+    "n_chunks": 96,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.875,
+    "per_question": [
+      {
+        "qid": "a77d38427639d54461ae308f3045434f81e497d0",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "d36a6447bfe58204e0d29f9213d84be04d875624",
+        "m": 4,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1906.08871",
+    "size": 100,
+    "n_chunks": 43,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a77d38427639d54461ae308f3045434f81e497d0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d36a6447bfe58204e0d29f9213d84be04d875624",
+        "m": 4,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1906.08871",
+    "size": 150,
+    "n_chunks": 26,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a77d38427639d54461ae308f3045434f81e497d0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d36a6447bfe58204e0d29f9213d84be04d875624",
+        "m": 4,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1906.08871",
+    "size": 200,
+    "n_chunks": 20,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a77d38427639d54461ae308f3045434f81e497d0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d36a6447bfe58204e0d29f9213d84be04d875624",
+        "m": 4,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1906.08871",
+    "size": 300,
+    "n_chunks": 13,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a77d38427639d54461ae308f3045434f81e497d0",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d36a6447bfe58204e0d29f9213d84be04d875624",
+        "m": 4,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1906.08871",
+    "size": 400,
+    "n_chunks": 10,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.875,
+    "per_question": [
+      {
+        "qid": "a77d38427639d54461ae308f3045434f81e497d0",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "d36a6447bfe58204e0d29f9213d84be04d875624",
+        "m": 4,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.04124",
+    "size": 50,
+    "n_chunks": 167,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.38888888888888884,
+    "per_question": [
+      {
+        "qid": "5ed02ae6c534cd49d405489990f0e4ba0330ff1b",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "f6346828c2f44529dc307abf04dd246bfeb4a9b2",
+        "m": 4,
+        "coverage": 0.0
+      },
+      {
+        "qid": "935873b97872820b7b6100d6a785fba286b94900",
+        "m": 4,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.04124",
+    "size": 100,
+    "n_chunks": 72,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5555555555555555,
+    "per_question": [
+      {
+        "qid": "5ed02ae6c534cd49d405489990f0e4ba0330ff1b",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "f6346828c2f44529dc307abf04dd246bfeb4a9b2",
+        "m": 4,
+        "coverage": 0.25
+      },
+      {
+        "qid": "935873b97872820b7b6100d6a785fba286b94900",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.04124",
+    "size": 150,
+    "n_chunks": 46,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.4444444444444444,
+    "per_question": [
+      {
+        "qid": "5ed02ae6c534cd49d405489990f0e4ba0330ff1b",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "f6346828c2f44529dc307abf04dd246bfeb4a9b2",
+        "m": 4,
+        "coverage": 0.25
+      },
+      {
+        "qid": "935873b97872820b7b6100d6a785fba286b94900",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.04124",
+    "size": 200,
+    "n_chunks": 34,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6388888888888888,
+    "per_question": [
+      {
+        "qid": "5ed02ae6c534cd49d405489990f0e4ba0330ff1b",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "f6346828c2f44529dc307abf04dd246bfeb4a9b2",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "935873b97872820b7b6100d6a785fba286b94900",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.04124",
+    "size": 300,
+    "n_chunks": 22,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.4444444444444444,
+    "per_question": [
+      {
+        "qid": "5ed02ae6c534cd49d405489990f0e4ba0330ff1b",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "f6346828c2f44529dc307abf04dd246bfeb4a9b2",
+        "m": 4,
+        "coverage": 0.25
+      },
+      {
+        "qid": "935873b97872820b7b6100d6a785fba286b94900",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.04124",
+    "size": 400,
+    "n_chunks": 16,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5555555555555555,
+    "per_question": [
+      {
+        "qid": "5ed02ae6c534cd49d405489990f0e4ba0330ff1b",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "f6346828c2f44529dc307abf04dd246bfeb4a9b2",
+        "m": 4,
+        "coverage": 0.25
+      },
+      {
+        "qid": "935873b97872820b7b6100d6a785fba286b94900",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.07252",
+    "size": 50,
+    "n_chunks": 155,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.4444444444444444,
+    "per_question": [
+      {
+        "qid": "f2bcfdbebb418e7da165c19b8c7167719432ee48",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "0fe49431db5ffaa24372919daf24d8f84117bfda",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0f9c1586f1b4b531fa4fd113e767d06af90b1ae8",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.07252",
+    "size": 100,
+    "n_chunks": 68,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.3611111111111111,
+    "per_question": [
+      {
+        "qid": "f2bcfdbebb418e7da165c19b8c7167719432ee48",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "0fe49431db5ffaa24372919daf24d8f84117bfda",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "0f9c1586f1b4b531fa4fd113e767d06af90b1ae8",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.07252",
+    "size": 150,
+    "n_chunks": 43,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5555555555555555,
+    "per_question": [
+      {
+        "qid": "f2bcfdbebb418e7da165c19b8c7167719432ee48",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "0fe49431db5ffaa24372919daf24d8f84117bfda",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "0f9c1586f1b4b531fa4fd113e767d06af90b1ae8",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.07252",
+    "size": 200,
+    "n_chunks": 31,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.611111111111111,
+    "per_question": [
+      {
+        "qid": "f2bcfdbebb418e7da165c19b8c7167719432ee48",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "0fe49431db5ffaa24372919daf24d8f84117bfda",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0f9c1586f1b4b531fa4fd113e767d06af90b1ae8",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.07252",
+    "size": 300,
+    "n_chunks": 20,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.27777777777777773,
+    "per_question": [
+      {
+        "qid": "f2bcfdbebb418e7da165c19b8c7167719432ee48",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "0fe49431db5ffaa24372919daf24d8f84117bfda",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "0f9c1586f1b4b531fa4fd113e767d06af90b1ae8",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.07252",
+    "size": 400,
+    "n_chunks": 15,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5833333333333334,
+    "per_question": [
+      {
+        "qid": "f2bcfdbebb418e7da165c19b8c7167719432ee48",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "0fe49431db5ffaa24372919daf24d8f84117bfda",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "0f9c1586f1b4b531fa4fd113e767d06af90b1ae8",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.00549",
+    "size": 50,
+    "n_chunks": 75,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "52faf319e37aa15fff1ab47f634a5a584dc42e75",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0c7cb3010ed92b8d46583a67e72946a6c0115f1f",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.00549",
+    "size": 100,
+    "n_chunks": 34,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.8333333333333333,
+    "per_question": [
+      {
+        "qid": "52faf319e37aa15fff1ab47f634a5a584dc42e75",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0c7cb3010ed92b8d46583a67e72946a6c0115f1f",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.00549",
+    "size": 150,
+    "n_chunks": 22,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.8333333333333333,
+    "per_question": [
+      {
+        "qid": "52faf319e37aa15fff1ab47f634a5a584dc42e75",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0c7cb3010ed92b8d46583a67e72946a6c0115f1f",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.00549",
+    "size": 200,
+    "n_chunks": 15,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.8333333333333333,
+    "per_question": [
+      {
+        "qid": "52faf319e37aa15fff1ab47f634a5a584dc42e75",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0c7cb3010ed92b8d46583a67e72946a6c0115f1f",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.00549",
+    "size": 300,
+    "n_chunks": 10,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.8333333333333333,
+    "per_question": [
+      {
+        "qid": "52faf319e37aa15fff1ab47f634a5a584dc42e75",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0c7cb3010ed92b8d46583a67e72946a6c0115f1f",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1708.00549",
+    "size": 400,
+    "n_chunks": 8,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.8333333333333333,
+    "per_question": [
+      {
+        "qid": "52faf319e37aa15fff1ab47f634a5a584dc42e75",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0c7cb3010ed92b8d46583a67e72946a6c0115f1f",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00472",
+    "size": 50,
+    "n_chunks": 119,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8055555555555555,
+    "per_question": [
+      {
+        "qid": "9c2cacf77041e02d38f92a4c490df1e04552f96f",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "35cdaa0fff007add4a795850b139df80af7d1ffc",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "3de3a083b8ba3086792d38ae9667e095070f7f37",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00472",
+    "size": 100,
+    "n_chunks": 52,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "9c2cacf77041e02d38f92a4c490df1e04552f96f",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "35cdaa0fff007add4a795850b139df80af7d1ffc",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "3de3a083b8ba3086792d38ae9667e095070f7f37",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00472",
+    "size": 150,
+    "n_chunks": 33,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8888888888888888,
+    "per_question": [
+      {
+        "qid": "9c2cacf77041e02d38f92a4c490df1e04552f96f",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "35cdaa0fff007add4a795850b139df80af7d1ffc",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "3de3a083b8ba3086792d38ae9667e095070f7f37",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00472",
+    "size": 200,
+    "n_chunks": 24,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8888888888888888,
+    "per_question": [
+      {
+        "qid": "9c2cacf77041e02d38f92a4c490df1e04552f96f",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "35cdaa0fff007add4a795850b139df80af7d1ffc",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "3de3a083b8ba3086792d38ae9667e095070f7f37",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00472",
+    "size": 300,
+    "n_chunks": 16,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "9c2cacf77041e02d38f92a4c490df1e04552f96f",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "35cdaa0fff007add4a795850b139df80af7d1ffc",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3de3a083b8ba3086792d38ae9667e095070f7f37",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1905.00472",
+    "size": 400,
+    "n_chunks": 12,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "9c2cacf77041e02d38f92a4c490df1e04552f96f",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "35cdaa0fff007add4a795850b139df80af7d1ffc",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3de3a083b8ba3086792d38ae9667e095070f7f37",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.02866",
+    "size": 50,
+    "n_chunks": 148,
+    "n_questions": 5,
+    "mean_evidence_coverage": 0.7194444444444444,
+    "per_question": [
+      {
+        "qid": "20632fc4d2b693b5aabfbbc99ee5c1e9fc485dea",
+        "m": 9,
+        "coverage": 0.2222222222222222
+      },
+      {
+        "qid": "a57e266c936e438aeeab5e8d20d9edd1c15a32ee",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "27356a99290fcc01e3e5660af3405d2a6c6f6e7c",
+        "m": 8,
+        "coverage": 0.375
+      },
+      {
+        "qid": "6e37f43f4f54ffc77c785d60c6058fbad2147922",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fff1ed2435ba622d884ecde377ff2de127167638",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.02866",
+    "size": 100,
+    "n_chunks": 68,
+    "n_questions": 5,
+    "mean_evidence_coverage": 0.8111111111111111,
+    "per_question": [
+      {
+        "qid": "20632fc4d2b693b5aabfbbc99ee5c1e9fc485dea",
+        "m": 9,
+        "coverage": 0.5555555555555556
+      },
+      {
+        "qid": "a57e266c936e438aeeab5e8d20d9edd1c15a32ee",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "27356a99290fcc01e3e5660af3405d2a6c6f6e7c",
+        "m": 8,
+        "coverage": 0.5
+      },
+      {
+        "qid": "6e37f43f4f54ffc77c785d60c6058fbad2147922",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fff1ed2435ba622d884ecde377ff2de127167638",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.02866",
+    "size": 150,
+    "n_chunks": 44,
+    "n_questions": 5,
+    "mean_evidence_coverage": 0.6138888888888889,
+    "per_question": [
+      {
+        "qid": "20632fc4d2b693b5aabfbbc99ee5c1e9fc485dea",
+        "m": 9,
+        "coverage": 0.4444444444444444
+      },
+      {
+        "qid": "a57e266c936e438aeeab5e8d20d9edd1c15a32ee",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "27356a99290fcc01e3e5660af3405d2a6c6f6e7c",
+        "m": 8,
+        "coverage": 0.625
+      },
+      {
+        "qid": "6e37f43f4f54ffc77c785d60c6058fbad2147922",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "fff1ed2435ba622d884ecde377ff2de127167638",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.02866",
+    "size": 200,
+    "n_chunks": 31,
+    "n_questions": 5,
+    "mean_evidence_coverage": 0.888888888888889,
+    "per_question": [
+      {
+        "qid": "20632fc4d2b693b5aabfbbc99ee5c1e9fc485dea",
+        "m": 9,
+        "coverage": 0.4444444444444444
+      },
+      {
+        "qid": "a57e266c936e438aeeab5e8d20d9edd1c15a32ee",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "27356a99290fcc01e3e5660af3405d2a6c6f6e7c",
+        "m": 8,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6e37f43f4f54ffc77c785d60c6058fbad2147922",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fff1ed2435ba622d884ecde377ff2de127167638",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.02866",
+    "size": 300,
+    "n_chunks": 20,
+    "n_questions": 5,
+    "mean_evidence_coverage": 0.6361111111111111,
+    "per_question": [
+      {
+        "qid": "20632fc4d2b693b5aabfbbc99ee5c1e9fc485dea",
+        "m": 9,
+        "coverage": 0.5555555555555556
+      },
+      {
+        "qid": "a57e266c936e438aeeab5e8d20d9edd1c15a32ee",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "27356a99290fcc01e3e5660af3405d2a6c6f6e7c",
+        "m": 8,
+        "coverage": 0.625
+      },
+      {
+        "qid": "6e37f43f4f54ffc77c785d60c6058fbad2147922",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "fff1ed2435ba622d884ecde377ff2de127167638",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.02866",
+    "size": 400,
+    "n_chunks": 16,
+    "n_questions": 5,
+    "mean_evidence_coverage": 0.538888888888889,
+    "per_question": [
+      {
+        "qid": "20632fc4d2b693b5aabfbbc99ee5c1e9fc485dea",
+        "m": 9,
+        "coverage": 0.4444444444444444
+      },
+      {
+        "qid": "a57e266c936e438aeeab5e8d20d9edd1c15a32ee",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "27356a99290fcc01e3e5660af3405d2a6c6f6e7c",
+        "m": 8,
+        "coverage": 0.25
+      },
+      {
+        "qid": "6e37f43f4f54ffc77c785d60c6058fbad2147922",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "fff1ed2435ba622d884ecde377ff2de127167638",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1812.00382",
+    "size": 50,
+    "n_chunks": 93,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.625,
+    "per_question": [
+      {
+        "qid": "7ff7c286d3118a8be5688e2d18e9a56fe83679ad",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "1ecbbb60dc44a701e9c57c22167dd412711bb0be",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6822ca5f7a19866ffc3c985b790a4aadcecf2d1c",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "60e6296ca2a697892bd67558a21a83ef01a38177",
+        "m": 4,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1812.00382",
+    "size": 100,
+    "n_chunks": 39,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.375,
+    "per_question": [
+      {
+        "qid": "7ff7c286d3118a8be5688e2d18e9a56fe83679ad",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "1ecbbb60dc44a701e9c57c22167dd412711bb0be",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6822ca5f7a19866ffc3c985b790a4aadcecf2d1c",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "60e6296ca2a697892bd67558a21a83ef01a38177",
+        "m": 4,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1812.00382",
+    "size": 150,
+    "n_chunks": 25,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.3125,
+    "per_question": [
+      {
+        "qid": "7ff7c286d3118a8be5688e2d18e9a56fe83679ad",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "1ecbbb60dc44a701e9c57c22167dd412711bb0be",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "6822ca5f7a19866ffc3c985b790a4aadcecf2d1c",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "60e6296ca2a697892bd67558a21a83ef01a38177",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1812.00382",
+    "size": 200,
+    "n_chunks": 19,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5625,
+    "per_question": [
+      {
+        "qid": "7ff7c286d3118a8be5688e2d18e9a56fe83679ad",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "1ecbbb60dc44a701e9c57c22167dd412711bb0be",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "6822ca5f7a19866ffc3c985b790a4aadcecf2d1c",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "60e6296ca2a697892bd67558a21a83ef01a38177",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1812.00382",
+    "size": 300,
+    "n_chunks": 12,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.3125,
+    "per_question": [
+      {
+        "qid": "7ff7c286d3118a8be5688e2d18e9a56fe83679ad",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "1ecbbb60dc44a701e9c57c22167dd412711bb0be",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "6822ca5f7a19866ffc3c985b790a4aadcecf2d1c",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "60e6296ca2a697892bd67558a21a83ef01a38177",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1812.00382",
+    "size": 400,
+    "n_chunks": 9,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.625,
+    "per_question": [
+      {
+        "qid": "7ff7c286d3118a8be5688e2d18e9a56fe83679ad",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "1ecbbb60dc44a701e9c57c22167dd412711bb0be",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6822ca5f7a19866ffc3c985b790a4aadcecf2d1c",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "60e6296ca2a697892bd67558a21a83ef01a38177",
+        "m": 4,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1903.02930",
+    "size": 50,
+    "n_chunks": 46,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "9b868c7d17852f46a8fe725f24cb9548fdbd2b05",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "243cf21c4e34c4b91fcc4905aa4dc15a72087f0c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "488e3c4fd1103c46e12815d1bf414a0356fb0d0e",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1903.02930",
+    "size": 100,
+    "n_chunks": 21,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "9b868c7d17852f46a8fe725f24cb9548fdbd2b05",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "243cf21c4e34c4b91fcc4905aa4dc15a72087f0c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "488e3c4fd1103c46e12815d1bf414a0356fb0d0e",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1903.02930",
+    "size": 150,
+    "n_chunks": 13,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "9b868c7d17852f46a8fe725f24cb9548fdbd2b05",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "243cf21c4e34c4b91fcc4905aa4dc15a72087f0c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "488e3c4fd1103c46e12815d1bf414a0356fb0d0e",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1903.02930",
+    "size": 200,
+    "n_chunks": 10,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "9b868c7d17852f46a8fe725f24cb9548fdbd2b05",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "243cf21c4e34c4b91fcc4905aa4dc15a72087f0c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "488e3c4fd1103c46e12815d1bf414a0356fb0d0e",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1903.02930",
+    "size": 300,
+    "n_chunks": 6,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "9b868c7d17852f46a8fe725f24cb9548fdbd2b05",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "243cf21c4e34c4b91fcc4905aa4dc15a72087f0c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "488e3c4fd1103c46e12815d1bf414a0356fb0d0e",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1903.02930",
+    "size": 400,
+    "n_chunks": 5,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "9b868c7d17852f46a8fe725f24cb9548fdbd2b05",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "243cf21c4e34c4b91fcc4905aa4dc15a72087f0c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "488e3c4fd1103c46e12815d1bf414a0356fb0d0e",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04873",
+    "size": 50,
+    "n_chunks": 59,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "84765903b8c7234ca2919d0a40e3c6a5bcedf45d",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38363a7ed250bc729508c4c1dc975696a65c53cb",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e862ebfdb1b3425af65fec81c8984edca6f89a76",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04873",
+    "size": 100,
+    "n_chunks": 27,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "84765903b8c7234ca2919d0a40e3c6a5bcedf45d",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38363a7ed250bc729508c4c1dc975696a65c53cb",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e862ebfdb1b3425af65fec81c8984edca6f89a76",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04873",
+    "size": 150,
+    "n_chunks": 17,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "84765903b8c7234ca2919d0a40e3c6a5bcedf45d",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38363a7ed250bc729508c4c1dc975696a65c53cb",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e862ebfdb1b3425af65fec81c8984edca6f89a76",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04873",
+    "size": 200,
+    "n_chunks": 13,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "84765903b8c7234ca2919d0a40e3c6a5bcedf45d",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38363a7ed250bc729508c4c1dc975696a65c53cb",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e862ebfdb1b3425af65fec81c8984edca6f89a76",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04873",
+    "size": 300,
+    "n_chunks": 8,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "84765903b8c7234ca2919d0a40e3c6a5bcedf45d",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38363a7ed250bc729508c4c1dc975696a65c53cb",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e862ebfdb1b3425af65fec81c8984edca6f89a76",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.04873",
+    "size": 400,
+    "n_chunks": 6,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "84765903b8c7234ca2919d0a40e3c6a5bcedf45d",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38363a7ed250bc729508c4c1dc975696a65c53cb",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e862ebfdb1b3425af65fec81c8984edca6f89a76",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1606.07043",
+    "size": 50,
+    "n_chunks": 82,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "ec8f39d32084996ab825debd7113c71daac38b06",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "a67a2d9acad1787b636ca2681330f4c29a0b0254",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "1efaf3bcd66d1b6bdfb124f0cec0cfeee27e6124",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1606.07043",
+    "size": 100,
+    "n_chunks": 35,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "ec8f39d32084996ab825debd7113c71daac38b06",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "a67a2d9acad1787b636ca2681330f4c29a0b0254",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "1efaf3bcd66d1b6bdfb124f0cec0cfeee27e6124",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1606.07043",
+    "size": 150,
+    "n_chunks": 22,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "ec8f39d32084996ab825debd7113c71daac38b06",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "a67a2d9acad1787b636ca2681330f4c29a0b0254",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "1efaf3bcd66d1b6bdfb124f0cec0cfeee27e6124",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1606.07043",
+    "size": 200,
+    "n_chunks": 16,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "ec8f39d32084996ab825debd7113c71daac38b06",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "a67a2d9acad1787b636ca2681330f4c29a0b0254",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "1efaf3bcd66d1b6bdfb124f0cec0cfeee27e6124",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1606.07043",
+    "size": 300,
+    "n_chunks": 11,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "ec8f39d32084996ab825debd7113c71daac38b06",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "a67a2d9acad1787b636ca2681330f4c29a0b0254",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "1efaf3bcd66d1b6bdfb124f0cec0cfeee27e6124",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1606.07043",
+    "size": 400,
+    "n_chunks": 8,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "ec8f39d32084996ab825debd7113c71daac38b06",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "a67a2d9acad1787b636ca2681330f4c29a0b0254",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "1efaf3bcd66d1b6bdfb124f0cec0cfeee27e6124",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.04234",
+    "size": 50,
+    "n_chunks": 70,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "fcdbaa08cccda9968f3fd433c99338cc60f596a7",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "2e4688205c8e344cded7a053b6014cce04ef1bd5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fc436a4f3674e42fb280378314bfe77ba0c99f2e",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "a71fb012631e6a8854d5945b6d0ab2ab8e7b7ee6",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.04234",
+    "size": 100,
+    "n_chunks": 31,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "fcdbaa08cccda9968f3fd433c99338cc60f596a7",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "2e4688205c8e344cded7a053b6014cce04ef1bd5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fc436a4f3674e42fb280378314bfe77ba0c99f2e",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "a71fb012631e6a8854d5945b6d0ab2ab8e7b7ee6",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.04234",
+    "size": 150,
+    "n_chunks": 20,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "fcdbaa08cccda9968f3fd433c99338cc60f596a7",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "2e4688205c8e344cded7a053b6014cce04ef1bd5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fc436a4f3674e42fb280378314bfe77ba0c99f2e",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "a71fb012631e6a8854d5945b6d0ab2ab8e7b7ee6",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.04234",
+    "size": 200,
+    "n_chunks": 15,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "fcdbaa08cccda9968f3fd433c99338cc60f596a7",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "2e4688205c8e344cded7a053b6014cce04ef1bd5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fc436a4f3674e42fb280378314bfe77ba0c99f2e",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "a71fb012631e6a8854d5945b6d0ab2ab8e7b7ee6",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.04234",
+    "size": 300,
+    "n_chunks": 10,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "fcdbaa08cccda9968f3fd433c99338cc60f596a7",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "2e4688205c8e344cded7a053b6014cce04ef1bd5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fc436a4f3674e42fb280378314bfe77ba0c99f2e",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "a71fb012631e6a8854d5945b6d0ab2ab8e7b7ee6",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1611.04234",
+    "size": 400,
+    "n_chunks": 7,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "fcdbaa08cccda9968f3fd433c99338cc60f596a7",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "2e4688205c8e344cded7a053b6014cce04ef1bd5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fc436a4f3674e42fb280378314bfe77ba0c99f2e",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "a71fb012631e6a8854d5945b6d0ab2ab8e7b7ee6",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00437",
+    "size": 50,
+    "n_chunks": 144,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.47916666666666663,
+    "per_question": [
+      {
+        "qid": "b70e4c49300dc3eab18e907ab903afd2a0c6075a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "088d42ecb1e15515f6a97a0da2fed81b61d61a23",
+        "m": 4,
+        "coverage": 0.25
+      },
+      {
+        "qid": "8599d6d14ac157169920c73b98a79737c7a68cf5",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f1d61b44105e651925d02a51e6d7ea10ea28ebd8",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00437",
+    "size": 100,
+    "n_chunks": 64,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6875,
+    "per_question": [
+      {
+        "qid": "b70e4c49300dc3eab18e907ab903afd2a0c6075a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "088d42ecb1e15515f6a97a0da2fed81b61d61a23",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "8599d6d14ac157169920c73b98a79737c7a68cf5",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f1d61b44105e651925d02a51e6d7ea10ea28ebd8",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00437",
+    "size": 150,
+    "n_chunks": 40,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.375,
+    "per_question": [
+      {
+        "qid": "b70e4c49300dc3eab18e907ab903afd2a0c6075a",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "088d42ecb1e15515f6a97a0da2fed81b61d61a23",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "8599d6d14ac157169920c73b98a79737c7a68cf5",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f1d61b44105e651925d02a51e6d7ea10ea28ebd8",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00437",
+    "size": 200,
+    "n_chunks": 30,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5416666666666666,
+    "per_question": [
+      {
+        "qid": "b70e4c49300dc3eab18e907ab903afd2a0c6075a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "088d42ecb1e15515f6a97a0da2fed81b61d61a23",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "8599d6d14ac157169920c73b98a79737c7a68cf5",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f1d61b44105e651925d02a51e6d7ea10ea28ebd8",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00437",
+    "size": 300,
+    "n_chunks": 20,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7291666666666666,
+    "per_question": [
+      {
+        "qid": "b70e4c49300dc3eab18e907ab903afd2a0c6075a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "088d42ecb1e15515f6a97a0da2fed81b61d61a23",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "8599d6d14ac157169920c73b98a79737c7a68cf5",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "f1d61b44105e651925d02a51e6d7ea10ea28ebd8",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.00437",
+    "size": 400,
+    "n_chunks": 14,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.7291666666666666,
+    "per_question": [
+      {
+        "qid": "b70e4c49300dc3eab18e907ab903afd2a0c6075a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "088d42ecb1e15515f6a97a0da2fed81b61d61a23",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "8599d6d14ac157169920c73b98a79737c7a68cf5",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "f1d61b44105e651925d02a51e6d7ea10ea28ebd8",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.07568",
+    "size": 50,
+    "n_chunks": 162,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.4791666666666667,
+    "per_question": [
+      {
+        "qid": "108f99fcaf620fab53077812e8901870896acf36",
+        "m": 6,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "6c8dc31a199b155e73c84173816c1e252137a0af",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "7125db8334a7efaf9f7753f2c2f0048a56e74c49",
+        "m": 8,
+        "coverage": 0.75
+      },
+      {
+        "qid": "43729be0effb5defc62bae930ceacf7219934f1e",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.07568",
+    "size": 100,
+    "n_chunks": 74,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6354166666666666,
+    "per_question": [
+      {
+        "qid": "108f99fcaf620fab53077812e8901870896acf36",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6c8dc31a199b155e73c84173816c1e252137a0af",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "7125db8334a7efaf9f7753f2c2f0048a56e74c49",
+        "m": 8,
+        "coverage": 0.875
+      },
+      {
+        "qid": "43729be0effb5defc62bae930ceacf7219934f1e",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.07568",
+    "size": 150,
+    "n_chunks": 47,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5625,
+    "per_question": [
+      {
+        "qid": "108f99fcaf620fab53077812e8901870896acf36",
+        "m": 6,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "6c8dc31a199b155e73c84173816c1e252137a0af",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "7125db8334a7efaf9f7753f2c2f0048a56e74c49",
+        "m": 8,
+        "coverage": 0.75
+      },
+      {
+        "qid": "43729be0effb5defc62bae930ceacf7219934f1e",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.07568",
+    "size": 200,
+    "n_chunks": 34,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.71875,
+    "per_question": [
+      {
+        "qid": "108f99fcaf620fab53077812e8901870896acf36",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6c8dc31a199b155e73c84173816c1e252137a0af",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "7125db8334a7efaf9f7753f2c2f0048a56e74c49",
+        "m": 8,
+        "coverage": 0.875
+      },
+      {
+        "qid": "43729be0effb5defc62bae930ceacf7219934f1e",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.07568",
+    "size": 300,
+    "n_chunks": 22,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6770833333333334,
+    "per_question": [
+      {
+        "qid": "108f99fcaf620fab53077812e8901870896acf36",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6c8dc31a199b155e73c84173816c1e252137a0af",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "7125db8334a7efaf9f7753f2c2f0048a56e74c49",
+        "m": 8,
+        "coverage": 0.875
+      },
+      {
+        "qid": "43729be0effb5defc62bae930ceacf7219934f1e",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.07568",
+    "size": 400,
+    "n_chunks": 16,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6770833333333334,
+    "per_question": [
+      {
+        "qid": "108f99fcaf620fab53077812e8901870896acf36",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6c8dc31a199b155e73c84173816c1e252137a0af",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "7125db8334a7efaf9f7753f2c2f0048a56e74c49",
+        "m": 8,
+        "coverage": 0.875
+      },
+      {
+        "qid": "43729be0effb5defc62bae930ceacf7219934f1e",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02268",
+    "size": 50,
+    "n_chunks": 143,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5473484848484849,
+    "per_question": [
+      {
+        "qid": "ae2142ee9e093ce485025168f4bcb3da4602739d",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ebe1084a06abdabefffc66f029eeb0b69f114fd9",
+        "m": 11,
+        "coverage": 0.2727272727272727
+      },
+      {
+        "qid": "cfdd583d01abaca923f5c466bb20e1d4b8c749ff",
+        "m": 12,
+        "coverage": 0.4166666666666667
+      },
+      {
+        "qid": "554d798e4ce58fd30820200c474d7e796dc8ba89",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02268",
+    "size": 100,
+    "n_chunks": 63,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6136363636363636,
+    "per_question": [
+      {
+        "qid": "ae2142ee9e093ce485025168f4bcb3da4602739d",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ebe1084a06abdabefffc66f029eeb0b69f114fd9",
+        "m": 11,
+        "coverage": 0.45454545454545453
+      },
+      {
+        "qid": "cfdd583d01abaca923f5c466bb20e1d4b8c749ff",
+        "m": 12,
+        "coverage": 0.5
+      },
+      {
+        "qid": "554d798e4ce58fd30820200c474d7e796dc8ba89",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02268",
+    "size": 150,
+    "n_chunks": 40,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6818181818181819,
+    "per_question": [
+      {
+        "qid": "ae2142ee9e093ce485025168f4bcb3da4602739d",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ebe1084a06abdabefffc66f029eeb0b69f114fd9",
+        "m": 11,
+        "coverage": 0.7272727272727273
+      },
+      {
+        "qid": "cfdd583d01abaca923f5c466bb20e1d4b8c749ff",
+        "m": 12,
+        "coverage": 0.5
+      },
+      {
+        "qid": "554d798e4ce58fd30820200c474d7e796dc8ba89",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02268",
+    "size": 200,
+    "n_chunks": 29,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.509469696969697,
+    "per_question": [
+      {
+        "qid": "ae2142ee9e093ce485025168f4bcb3da4602739d",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "ebe1084a06abdabefffc66f029eeb0b69f114fd9",
+        "m": 11,
+        "coverage": 0.45454545454545453
+      },
+      {
+        "qid": "cfdd583d01abaca923f5c466bb20e1d4b8c749ff",
+        "m": 12,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "554d798e4ce58fd30820200c474d7e796dc8ba89",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02268",
+    "size": 300,
+    "n_chunks": 19,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6609848484848485,
+    "per_question": [
+      {
+        "qid": "ae2142ee9e093ce485025168f4bcb3da4602739d",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "ebe1084a06abdabefffc66f029eeb0b69f114fd9",
+        "m": 11,
+        "coverage": 0.7272727272727273
+      },
+      {
+        "qid": "cfdd583d01abaca923f5c466bb20e1d4b8c749ff",
+        "m": 12,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "554d798e4ce58fd30820200c474d7e796dc8ba89",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1810.02268",
+    "size": 400,
+    "n_chunks": 14,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6231060606060606,
+    "per_question": [
+      {
+        "qid": "ae2142ee9e093ce485025168f4bcb3da4602739d",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "ebe1084a06abdabefffc66f029eeb0b69f114fd9",
+        "m": 11,
+        "coverage": 0.9090909090909091
+      },
+      {
+        "qid": "cfdd583d01abaca923f5c466bb20e1d4b8c749ff",
+        "m": 12,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "554d798e4ce58fd30820200c474d7e796dc8ba89",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.12079",
+    "size": 50,
+    "n_chunks": 105,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.19444444444444442,
+    "per_question": [
+      {
+        "qid": "91e361e85c6d3884694f3c747d61bfcef171bab0",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "6295951fda0cfa2eb4259d544b00bc7dade7c01e",
+        "m": 4,
+        "coverage": 0.25
+      },
+      {
+        "qid": "3f717e6eceab0a066af65ddf782c1ebc502c28c0",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.12079",
+    "size": 100,
+    "n_chunks": 48,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7222222222222222,
+    "per_question": [
+      {
+        "qid": "91e361e85c6d3884694f3c747d61bfcef171bab0",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "6295951fda0cfa2eb4259d544b00bc7dade7c01e",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "3f717e6eceab0a066af65ddf782c1ebc502c28c0",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.12079",
+    "size": 150,
+    "n_chunks": 31,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7222222222222222,
+    "per_question": [
+      {
+        "qid": "91e361e85c6d3884694f3c747d61bfcef171bab0",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "6295951fda0cfa2eb4259d544b00bc7dade7c01e",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "3f717e6eceab0a066af65ddf782c1ebc502c28c0",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.12079",
+    "size": 200,
+    "n_chunks": 23,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7222222222222222,
+    "per_question": [
+      {
+        "qid": "91e361e85c6d3884694f3c747d61bfcef171bab0",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "6295951fda0cfa2eb4259d544b00bc7dade7c01e",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "3f717e6eceab0a066af65ddf782c1ebc502c28c0",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.12079",
+    "size": 300,
+    "n_chunks": 14,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.38888888888888884,
+    "per_question": [
+      {
+        "qid": "91e361e85c6d3884694f3c747d61bfcef171bab0",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "6295951fda0cfa2eb4259d544b00bc7dade7c01e",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "3f717e6eceab0a066af65ddf782c1ebc502c28c0",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.12079",
+    "size": 400,
+    "n_chunks": 11,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.9166666666666666,
+    "per_question": [
+      {
+        "qid": "91e361e85c6d3884694f3c747d61bfcef171bab0",
+        "m": 3,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6295951fda0cfa2eb4259d544b00bc7dade7c01e",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "3f717e6eceab0a066af65ddf782c1ebc502c28c0",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.11687",
+    "size": 50,
+    "n_chunks": 68,
+    "n_questions": 7,
+    "mean_evidence_coverage": 0.7142857142857143,
+    "per_question": [
+      {
+        "qid": "f5603271a04452cbdbb07697859bef2a2030d75c",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "6575ffec1844e6fde5a668bce2afb16b67b65c1f",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "77c3416578b52994227bae7f2529600f02183e12",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2abcff4fdedf9b17f76875cc338ba4ab8d1eccd3",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6df57a21ca875e63fb39adece6a9ace5bb2b2cfa",
+        "m": 13,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b39b278aa1cf2f87ad4159725dff77b387f2df84",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "814e945668e2b6f31b088918758b120fb00ada7d",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.11687",
+    "size": 100,
+    "n_chunks": 31,
+    "n_questions": 7,
+    "mean_evidence_coverage": 0.8571428571428571,
+    "per_question": [
+      {
+        "qid": "f5603271a04452cbdbb07697859bef2a2030d75c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6575ffec1844e6fde5a668bce2afb16b67b65c1f",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "77c3416578b52994227bae7f2529600f02183e12",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2abcff4fdedf9b17f76875cc338ba4ab8d1eccd3",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6df57a21ca875e63fb39adece6a9ace5bb2b2cfa",
+        "m": 13,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b39b278aa1cf2f87ad4159725dff77b387f2df84",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "814e945668e2b6f31b088918758b120fb00ada7d",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.11687",
+    "size": 150,
+    "n_chunks": 20,
+    "n_questions": 7,
+    "mean_evidence_coverage": 0.8571428571428571,
+    "per_question": [
+      {
+        "qid": "f5603271a04452cbdbb07697859bef2a2030d75c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6575ffec1844e6fde5a668bce2afb16b67b65c1f",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "77c3416578b52994227bae7f2529600f02183e12",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2abcff4fdedf9b17f76875cc338ba4ab8d1eccd3",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6df57a21ca875e63fb39adece6a9ace5bb2b2cfa",
+        "m": 13,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b39b278aa1cf2f87ad4159725dff77b387f2df84",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "814e945668e2b6f31b088918758b120fb00ada7d",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.11687",
+    "size": 200,
+    "n_chunks": 15,
+    "n_questions": 7,
+    "mean_evidence_coverage": 0.9285714285714286,
+    "per_question": [
+      {
+        "qid": "f5603271a04452cbdbb07697859bef2a2030d75c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6575ffec1844e6fde5a668bce2afb16b67b65c1f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "77c3416578b52994227bae7f2529600f02183e12",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2abcff4fdedf9b17f76875cc338ba4ab8d1eccd3",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6df57a21ca875e63fb39adece6a9ace5bb2b2cfa",
+        "m": 13,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b39b278aa1cf2f87ad4159725dff77b387f2df84",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "814e945668e2b6f31b088918758b120fb00ada7d",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.11687",
+    "size": 300,
+    "n_chunks": 10,
+    "n_questions": 7,
+    "mean_evidence_coverage": 0.9285714285714286,
+    "per_question": [
+      {
+        "qid": "f5603271a04452cbdbb07697859bef2a2030d75c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6575ffec1844e6fde5a668bce2afb16b67b65c1f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "77c3416578b52994227bae7f2529600f02183e12",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2abcff4fdedf9b17f76875cc338ba4ab8d1eccd3",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6df57a21ca875e63fb39adece6a9ace5bb2b2cfa",
+        "m": 13,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b39b278aa1cf2f87ad4159725dff77b387f2df84",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "814e945668e2b6f31b088918758b120fb00ada7d",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.11687",
+    "size": 400,
+    "n_chunks": 7,
+    "n_questions": 7,
+    "mean_evidence_coverage": 0.9285714285714286,
+    "per_question": [
+      {
+        "qid": "f5603271a04452cbdbb07697859bef2a2030d75c",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6575ffec1844e6fde5a668bce2afb16b67b65c1f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "77c3416578b52994227bae7f2529600f02183e12",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2abcff4fdedf9b17f76875cc338ba4ab8d1eccd3",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6df57a21ca875e63fb39adece6a9ace5bb2b2cfa",
+        "m": 13,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b39b278aa1cf2f87ad4159725dff77b387f2df84",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "814e945668e2b6f31b088918758b120fb00ada7d",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.10152",
+    "size": 50,
+    "n_chunks": 87,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.7333333333333334,
+    "per_question": [
+      {
+        "qid": "d4456e9029fcdcb6e0149dd8f57b77d16ead1bc4",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "d0b967bfca2039c7fb05b931c8b9955f99a468dc",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "31e6062ba45d8956791e1b86bad7efcb6d1b191a",
+        "m": 5,
+        "coverage": 0.8
+      },
+      {
+        "qid": "38b29b0dcb87868680f9934af71ef245ebb122e4",
+        "m": 5,
+        "coverage": 0.6
+      },
+      {
+        "qid": "6e134d51a795c385d72f38f36bca4259522bcf51",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0778cbbd093f8b779f7cf26302b2a8e081ccfb40",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.10152",
+    "size": 100,
+    "n_chunks": 39,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.9166666666666666,
+    "per_question": [
+      {
+        "qid": "d4456e9029fcdcb6e0149dd8f57b77d16ead1bc4",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "d0b967bfca2039c7fb05b931c8b9955f99a468dc",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "31e6062ba45d8956791e1b86bad7efcb6d1b191a",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38b29b0dcb87868680f9934af71ef245ebb122e4",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6e134d51a795c385d72f38f36bca4259522bcf51",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0778cbbd093f8b779f7cf26302b2a8e081ccfb40",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.10152",
+    "size": 150,
+    "n_chunks": 25,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.8333333333333334,
+    "per_question": [
+      {
+        "qid": "d4456e9029fcdcb6e0149dd8f57b77d16ead1bc4",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "d0b967bfca2039c7fb05b931c8b9955f99a468dc",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "31e6062ba45d8956791e1b86bad7efcb6d1b191a",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38b29b0dcb87868680f9934af71ef245ebb122e4",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6e134d51a795c385d72f38f36bca4259522bcf51",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0778cbbd093f8b779f7cf26302b2a8e081ccfb40",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.10152",
+    "size": 200,
+    "n_chunks": 18,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.9166666666666666,
+    "per_question": [
+      {
+        "qid": "d4456e9029fcdcb6e0149dd8f57b77d16ead1bc4",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "d0b967bfca2039c7fb05b931c8b9955f99a468dc",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "31e6062ba45d8956791e1b86bad7efcb6d1b191a",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38b29b0dcb87868680f9934af71ef245ebb122e4",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6e134d51a795c385d72f38f36bca4259522bcf51",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0778cbbd093f8b779f7cf26302b2a8e081ccfb40",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.10152",
+    "size": 300,
+    "n_chunks": 12,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.9166666666666666,
+    "per_question": [
+      {
+        "qid": "d4456e9029fcdcb6e0149dd8f57b77d16ead1bc4",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "d0b967bfca2039c7fb05b931c8b9955f99a468dc",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "31e6062ba45d8956791e1b86bad7efcb6d1b191a",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38b29b0dcb87868680f9934af71ef245ebb122e4",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "6e134d51a795c385d72f38f36bca4259522bcf51",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0778cbbd093f8b779f7cf26302b2a8e081ccfb40",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.10152",
+    "size": 400,
+    "n_chunks": 9,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.6333333333333333,
+    "per_question": [
+      {
+        "qid": "d4456e9029fcdcb6e0149dd8f57b77d16ead1bc4",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "d0b967bfca2039c7fb05b931c8b9955f99a468dc",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "31e6062ba45d8956791e1b86bad7efcb6d1b191a",
+        "m": 5,
+        "coverage": 0.8
+      },
+      {
+        "qid": "38b29b0dcb87868680f9934af71ef245ebb122e4",
+        "m": 5,
+        "coverage": 0.0
+      },
+      {
+        "qid": "6e134d51a795c385d72f38f36bca4259522bcf51",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0778cbbd093f8b779f7cf26302b2a8e081ccfb40",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.04072",
+    "size": 50,
+    "n_chunks": 90,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.375,
+    "per_question": [
+      {
+        "qid": "578add9d3dadf86cd0876d42b03bf0114f83d0e7",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4d5b74499804ea5bc5520beb88d0f9816f67205a",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "baec99756b80eec7c0234a08bc2855e6770bcaeb",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "46d051b8924ad0ef8cfba9c7b5b84707ee72f26a",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.04072",
+    "size": 100,
+    "n_chunks": 40,
+    "n_questions": 4,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "578add9d3dadf86cd0876d42b03bf0114f83d0e7",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4d5b74499804ea5bc5520beb88d0f9816f67205a",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "baec99756b80eec7c0234a08bc2855e6770bcaeb",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "46d051b8924ad0ef8cfba9c7b5b84707ee72f26a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.04072",
+    "size": 150,
+    "n_chunks": 26,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.6875,
+    "per_question": [
+      {
+        "qid": "578add9d3dadf86cd0876d42b03bf0114f83d0e7",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4d5b74499804ea5bc5520beb88d0f9816f67205a",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "baec99756b80eec7c0234a08bc2855e6770bcaeb",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "46d051b8924ad0ef8cfba9c7b5b84707ee72f26a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.04072",
+    "size": 200,
+    "n_chunks": 19,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "578add9d3dadf86cd0876d42b03bf0114f83d0e7",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4d5b74499804ea5bc5520beb88d0f9816f67205a",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "baec99756b80eec7c0234a08bc2855e6770bcaeb",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "46d051b8924ad0ef8cfba9c7b5b84707ee72f26a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.04072",
+    "size": 300,
+    "n_chunks": 13,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "578add9d3dadf86cd0876d42b03bf0114f83d0e7",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4d5b74499804ea5bc5520beb88d0f9816f67205a",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "baec99756b80eec7c0234a08bc2855e6770bcaeb",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "46d051b8924ad0ef8cfba9c7b5b84707ee72f26a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.04072",
+    "size": 400,
+    "n_chunks": 10,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "578add9d3dadf86cd0876d42b03bf0114f83d0e7",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4d5b74499804ea5bc5520beb88d0f9816f67205a",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "baec99756b80eec7c0234a08bc2855e6770bcaeb",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "46d051b8924ad0ef8cfba9c7b5b84707ee72f26a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.10481",
+    "size": 50,
+    "n_chunks": 149,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.3125,
+    "per_question": [
+      {
+        "qid": "dae2f135e50d77867c3f57fc3cb0427b2443e126",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "38055717edf833566d912f14137b92a1d9c4f65a",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "b6aa5665c981e3b582db4760759217e2979d5626",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "c0355afc7871bf2e12260592873ffdb5c0c4c919",
+        "m": 8,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.10481",
+    "size": 100,
+    "n_chunks": 64,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.71875,
+    "per_question": [
+      {
+        "qid": "dae2f135e50d77867c3f57fc3cb0427b2443e126",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38055717edf833566d912f14137b92a1d9c4f65a",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "b6aa5665c981e3b582db4760759217e2979d5626",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "c0355afc7871bf2e12260592873ffdb5c0c4c919",
+        "m": 8,
+        "coverage": 0.875
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.10481",
+    "size": 150,
+    "n_chunks": 40,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "dae2f135e50d77867c3f57fc3cb0427b2443e126",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "38055717edf833566d912f14137b92a1d9c4f65a",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b6aa5665c981e3b582db4760759217e2979d5626",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "c0355afc7871bf2e12260592873ffdb5c0c4c919",
+        "m": 8,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.10481",
+    "size": 200,
+    "n_chunks": 29,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.375,
+    "per_question": [
+      {
+        "qid": "dae2f135e50d77867c3f57fc3cb0427b2443e126",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "38055717edf833566d912f14137b92a1d9c4f65a",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "b6aa5665c981e3b582db4760759217e2979d5626",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "c0355afc7871bf2e12260592873ffdb5c0c4c919",
+        "m": 8,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.10481",
+    "size": 300,
+    "n_chunks": 19,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "dae2f135e50d77867c3f57fc3cb0427b2443e126",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "38055717edf833566d912f14137b92a1d9c4f65a",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b6aa5665c981e3b582db4760759217e2979d5626",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "c0355afc7871bf2e12260592873ffdb5c0c4c919",
+        "m": 8,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1909.10481",
+    "size": 400,
+    "n_chunks": 15,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "dae2f135e50d77867c3f57fc3cb0427b2443e126",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "38055717edf833566d912f14137b92a1d9c4f65a",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "b6aa5665c981e3b582db4760759217e2979d5626",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "c0355afc7871bf2e12260592873ffdb5c0c4c919",
+        "m": 8,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.04833",
+    "size": 50,
+    "n_chunks": 116,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.6833333333333332,
+    "per_question": [
+      {
+        "qid": "afeceee343360d3fe715f405dac7760d9a6754a7",
+        "m": 5,
+        "coverage": 0.4
+      },
+      {
+        "qid": "cc3dd701f3a674618de95a4196e9c7f4c8fbf1e5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d66550f65484696c1284903708b87809ea705786",
+        "m": 5,
+        "coverage": 0.2
+      },
+      {
+        "qid": "804bf5adc6dc5dd52f8079cf041ed3a710e03f8a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "f2dba5bf75967407cce5d0a9c2618269225081f5",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "b783ec5cb9ad595da7db2c0ddf871152ae382c5f",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.04833",
+    "size": 100,
+    "n_chunks": 52,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.8666666666666667,
+    "per_question": [
+      {
+        "qid": "afeceee343360d3fe715f405dac7760d9a6754a7",
+        "m": 5,
+        "coverage": 0.4
+      },
+      {
+        "qid": "cc3dd701f3a674618de95a4196e9c7f4c8fbf1e5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d66550f65484696c1284903708b87809ea705786",
+        "m": 5,
+        "coverage": 0.8
+      },
+      {
+        "qid": "804bf5adc6dc5dd52f8079cf041ed3a710e03f8a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "f2dba5bf75967407cce5d0a9c2618269225081f5",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b783ec5cb9ad595da7db2c0ddf871152ae382c5f",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.04833",
+    "size": 150,
+    "n_chunks": 33,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.9,
+    "per_question": [
+      {
+        "qid": "afeceee343360d3fe715f405dac7760d9a6754a7",
+        "m": 5,
+        "coverage": 0.4
+      },
+      {
+        "qid": "cc3dd701f3a674618de95a4196e9c7f4c8fbf1e5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d66550f65484696c1284903708b87809ea705786",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "804bf5adc6dc5dd52f8079cf041ed3a710e03f8a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "f2dba5bf75967407cce5d0a9c2618269225081f5",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b783ec5cb9ad595da7db2c0ddf871152ae382c5f",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.04833",
+    "size": 200,
+    "n_chunks": 24,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.8166666666666668,
+    "per_question": [
+      {
+        "qid": "afeceee343360d3fe715f405dac7760d9a6754a7",
+        "m": 5,
+        "coverage": 0.4
+      },
+      {
+        "qid": "cc3dd701f3a674618de95a4196e9c7f4c8fbf1e5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d66550f65484696c1284903708b87809ea705786",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "804bf5adc6dc5dd52f8079cf041ed3a710e03f8a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "f2dba5bf75967407cce5d0a9c2618269225081f5",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "b783ec5cb9ad595da7db2c0ddf871152ae382c5f",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.04833",
+    "size": 300,
+    "n_chunks": 16,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.8166666666666668,
+    "per_question": [
+      {
+        "qid": "afeceee343360d3fe715f405dac7760d9a6754a7",
+        "m": 5,
+        "coverage": 0.4
+      },
+      {
+        "qid": "cc3dd701f3a674618de95a4196e9c7f4c8fbf1e5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d66550f65484696c1284903708b87809ea705786",
+        "m": 5,
+        "coverage": 1.0
+      },
+      {
+        "qid": "804bf5adc6dc5dd52f8079cf041ed3a710e03f8a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "f2dba5bf75967407cce5d0a9c2618269225081f5",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "b783ec5cb9ad595da7db2c0ddf871152ae382c5f",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.04833",
+    "size": 400,
+    "n_chunks": 12,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.8333333333333334,
+    "per_question": [
+      {
+        "qid": "afeceee343360d3fe715f405dac7760d9a6754a7",
+        "m": 5,
+        "coverage": 0.6
+      },
+      {
+        "qid": "cc3dd701f3a674618de95a4196e9c7f4c8fbf1e5",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d66550f65484696c1284903708b87809ea705786",
+        "m": 5,
+        "coverage": 0.4
+      },
+      {
+        "qid": "804bf5adc6dc5dd52f8079cf041ed3a710e03f8a",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "f2dba5bf75967407cce5d0a9c2618269225081f5",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b783ec5cb9ad595da7db2c0ddf871152ae382c5f",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.07882",
+    "size": 50,
+    "n_chunks": 126,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.9047619047619048,
+    "per_question": [
+      {
+        "qid": "3eb107f35f4f5f5f527a93ffb487aa2e3fe51efd",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "47d54a6dd50cab8dab64bfa1f9a1947a8190080c",
+        "m": 7,
+        "coverage": 0.7142857142857143
+      },
+      {
+        "qid": "67cb001f8ca122ea859724804b41529fea5faeef",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.07882",
+    "size": 100,
+    "n_chunks": 55,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.9047619047619048,
+    "per_question": [
+      {
+        "qid": "3eb107f35f4f5f5f527a93ffb487aa2e3fe51efd",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "47d54a6dd50cab8dab64bfa1f9a1947a8190080c",
+        "m": 7,
+        "coverage": 0.7142857142857143
+      },
+      {
+        "qid": "67cb001f8ca122ea859724804b41529fea5faeef",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.07882",
+    "size": 150,
+    "n_chunks": 36,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6904761904761904,
+    "per_question": [
+      {
+        "qid": "3eb107f35f4f5f5f527a93ffb487aa2e3fe51efd",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "47d54a6dd50cab8dab64bfa1f9a1947a8190080c",
+        "m": 7,
+        "coverage": 0.5714285714285714
+      },
+      {
+        "qid": "67cb001f8ca122ea859724804b41529fea5faeef",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.07882",
+    "size": 200,
+    "n_chunks": 26,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6904761904761904,
+    "per_question": [
+      {
+        "qid": "3eb107f35f4f5f5f527a93ffb487aa2e3fe51efd",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "47d54a6dd50cab8dab64bfa1f9a1947a8190080c",
+        "m": 7,
+        "coverage": 0.5714285714285714
+      },
+      {
+        "qid": "67cb001f8ca122ea859724804b41529fea5faeef",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.07882",
+    "size": 300,
+    "n_chunks": 17,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5238095238095238,
+    "per_question": [
+      {
+        "qid": "3eb107f35f4f5f5f527a93ffb487aa2e3fe51efd",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "47d54a6dd50cab8dab64bfa1f9a1947a8190080c",
+        "m": 7,
+        "coverage": 0.5714285714285714
+      },
+      {
+        "qid": "67cb001f8ca122ea859724804b41529fea5faeef",
+        "m": 2,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1805.07882",
+    "size": 400,
+    "n_chunks": 13,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.4603174603174603,
+    "per_question": [
+      {
+        "qid": "3eb107f35f4f5f5f527a93ffb487aa2e3fe51efd",
+        "m": 6,
+        "coverage": 0.16666666666666666
+      },
+      {
+        "qid": "47d54a6dd50cab8dab64bfa1f9a1947a8190080c",
+        "m": 7,
+        "coverage": 0.7142857142857143
+      },
+      {
+        "qid": "67cb001f8ca122ea859724804b41529fea5faeef",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.01820",
+    "size": 50,
+    "n_chunks": 222,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.30158730158730157,
+    "per_question": [
+      {
+        "qid": "42eb7c5311fc1ac0344f0b38d3184ccd4faad3be",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "8d14dd9c67d71494b4468000ff9683afdd11af7e",
+        "m": 3,
+        "coverage": 0.0
+      },
+      {
+        "qid": "b857f3e3f1dad5df55f69d062978967fe023ac6f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "5a473f86052cf7781dfe40943ddf99bc9fe8a4e4",
+        "m": 6,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "235c7c7ca719068136928b18e19f9661e0f72806",
+        "m": 7,
+        "coverage": 0.14285714285714285
+      },
+      {
+        "qid": "c87966e7f497975b76a60f6be50c33d296a4a4e7",
+        "m": 8,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.01820",
+    "size": 100,
+    "n_chunks": 96,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.47420634920634924,
+    "per_question": [
+      {
+        "qid": "42eb7c5311fc1ac0344f0b38d3184ccd4faad3be",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "8d14dd9c67d71494b4468000ff9683afdd11af7e",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "b857f3e3f1dad5df55f69d062978967fe023ac6f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "5a473f86052cf7781dfe40943ddf99bc9fe8a4e4",
+        "m": 6,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "235c7c7ca719068136928b18e19f9661e0f72806",
+        "m": 7,
+        "coverage": 0.42857142857142855
+      },
+      {
+        "qid": "c87966e7f497975b76a60f6be50c33d296a4a4e7",
+        "m": 8,
+        "coverage": 0.25
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.01820",
+    "size": 150,
+    "n_chunks": 62,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.513888888888889,
+    "per_question": [
+      {
+        "qid": "42eb7c5311fc1ac0344f0b38d3184ccd4faad3be",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "8d14dd9c67d71494b4468000ff9683afdd11af7e",
+        "m": 3,
+        "coverage": 0.0
+      },
+      {
+        "qid": "b857f3e3f1dad5df55f69d062978967fe023ac6f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "5a473f86052cf7781dfe40943ddf99bc9fe8a4e4",
+        "m": 6,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "235c7c7ca719068136928b18e19f9661e0f72806",
+        "m": 7,
+        "coverage": 0.0
+      },
+      {
+        "qid": "c87966e7f497975b76a60f6be50c33d296a4a4e7",
+        "m": 8,
+        "coverage": 0.25
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.01820",
+    "size": 200,
+    "n_chunks": 45,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.5694444444444444,
+    "per_question": [
+      {
+        "qid": "42eb7c5311fc1ac0344f0b38d3184ccd4faad3be",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "8d14dd9c67d71494b4468000ff9683afdd11af7e",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "b857f3e3f1dad5df55f69d062978967fe023ac6f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "5a473f86052cf7781dfe40943ddf99bc9fe8a4e4",
+        "m": 6,
+        "coverage": 0.8333333333333334
+      },
+      {
+        "qid": "235c7c7ca719068136928b18e19f9661e0f72806",
+        "m": 7,
+        "coverage": 0.0
+      },
+      {
+        "qid": "c87966e7f497975b76a60f6be50c33d296a4a4e7",
+        "m": 8,
+        "coverage": 0.25
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.01820",
+    "size": 300,
+    "n_chunks": 29,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.3898809523809524,
+    "per_question": [
+      {
+        "qid": "42eb7c5311fc1ac0344f0b38d3184ccd4faad3be",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "8d14dd9c67d71494b4468000ff9683afdd11af7e",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "b857f3e3f1dad5df55f69d062978967fe023ac6f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "5a473f86052cf7781dfe40943ddf99bc9fe8a4e4",
+        "m": 6,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "235c7c7ca719068136928b18e19f9661e0f72806",
+        "m": 7,
+        "coverage": 0.7142857142857143
+      },
+      {
+        "qid": "c87966e7f497975b76a60f6be50c33d296a4a4e7",
+        "m": 8,
+        "coverage": 0.125
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2004.01820",
+    "size": 400,
+    "n_chunks": 22,
+    "n_questions": 6,
+    "mean_evidence_coverage": 0.37103174603174605,
+    "per_question": [
+      {
+        "qid": "42eb7c5311fc1ac0344f0b38d3184ccd4faad3be",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "8d14dd9c67d71494b4468000ff9683afdd11af7e",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "b857f3e3f1dad5df55f69d062978967fe023ac6f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "5a473f86052cf7781dfe40943ddf99bc9fe8a4e4",
+        "m": 6,
+        "coverage": 1.0
+      },
+      {
+        "qid": "235c7c7ca719068136928b18e19f9661e0f72806",
+        "m": 7,
+        "coverage": 0.14285714285714285
+      },
+      {
+        "qid": "c87966e7f497975b76a60f6be50c33d296a4a4e7",
+        "m": 8,
+        "coverage": 0.25
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1806.04387",
+    "size": 50,
+    "n_chunks": 94,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8333333333333334,
+    "per_question": [
+      {
+        "qid": "c9eae337edea0edb12030a7d4b01c3a3c73c16d3",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "9f1d81b2a6fe6835042a5229690e1951b97ff671",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fae930129c2638ba6f9c9b3383e85aa130a73876",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1806.04387",
+    "size": 100,
+    "n_chunks": 42,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "c9eae337edea0edb12030a7d4b01c3a3c73c16d3",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "9f1d81b2a6fe6835042a5229690e1951b97ff671",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fae930129c2638ba6f9c9b3383e85aa130a73876",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1806.04387",
+    "size": 150,
+    "n_chunks": 26,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "c9eae337edea0edb12030a7d4b01c3a3c73c16d3",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "9f1d81b2a6fe6835042a5229690e1951b97ff671",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fae930129c2638ba6f9c9b3383e85aa130a73876",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1806.04387",
+    "size": 200,
+    "n_chunks": 20,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.9166666666666666,
+    "per_question": [
+      {
+        "qid": "c9eae337edea0edb12030a7d4b01c3a3c73c16d3",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "9f1d81b2a6fe6835042a5229690e1951b97ff671",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fae930129c2638ba6f9c9b3383e85aa130a73876",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1806.04387",
+    "size": 300,
+    "n_chunks": 13,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5833333333333334,
+    "per_question": [
+      {
+        "qid": "c9eae337edea0edb12030a7d4b01c3a3c73c16d3",
+        "m": 4,
+        "coverage": 0.75
+      },
+      {
+        "qid": "9f1d81b2a6fe6835042a5229690e1951b97ff671",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "fae930129c2638ba6f9c9b3383e85aa130a73876",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1806.04387",
+    "size": 400,
+    "n_chunks": 10,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "c9eae337edea0edb12030a7d4b01c3a3c73c16d3",
+        "m": 4,
+        "coverage": 1.0
+      },
+      {
+        "qid": "9f1d81b2a6fe6835042a5229690e1951b97ff671",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "fae930129c2638ba6f9c9b3383e85aa130a73876",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1808.04122",
+    "size": 50,
+    "n_chunks": 168,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "1acfbdc34669cf19a778aceca941543f11b9a861",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "864295caceb1e15144c1746ab5671d085d7ff7a1",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1808.04122",
+    "size": 100,
+    "n_chunks": 74,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "1acfbdc34669cf19a778aceca941543f11b9a861",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "864295caceb1e15144c1746ab5671d085d7ff7a1",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1808.04122",
+    "size": 150,
+    "n_chunks": 46,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "1acfbdc34669cf19a778aceca941543f11b9a861",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "864295caceb1e15144c1746ab5671d085d7ff7a1",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1808.04122",
+    "size": 200,
+    "n_chunks": 35,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "1acfbdc34669cf19a778aceca941543f11b9a861",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "864295caceb1e15144c1746ab5671d085d7ff7a1",
+        "m": 2,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1808.04122",
+    "size": 300,
+    "n_chunks": 22,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.0,
+    "per_question": [
+      {
+        "qid": "1acfbdc34669cf19a778aceca941543f11b9a861",
+        "m": 1,
+        "coverage": 0.0
+      },
+      {
+        "qid": "864295caceb1e15144c1746ab5671d085d7ff7a1",
+        "m": 2,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1808.04122",
+    "size": 400,
+    "n_chunks": 17,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "1acfbdc34669cf19a778aceca941543f11b9a861",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "864295caceb1e15144c1746ab5671d085d7ff7a1",
+        "m": 2,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.05338",
+    "size": 50,
+    "n_chunks": 122,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.625,
+    "per_question": [
+      {
+        "qid": "79e61134a6e29141cd19252571ffc92a0b4bc97f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "18fbfb1f88c5487f739aceffd23210a7d4057145",
+        "m": 8,
+        "coverage": 0.375
+      },
+      {
+        "qid": "5d3e87937ecebf0695bece08eccefb2f88ad4a0f",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.05338",
+    "size": 100,
+    "n_chunks": 54,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7083333333333334,
+    "per_question": [
+      {
+        "qid": "79e61134a6e29141cd19252571ffc92a0b4bc97f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "18fbfb1f88c5487f739aceffd23210a7d4057145",
+        "m": 8,
+        "coverage": 0.625
+      },
+      {
+        "qid": "5d3e87937ecebf0695bece08eccefb2f88ad4a0f",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.05338",
+    "size": 150,
+    "n_chunks": 33,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "79e61134a6e29141cd19252571ffc92a0b4bc97f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "18fbfb1f88c5487f739aceffd23210a7d4057145",
+        "m": 8,
+        "coverage": 0.5
+      },
+      {
+        "qid": "5d3e87937ecebf0695bece08eccefb2f88ad4a0f",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.05338",
+    "size": 200,
+    "n_chunks": 25,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7083333333333334,
+    "per_question": [
+      {
+        "qid": "79e61134a6e29141cd19252571ffc92a0b4bc97f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "18fbfb1f88c5487f739aceffd23210a7d4057145",
+        "m": 8,
+        "coverage": 0.625
+      },
+      {
+        "qid": "5d3e87937ecebf0695bece08eccefb2f88ad4a0f",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.05338",
+    "size": 300,
+    "n_chunks": 16,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7083333333333334,
+    "per_question": [
+      {
+        "qid": "79e61134a6e29141cd19252571ffc92a0b4bc97f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "18fbfb1f88c5487f739aceffd23210a7d4057145",
+        "m": 8,
+        "coverage": 0.625
+      },
+      {
+        "qid": "5d3e87937ecebf0695bece08eccefb2f88ad4a0f",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1907.05338",
+    "size": 400,
+    "n_chunks": 12,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7083333333333334,
+    "per_question": [
+      {
+        "qid": "79e61134a6e29141cd19252571ffc92a0b4bc97f",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "18fbfb1f88c5487f739aceffd23210a7d4057145",
+        "m": 8,
+        "coverage": 0.625
+      },
+      {
+        "qid": "5d3e87937ecebf0695bece08eccefb2f88ad4a0f",
+        "m": 3,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.08437",
+    "size": 50,
+    "n_chunks": 154,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6388888888888888,
+    "per_question": [
+      {
+        "qid": "7d539258b948cd5b5ad1230a15e4b739f29ed947",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "9c1f70affc87024b4280f0876839309b8dddd579",
+        "m": 8,
+        "coverage": 0.75
+      },
+      {
+        "qid": "2694a679a703ccd6139897e4d9ff8e053dabd0f2",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.08437",
+    "size": 100,
+    "n_chunks": 68,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7222222222222222,
+    "per_question": [
+      {
+        "qid": "7d539258b948cd5b5ad1230a15e4b739f29ed947",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "9c1f70affc87024b4280f0876839309b8dddd579",
+        "m": 8,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2694a679a703ccd6139897e4d9ff8e053dabd0f2",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.08437",
+    "size": 150,
+    "n_chunks": 42,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7222222222222222,
+    "per_question": [
+      {
+        "qid": "7d539258b948cd5b5ad1230a15e4b739f29ed947",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "9c1f70affc87024b4280f0876839309b8dddd579",
+        "m": 8,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2694a679a703ccd6139897e4d9ff8e053dabd0f2",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.08437",
+    "size": 200,
+    "n_chunks": 31,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.5555555555555555,
+    "per_question": [
+      {
+        "qid": "7d539258b948cd5b5ad1230a15e4b739f29ed947",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "9c1f70affc87024b4280f0876839309b8dddd579",
+        "m": 8,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2694a679a703ccd6139897e4d9ff8e053dabd0f2",
+        "m": 2,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.08437",
+    "size": 300,
+    "n_chunks": 21,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7222222222222222,
+    "per_question": [
+      {
+        "qid": "7d539258b948cd5b5ad1230a15e4b739f29ed947",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "9c1f70affc87024b4280f0876839309b8dddd579",
+        "m": 8,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2694a679a703ccd6139897e4d9ff8e053dabd0f2",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.08437",
+    "size": 400,
+    "n_chunks": 16,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7222222222222222,
+    "per_question": [
+      {
+        "qid": "7d539258b948cd5b5ad1230a15e4b739f29ed947",
+        "m": 3,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "9c1f70affc87024b4280f0876839309b8dddd579",
+        "m": 8,
+        "coverage": 1.0
+      },
+      {
+        "qid": "2694a679a703ccd6139897e4d9ff8e053dabd0f2",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.04978",
+    "size": 50,
+    "n_chunks": 201,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.10869565217391304,
+    "per_question": [
+      {
+        "qid": "65c9aee2051ff7c47112b2aee0d928d9b6a8c2fe",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f8264609a44f059b74168995ffee150182a0c14f",
+        "m": 23,
+        "coverage": 0.21739130434782608
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.04978",
+    "size": 100,
+    "n_chunks": 91,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.17391304347826086,
+    "per_question": [
+      {
+        "qid": "65c9aee2051ff7c47112b2aee0d928d9b6a8c2fe",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f8264609a44f059b74168995ffee150182a0c14f",
+        "m": 23,
+        "coverage": 0.34782608695652173
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.04978",
+    "size": 150,
+    "n_chunks": 57,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.15217391304347827,
+    "per_question": [
+      {
+        "qid": "65c9aee2051ff7c47112b2aee0d928d9b6a8c2fe",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f8264609a44f059b74168995ffee150182a0c14f",
+        "m": 23,
+        "coverage": 0.30434782608695654
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.04978",
+    "size": 200,
+    "n_chunks": 42,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.1956521739130435,
+    "per_question": [
+      {
+        "qid": "65c9aee2051ff7c47112b2aee0d928d9b6a8c2fe",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f8264609a44f059b74168995ffee150182a0c14f",
+        "m": 23,
+        "coverage": 0.391304347826087
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.04978",
+    "size": 300,
+    "n_chunks": 27,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.043478260869565216,
+    "per_question": [
+      {
+        "qid": "65c9aee2051ff7c47112b2aee0d928d9b6a8c2fe",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "f8264609a44f059b74168995ffee150182a0c14f",
+        "m": 23,
+        "coverage": 0.08695652173913043
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "2003.04978",
+    "size": 400,
+    "n_chunks": 21,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.358695652173913,
+    "per_question": [
+      {
+        "qid": "65c9aee2051ff7c47112b2aee0d928d9b6a8c2fe",
+        "m": 2,
+        "coverage": 0.5
+      },
+      {
+        "qid": "f8264609a44f059b74168995ffee150182a0c14f",
+        "m": 23,
+        "coverage": 0.21739130434782608
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1809.08935",
+    "size": 50,
+    "n_chunks": 35,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5833333333333334,
+    "per_question": [
+      {
+        "qid": "c728fe6137f114c02e921f9be4a02a5bd83ae787",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "50bda708293532f07a3193aaea0519d433fcc040",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "46e660becd727c994a2a35c6587e15ea8bf8272d",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d1a4529ea32aaab5ca3b9d9ae5c16f146c23af6b",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1809.08935",
+    "size": 100,
+    "n_chunks": 14,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5833333333333334,
+    "per_question": [
+      {
+        "qid": "c728fe6137f114c02e921f9be4a02a5bd83ae787",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "50bda708293532f07a3193aaea0519d433fcc040",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "46e660becd727c994a2a35c6587e15ea8bf8272d",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d1a4529ea32aaab5ca3b9d9ae5c16f146c23af6b",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1809.08935",
+    "size": 150,
+    "n_chunks": 9,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5833333333333334,
+    "per_question": [
+      {
+        "qid": "c728fe6137f114c02e921f9be4a02a5bd83ae787",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "50bda708293532f07a3193aaea0519d433fcc040",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "46e660becd727c994a2a35c6587e15ea8bf8272d",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d1a4529ea32aaab5ca3b9d9ae5c16f146c23af6b",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1809.08935",
+    "size": 200,
+    "n_chunks": 7,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5833333333333334,
+    "per_question": [
+      {
+        "qid": "c728fe6137f114c02e921f9be4a02a5bd83ae787",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "50bda708293532f07a3193aaea0519d433fcc040",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "46e660becd727c994a2a35c6587e15ea8bf8272d",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d1a4529ea32aaab5ca3b9d9ae5c16f146c23af6b",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1809.08935",
+    "size": 300,
+    "n_chunks": 5,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5833333333333334,
+    "per_question": [
+      {
+        "qid": "c728fe6137f114c02e921f9be4a02a5bd83ae787",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "50bda708293532f07a3193aaea0519d433fcc040",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "46e660becd727c994a2a35c6587e15ea8bf8272d",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d1a4529ea32aaab5ca3b9d9ae5c16f146c23af6b",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1809.08935",
+    "size": 400,
+    "n_chunks": 4,
+    "n_questions": 4,
+    "mean_evidence_coverage": 0.5833333333333334,
+    "per_question": [
+      {
+        "qid": "c728fe6137f114c02e921f9be4a02a5bd83ae787",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "50bda708293532f07a3193aaea0519d433fcc040",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "46e660becd727c994a2a35c6587e15ea8bf8272d",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "d1a4529ea32aaab5ca3b9d9ae5c16f146c23af6b",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1910.07924",
+    "size": 50,
+    "n_chunks": 81,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "46aa61557c8d20b1223a30366a0704d7af68bbbe",
+        "m": 10,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b3b9d7c8722e8ec41cbbae40e68458485a5ba25c",
+        "m": 5,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1910.07924",
+    "size": 100,
+    "n_chunks": 35,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "46aa61557c8d20b1223a30366a0704d7af68bbbe",
+        "m": 10,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b3b9d7c8722e8ec41cbbae40e68458485a5ba25c",
+        "m": 5,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1910.07924",
+    "size": 150,
+    "n_chunks": 23,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "46aa61557c8d20b1223a30366a0704d7af68bbbe",
+        "m": 10,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b3b9d7c8722e8ec41cbbae40e68458485a5ba25c",
+        "m": 5,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1910.07924",
+    "size": 200,
+    "n_chunks": 17,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "46aa61557c8d20b1223a30366a0704d7af68bbbe",
+        "m": 10,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b3b9d7c8722e8ec41cbbae40e68458485a5ba25c",
+        "m": 5,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1910.07924",
+    "size": 300,
+    "n_chunks": 11,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "46aa61557c8d20b1223a30366a0704d7af68bbbe",
+        "m": 10,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b3b9d7c8722e8ec41cbbae40e68458485a5ba25c",
+        "m": 5,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1910.07924",
+    "size": 400,
+    "n_chunks": 8,
+    "n_questions": 2,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "46aa61557c8d20b1223a30366a0704d7af68bbbe",
+        "m": 10,
+        "coverage": 1.0
+      },
+      {
+        "qid": "b3b9d7c8722e8ec41cbbae40e68458485a5ba25c",
+        "m": 5,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.11899",
+    "size": 50,
+    "n_chunks": 173,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "b569827ecd04ae8757dc3c9523ab97e3f47a6e00",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0d42bd759c84cbf3a293ab58283a3d0d5e27d290",
+        "m": 6,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "9f1e60ee86a5c46abe75b67ef369bf92a5090568",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.11899",
+    "size": 100,
+    "n_chunks": 82,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8333333333333334,
+    "per_question": [
+      {
+        "qid": "b569827ecd04ae8757dc3c9523ab97e3f47a6e00",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0d42bd759c84cbf3a293ab58283a3d0d5e27d290",
+        "m": 6,
+        "coverage": 0.5
+      },
+      {
+        "qid": "9f1e60ee86a5c46abe75b67ef369bf92a5090568",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.11899",
+    "size": 150,
+    "n_chunks": 51,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8333333333333334,
+    "per_question": [
+      {
+        "qid": "b569827ecd04ae8757dc3c9523ab97e3f47a6e00",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0d42bd759c84cbf3a293ab58283a3d0d5e27d290",
+        "m": 6,
+        "coverage": 0.5
+      },
+      {
+        "qid": "9f1e60ee86a5c46abe75b67ef369bf92a5090568",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.11899",
+    "size": 200,
+    "n_chunks": 38,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8333333333333334,
+    "per_question": [
+      {
+        "qid": "b569827ecd04ae8757dc3c9523ab97e3f47a6e00",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0d42bd759c84cbf3a293ab58283a3d0d5e27d290",
+        "m": 6,
+        "coverage": 0.5
+      },
+      {
+        "qid": "9f1e60ee86a5c46abe75b67ef369bf92a5090568",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.11899",
+    "size": 300,
+    "n_chunks": 24,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7222222222222222,
+    "per_question": [
+      {
+        "qid": "b569827ecd04ae8757dc3c9523ab97e3f47a6e00",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0d42bd759c84cbf3a293ab58283a3d0d5e27d290",
+        "m": 6,
+        "coverage": 0.16666666666666666
+      },
+      {
+        "qid": "9f1e60ee86a5c46abe75b67ef369bf92a5090568",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.11899",
+    "size": 400,
+    "n_chunks": 17,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.8888888888888888,
+    "per_question": [
+      {
+        "qid": "b569827ecd04ae8757dc3c9523ab97e3f47a6e00",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "0d42bd759c84cbf3a293ab58283a3d0d5e27d290",
+        "m": 6,
+        "coverage": 0.6666666666666666
+      },
+      {
+        "qid": "9f1e60ee86a5c46abe75b67ef369bf92a5090568",
+        "m": 2,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.09405",
+    "size": 50,
+    "n_chunks": 126,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "4dc4180127761e987c1043d5f8b94512bbe74d4f",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "420862798054f736128a6f0c4393c7f9cc648b40",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ad8411edf11d3429c9bdd08b3e07ee671464d73c",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.09405",
+    "size": 100,
+    "n_chunks": 57,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.7777777777777778,
+    "per_question": [
+      {
+        "qid": "4dc4180127761e987c1043d5f8b94512bbe74d4f",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "420862798054f736128a6f0c4393c7f9cc648b40",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ad8411edf11d3429c9bdd08b3e07ee671464d73c",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.09405",
+    "size": 150,
+    "n_chunks": 36,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.4444444444444444,
+    "per_question": [
+      {
+        "qid": "4dc4180127761e987c1043d5f8b94512bbe74d4f",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "420862798054f736128a6f0c4393c7f9cc648b40",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ad8411edf11d3429c9bdd08b3e07ee671464d73c",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.09405",
+    "size": 200,
+    "n_chunks": 26,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.4444444444444444,
+    "per_question": [
+      {
+        "qid": "4dc4180127761e987c1043d5f8b94512bbe74d4f",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "420862798054f736128a6f0c4393c7f9cc648b40",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ad8411edf11d3429c9bdd08b3e07ee671464d73c",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.09405",
+    "size": 300,
+    "n_chunks": 17,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.4444444444444444,
+    "per_question": [
+      {
+        "qid": "4dc4180127761e987c1043d5f8b94512bbe74d4f",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "420862798054f736128a6f0c4393c7f9cc648b40",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ad8411edf11d3429c9bdd08b3e07ee671464d73c",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1603.09405",
+    "size": 400,
+    "n_chunks": 13,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.4444444444444444,
+    "per_question": [
+      {
+        "qid": "4dc4180127761e987c1043d5f8b94512bbe74d4f",
+        "m": 3,
+        "coverage": 0.3333333333333333
+      },
+      {
+        "qid": "420862798054f736128a6f0c4393c7f9cc648b40",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ad8411edf11d3429c9bdd08b3e07ee671464d73c",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.11585",
+    "size": 50,
+    "n_chunks": 55,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "875fbf4e5f93c3da63e28a233ce1d8405c7dfe63",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "56b66d19dbc5e605788166e168f36d25f5beb774",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.11585",
+    "size": 100,
+    "n_chunks": 26,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "875fbf4e5f93c3da63e28a233ce1d8405c7dfe63",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "56b66d19dbc5e605788166e168f36d25f5beb774",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.11585",
+    "size": 150,
+    "n_chunks": 16,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "875fbf4e5f93c3da63e28a233ce1d8405c7dfe63",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "56b66d19dbc5e605788166e168f36d25f5beb774",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.11585",
+    "size": 200,
+    "n_chunks": 12,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "875fbf4e5f93c3da63e28a233ce1d8405c7dfe63",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "56b66d19dbc5e605788166e168f36d25f5beb774",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.11585",
+    "size": 300,
+    "n_chunks": 8,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "875fbf4e5f93c3da63e28a233ce1d8405c7dfe63",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "56b66d19dbc5e605788166e168f36d25f5beb774",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1912.11585",
+    "size": 400,
+    "n_chunks": 6,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.5,
+    "per_question": [
+      {
+        "qid": "875fbf4e5f93c3da63e28a233ce1d8405c7dfe63",
+        "m": 4,
+        "coverage": 0.5
+      },
+      {
+        "qid": "56b66d19dbc5e605788166e168f36d25f5beb774",
+        "m": 2,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1707.09816",
+    "size": 50,
+    "n_chunks": 120,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "2d924e888a92dc0b14cdb5584e73e87254c3d1ee",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3ed8ac1ba4df6609fa7de5077d83e820641edc5e",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e1ab241059ef1700738f885f051d724a7fcf283a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1707.09816",
+    "size": 100,
+    "n_chunks": 56,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "2d924e888a92dc0b14cdb5584e73e87254c3d1ee",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3ed8ac1ba4df6609fa7de5077d83e820641edc5e",
+        "m": 2,
+        "coverage": 0.0
+      },
+      {
+        "qid": "e1ab241059ef1700738f885f051d724a7fcf283a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1707.09816",
+    "size": 150,
+    "n_chunks": 34,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "2d924e888a92dc0b14cdb5584e73e87254c3d1ee",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3ed8ac1ba4df6609fa7de5077d83e820641edc5e",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e1ab241059ef1700738f885f051d724a7fcf283a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1707.09816",
+    "size": 200,
+    "n_chunks": 26,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "2d924e888a92dc0b14cdb5584e73e87254c3d1ee",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3ed8ac1ba4df6609fa7de5077d83e820641edc5e",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e1ab241059ef1700738f885f051d724a7fcf283a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1707.09816",
+    "size": 300,
+    "n_chunks": 17,
+    "n_questions": 3,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "2d924e888a92dc0b14cdb5584e73e87254c3d1ee",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3ed8ac1ba4df6609fa7de5077d83e820641edc5e",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e1ab241059ef1700738f885f051d724a7fcf283a",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1707.09816",
+    "size": 400,
+    "n_chunks": 12,
+    "n_questions": 3,
+    "mean_evidence_coverage": 0.6666666666666666,
+    "per_question": [
+      {
+        "qid": "2d924e888a92dc0b14cdb5584e73e87254c3d1ee",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "3ed8ac1ba4df6609fa7de5077d83e820641edc5e",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "e1ab241059ef1700738f885f051d724a7fcf283a",
+        "m": 1,
+        "coverage": 0.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.04009",
+    "size": 50,
+    "n_chunks": 105,
+    "n_questions": 4,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a4b77a20e067789691e0ab246bc5b11913d77ae1",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ba39317e918b4386765f88e8c8ae99f9a098c935",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "22c125c461f565f5437dac74bf19c2ef317bad86",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4a91432abe3f54fcbdd00bb85dc0df95b16edf42",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.04009",
+    "size": 100,
+    "n_chunks": 46,
+    "n_questions": 4,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a4b77a20e067789691e0ab246bc5b11913d77ae1",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ba39317e918b4386765f88e8c8ae99f9a098c935",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "22c125c461f565f5437dac74bf19c2ef317bad86",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4a91432abe3f54fcbdd00bb85dc0df95b16edf42",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.04009",
+    "size": 150,
+    "n_chunks": 30,
+    "n_questions": 4,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a4b77a20e067789691e0ab246bc5b11913d77ae1",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ba39317e918b4386765f88e8c8ae99f9a098c935",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "22c125c461f565f5437dac74bf19c2ef317bad86",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4a91432abe3f54fcbdd00bb85dc0df95b16edf42",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.04009",
+    "size": 200,
+    "n_chunks": 22,
+    "n_questions": 4,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a4b77a20e067789691e0ab246bc5b11913d77ae1",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ba39317e918b4386765f88e8c8ae99f9a098c935",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "22c125c461f565f5437dac74bf19c2ef317bad86",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4a91432abe3f54fcbdd00bb85dc0df95b16edf42",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.04009",
+    "size": 300,
+    "n_chunks": 14,
+    "n_questions": 4,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a4b77a20e067789691e0ab246bc5b11913d77ae1",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ba39317e918b4386765f88e8c8ae99f9a098c935",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "22c125c461f565f5437dac74bf19c2ef317bad86",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4a91432abe3f54fcbdd00bb85dc0df95b16edf42",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1703.04009",
+    "size": 400,
+    "n_chunks": 11,
+    "n_questions": 4,
+    "mean_evidence_coverage": 1.0,
+    "per_question": [
+      {
+        "qid": "a4b77a20e067789691e0ab246bc5b11913d77ae1",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "ba39317e918b4386765f88e8c8ae99f9a098c935",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "22c125c461f565f5437dac74bf19c2ef317bad86",
+        "m": 1,
+        "coverage": 1.0
+      },
+      {
+        "qid": "4a91432abe3f54fcbdd00bb85dc0df95b16edf42",
+        "m": 1,
+        "coverage": 1.0
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.03090",
+    "size": 50,
+    "n_chunks": 68,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.75,
+    "per_question": [
+      {
+        "qid": "7c398615141ca416a32c9f72dbb785d3a6986a0f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "441be93e2830cc0fc65afad6959db92754c9f5a8",
+        "m": 4,
+        "coverage": 0.5
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.03090",
+    "size": 100,
+    "n_chunks": 30,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.875,
+    "per_question": [
+      {
+        "qid": "7c398615141ca416a32c9f72dbb785d3a6986a0f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "441be93e2830cc0fc65afad6959db92754c9f5a8",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.03090",
+    "size": 150,
+    "n_chunks": 19,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.875,
+    "per_question": [
+      {
+        "qid": "7c398615141ca416a32c9f72dbb785d3a6986a0f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "441be93e2830cc0fc65afad6959db92754c9f5a8",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.03090",
+    "size": 200,
+    "n_chunks": 14,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.875,
+    "per_question": [
+      {
+        "qid": "7c398615141ca416a32c9f72dbb785d3a6986a0f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "441be93e2830cc0fc65afad6959db92754c9f5a8",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.03090",
+    "size": 300,
+    "n_chunks": 9,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.875,
+    "per_question": [
+      {
+        "qid": "7c398615141ca416a32c9f72dbb785d3a6986a0f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "441be93e2830cc0fc65afad6959db92754c9f5a8",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  },
+  {
+    "doc_id": "1911.03090",
+    "size": 400,
+    "n_chunks": 7,
+    "n_questions": 2,
+    "mean_evidence_coverage": 0.875,
+    "per_question": [
+      {
+        "qid": "7c398615141ca416a32c9f72dbb785d3a6986a0f",
+        "m": 2,
+        "coverage": 1.0
+      },
+      {
+        "qid": "441be93e2830cc0fc65afad6959db92754c9f5a8",
+        "m": 4,
+        "coverage": 0.75
+      }
+    ],
+    "n_layers": null
+  }
+]
