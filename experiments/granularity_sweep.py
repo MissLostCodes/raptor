@@ -110,6 +110,42 @@ def answer_coverage(
     return max(_token_recall(a, context) for a in answers)
 
 
+def _token_f1(pred: str, gold: str) -> float:
+    """SQuAD-style token F1 between a predicted and a gold answer string.
+
+    Both are tokenized by :func:`normalize`. Empty-vs-empty scores ``1.0``;
+    empty-vs-nonempty scores ``0.0``. Unlike :func:`_token_recall`, F1 also
+    penalizes padding the answer with extra tokens (precision), which is the
+    standard extractive-QA metric (QASPER answer-F1).
+    """
+    from collections import Counter
+
+    p, g = normalize(pred), normalize(gold)
+    if not p and not g:
+        return 1.0
+    if not p or not g:
+        return 0.0
+    same = sum((Counter(p) & Counter(g)).values())
+    if same == 0:
+        return 0.0
+    prec, rec = same / len(p), same / len(g)
+    return 2 * prec * rec / (prec + rec)
+
+
+def answer_f1(pred: str, gold_answers: List[str]) -> Optional[float]:
+    """Best token-F1 of a *generated answer* against any gold answer (QASPER metric).
+
+    Downstream-QA counterpart of :func:`answer_coverage`, which scored the retrieved
+    *context*; this scores the model's *answer*. Returns the max :func:`_token_f1`
+    over the non-empty gold answers, or ``None`` when there is no usable gold answer
+    (so the caller skips it, mirroring the coverage proxies).
+    """
+    golds = [a for a in (gold_answers or []) if a and a.strip()]
+    if not golds:
+        return None
+    return max(_token_f1(pred, g) for g in golds)
+
+
 def evidence_coverage(
     gold_paras: List[str], context: str, threshold: float = 0.8
 ) -> Optional[float]:
@@ -342,6 +378,7 @@ def sweep_document(
     coverage_fn=_evidence_coverage_q,
     embedding_model=None,
     summarization_model=None,
+    qa_model=None,
 ) -> List[dict]:
     """Sweep one document across leaf ``sizes`` (HEAVY).
 
@@ -376,6 +413,15 @@ def sweep_document(
     :func:`_answer_coverage_q` for the answer-recall proxy used on QuALITY /
     NarrativeQA. The record key stays ``mean_evidence_coverage`` regardless of
     proxy so all downstream calibration is unchanged.
+
+    ``qa_model`` is optional. Left ``None`` (default) the sweep is retrieval-only
+    and records are byte-identical to before. Set it (a ``BaseQAModel`` such as
+    ``experiments.models.CachedOpenRouterQAModel``) to also run **downstream QA**:
+    each scored question is answered from its retrieved context and graded by
+    :func:`answer_f1` against the gold answers. This adds ``answer_f1`` to each
+    ``per_question`` entry and ``mean_answer_f1`` to the record -- the measurement
+    needed to compare flat vs. tree on ANSWER quality (not just coverage) and to
+    stratify by question type via the ``m`` already recorded per question.
     """
     from raptor.chunking.token_chunker import TokenChunker
 
@@ -407,6 +453,7 @@ def sweep_document(
             continue
 
         coverages: List[float] = []
+        answer_f1s: List[float] = []
         per_question: List[dict] = []
         for q in doc.questions:
             ctx = retrieve(q.question)
@@ -414,25 +461,42 @@ def sweep_document(
             if cov is None:  # unscored (no gold evidence / no gold answer) -> skip
                 continue
             coverages.append(cov)
-            per_question.append({**question_meta(q), "coverage": cov})
+            rec = {**question_meta(q), "coverage": cov}
+            if qa_model is not None:
+                # Downstream QA: answer FROM the retrieved context, score vs gold.
+                # ctx is the same string for flat and tree, so this is a fair,
+                # mode-symmetric answer-quality comparison (not just retrieval).
+                af1 = answer_f1(
+                    qa_model.answer_question(ctx, q.question),
+                    getattr(q, "gold_answers", []) or [],
+                )
+                if af1 is not None:
+                    rec["answer_f1"] = af1
+                    answer_f1s.append(af1)
+            per_question.append(rec)
 
         mean_cov = (sum(coverages) / len(coverages)) if coverages else None
-        records.append(
-            {
-                "doc_id": doc.doc_id,
-                "size": size,
-                "n_chunks": n_chunks,
-                "n_questions": len(coverages),
-                "mean_evidence_coverage": mean_cov,
-                # Per-question scores power the nested-oracle headroom decomposition
-                # (experiments.headroom_decomposition); mean_evidence_coverage above
-                # is unchanged, so all existing calibration keeps working verbatim.
-                "per_question": per_question,
-                # Achieved tree depth (None in flat mode). 0 means the document never
-                # clustered at this leaf size -> not actually hierarchical.
-                "n_layers": n_layers,
-            }
-        )
+        record = {
+            "doc_id": doc.doc_id,
+            "size": size,
+            "n_chunks": n_chunks,
+            "n_questions": len(coverages),
+            "mean_evidence_coverage": mean_cov,
+            # Per-question scores power the nested-oracle headroom decomposition
+            # (experiments.headroom_decomposition); mean_evidence_coverage above
+            # is unchanged, so all existing calibration keeps working verbatim.
+            "per_question": per_question,
+            # Achieved tree depth (None in flat mode). 0 means the document never
+            # clustered at this leaf size -> not actually hierarchical.
+            "n_layers": n_layers,
+        }
+        # Only present on QA runs (qa_model set), so retrieval-only records are byte-
+        # identical to before -- existing caches and calibration stay valid.
+        if qa_model is not None:
+            record["mean_answer_f1"] = (
+                sum(answer_f1s) / len(answer_f1s) if answer_f1s else None
+            )
+        records.append(record)
     return records
 
 
@@ -460,6 +524,7 @@ def run_sweep(
     coverage_fn=_evidence_coverage_q,
     embedding_model=None,
     summarization_model=None,
+    qa_model=None,
 ) -> List[dict]:
     """Run the granularity sweep over ``docs`` (HEAVY).
 
@@ -485,6 +550,16 @@ def run_sweep(
             f"{out_path!r} holds {'tree' if cache_is_tree else 'flat'} records but this "
             f"is a {'tree' if wants_tree else 'flat'} sweep. Resuming would silently mix "
             f"retrieval modes. Use a separate out_path per mode."
+        )
+    # Same hazard for QA: a retrieval-only cache lacks mean_answer_f1, so resuming a
+    # QA run onto it would leave half the docs with no answer score. Refuse to mix.
+    wants_qa = qa_model is not None
+    cache_has_qa = any("mean_answer_f1" in r for r in records)
+    if records and cache_has_qa != wants_qa:
+        raise ValueError(
+            f"{out_path!r} holds {'QA' if cache_has_qa else 'retrieval-only'} records but "
+            f"this is a {'QA' if wants_qa else 'retrieval-only'} sweep. Use a separate "
+            f"out_path so answer-F1 is not missing on half the records."
         )
     done = {(r["doc_id"], r["size"]) for r in records}
 
@@ -518,6 +593,7 @@ def run_sweep(
             coverage_fn,
             embedding_model,
             summarization_model,
+            qa_model,
         )
         for r in new_recs:
             done.add((r["doc_id"], r["size"]))

@@ -17,6 +17,11 @@
 %    aggregation questions -> negative result is structural. See sec:headroom.
 %    Decomposition replicates on QuALITY (115 arts, 2086 q): document -0.003
 %    (spans 0), within-doc O4-O1=+0.046 = whole total -> shape not corpus-specific.
+%    Real trees (2026-07-21): rebuilt the sweep on REAL RAPTOR trees (n=50). Leaf size
+%    and tree depth are entangled (mean depth 1.84->0.52 as leaves 50->400; 48% of docs
+%    degenerate to 0 layers at 400 tok); the flat per-doc optimum transfers to the tree
+%    on only 22% of docs. Coverage tree<flat is confounded (summarizer bloat + coverage
+%    penalizes summary nodes) -> de-confound + downstream QA pending. See sec:realtree.
 %  Self-contained (no external .bib) so it compiles with a plain pdflatex run.
 % ============================================================================
 \documentclass[11pt]{article}
@@ -155,6 +160,26 @@ separate us from Ekimetrics. The two-axis decomposition (structure$\to$boundary,
 density$\to$size) is, to our knowledge, not stated cleanly in prior work.
 \emph{This paper reports that the density axis, in its cheap training-free form,
 does not pay off}---which is itself the result.
+
+\paragraph{Chunk size \emph{inside} a hierarchical tree.} A second niche concerns the
+tree-comparison results of Section~\ref{sec:realtree}. Prior chunk-size studies are almost
+entirely \emph{flat}: ``Rethinking Chunk Size'' \cite{rethink2025} and Mix-of-Granularity
+\cite{mog2024} vary chunk size over a flat dense index and never build a recursively-summarized
+tree. RAPTOR and its extensions instead \emph{fix} the leaf chunk---$100$ tokens for RAPTOR
+\cite{sarthi2024raptor}, a $4$-level tree for SiReRAG \cite{sirerag}, incremental updates at a
+fixed size for adRAP/postQFRAP \cite{adrap}---and vary other structural knobs, so none reports how
+leaf size drives tree \emph{depth} or whether a flat-tuned size \emph{transfers} to a tree. The
+one hierarchical sensitivity study we found \cite{enhancingraptor} sweeps a semantic-similarity
+boundary threshold, not leaf token size. We therefore find \emph{no direct prior study} of two of
+our questions---(i) leaf size $\to$ tree depth (``hierarchy collapse,'' Section~\ref{sec:realtree})
+and (ii) the flat$\to$tree transfer of the per-document optimum---and only \emph{adjacent} work on
+the question-type axis: GraphRAG \cite{graphrag} contrasts hierarchical community-summaries against
+flat RAG on \emph{global/thematic} questions, and HiChunk \cite{hichunk2025} reports an
+evidence-density breakdown across chunking methods over one \emph{shared flat} retriever---but
+neither is a RAPTOR-tree-vs-flat-dense comparison across lookup / multi-hop / aggregation. This is
+a bounded negative (no direct prior study found in 2023--2026 RAG/IR/NLP venues), not a claim of
+non-existence. \todo{confirm exact titles/arXiv ids for \cite{adrap} and the flat chunk-size
+sensitivity study (Muthyam, arXiv:2606.28337) before submission; several 2026 ids are forward-dated.}
 
 % ----------------------------------------------------------------------------
 \section{A Training-Free Harness for Leaf Granularity}
@@ -599,6 +624,75 @@ coverage may be mildly under-resolved; the decomposition compares oracles on the
 same grid and is unaffected.)
 
 % ----------------------------------------------------------------------------
+\section{Real Trees: Leaf Size and Tree Depth Are Entangled}
+\label{sec:realtree}
+
+Every result so far scores retrieval on a \emph{flat} SBERT+FAISS proxy over the leaf
+chunks---the paper's affordable stand-in for RAPTOR (Section~\ref{sec:harness}). The obvious
+objection is that a flat index is not a tree. We therefore rebuild the sweep on \emph{real}
+RAPTOR trees: for each (document, leaf size) we cluster, LLM-summarize
+(\texttt{gpt-oss-120b}), and retrieve by collapsed-tree, holding documents, questions, budget,
+and metric fixed against the flat arm ($50$ QASPER papers, $171$ questions).
+
+\paragraph{Leaf size and depth are one knob, not two.} Table~\ref{tab:realtree} reports the
+achieved tree depth as a function of leaf size. It falls monotonically---mean depth
+$1.84\to0.52$ layers as leaves grow $50\to400$ tokens---and at $400$ tokens \textbf{$48\%$ of
+documents never cluster at all} ($0$ layers): ``RAPTOR'' silently degenerates into a flat pile of
+leaves. Leaf size therefore cannot be tuned independently of tree depth; the two are
+co-determined by one parameter. This is pure clustering geometry---no LLM, no metric choice---so
+it holds regardless of summarizer quality.
+
+\paragraph{Flat-tuned granularity does not transfer to the tree.} The per-document optimal leaf
+size measured on the flat index agrees with the tree's optimum on only $\mathbf{11/50}$ documents
+(\textbf{$22\%$}). Flat retrieval prefers small leaves (optima concentrated at $50$--$100$ tok);
+the tree prefers large ones (optima at $150$--$400$ tok)---consistent with the depth collapse,
+since larger leaves buy a shallower, more flat-index-like structure. The common practice of
+tuning chunk size on a cheap flat index and deploying on a tree thus carries over on roughly one
+document in five.
+
+\begin{table}[t]
+\centering
+\caption{Real RAPTOR trees vs.\ the flat proxy on the same $50$ QASPER papers (mean gold-evidence
+coverage). Depth collapses and trees degenerate as leaf size grows, and the flat and tree
+per-document optima agree on only $22\%$ of documents.}
+\label{tab:realtree}
+\begin{tabular}{rcccc}
+\toprule
+leaf size (tok) & flat cov. & tree cov. & mean layers & $0$-layer docs \\
+\midrule
+50  & 0.656 & 0.145 & 1.84 & \phantom{0}0\% \\
+100 & 0.715 & 0.377 & 1.26 & \phantom{0}0\% \\
+150 & 0.721 & 0.598 & 0.98 & \phantom{0}2\% \\
+200 & \textbf{0.736} & 0.618 & 0.96 & \phantom{0}4\% \\
+300 & 0.691 & 0.644 & 0.74 & 26\% \\
+400 & 0.713 & \textbf{0.661} & 0.52 & 48\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{On coverage the tree trails the flat index---but this number is confounded, twice.}
+Read the coverage columns with care. First, the summarizer misbehaved: \texttt{gpt-oss-120b}
+produced summaries \emph{longer} than the text they summarized, polluting the tree nodes. Second,
+and more fundamentally, gold-evidence coverage \emph{structurally} disfavors a tree: under a
+shared $2000$-token budget, every token spent on a summary node is a token that cannot recall an
+original gold paragraph, and summary nodes---being paraphrases---rarely clear the $0.8$
+token-recall bar for any specific gold paragraph. Consistent with this, the tree scores best
+exactly where it is least tree-like (large leaves, $48\%$ degenerate). We therefore do
+\textbf{not} claim ``the hierarchy is worse.'' We (i) run an extractive-summarizer control to
+remove the first confound, and (ii) move to \emph{downstream QA}---the metric RAPTOR itself used,
+which credits a summary node for standing in for many paragraphs---to remove the second.
+\todo{insert the de-confound (extractive-tree) result and the answer-F1-by-question-type table
+(flat vs.\ tree $\times$ leaf size $\times$ evidence multiplicity $m$); protocol in
+\texttt{docs/2026-07-21-raptor-comparison-runbook.md}.}
+
+\paragraph{What is safe to conclude now.} Independent of summarizer and metric: in a hierarchical
+retriever leaf size and depth are entangled, trees degenerate at coarse leaves, and flat-index
+chunk-size tuning transfers to real trees only $22\%$ of the time. This directly answers the
+proxy-gap threat (Section~\ref{sec:threats}): the flat proxy is a faithful lower bound for the
+adaptive-headroom story, but it is \emph{not} a substitute for a tree when choosing an operating
+leaf size.
+
+% ----------------------------------------------------------------------------
 \section{Discussion}
 \label{sec:discussion}
 
@@ -712,6 +806,27 @@ Question Answering over Long Document Sets.
 Ekimetrics.
 \newblock Adaptive Chunking (chunking-method selection).
 \newblock \url{https://github.com/ekimetrics/adaptive-chunking}.
+
+\bibitem{graphrag}
+Edge et al.
+\newblock From Local to Global: A Graph RAG Approach to Query-Focused Summarization.
+\newblock arXiv:2404.16130, 2024.
+
+\bibitem{sirerag}
+Zhang et al.
+\newblock SiReRAG: Indexing Similar and Related Information for Multihop Reasoning.
+\newblock \emph{ICLR}, 2025. arXiv:2412.06206.
+
+\bibitem{enhancingraptor}
+Liu et al.
+\newblock Enhancing RAPTOR with Semantic Chunking and Adaptive Graph Clustering.
+\newblock \emph{Frontiers in Computer Science}, 2026. DOI:10.3389/fcomp.2025.1710121.
+
+\bibitem{adrap}
+Chucri, Azouz, and Ott.
+\newblock Incremental Update (adRAP) and Query-Focused Post-Retrieval Abstraction (postQFRAP)
+for RAPTOR-style Trees.
+\newblock arXiv:2410.01736, 2024. % TODO: confirm exact title before submission
 \end{thebibliography}
 
 \end{document}
